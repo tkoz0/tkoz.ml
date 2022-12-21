@@ -1,0 +1,39 @@
+
+/*
+Some of these styles are inspired by the simple design on https://copy.sh/
+*/
+
+body {
+    font-family: sans-serif;
+}
+
+.proj_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.proj_item {
+    width: 469px;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.proj_image {
+    width: 100px;
+    height: 100px;
+    float: left;
+    margin-right: 10px;
+}
+
+.proj_name {
+    display: block;
+    text-align: center;
+    font-size: 1em;
+}
+
+.proj_text {
+    font-size: 0.8em;
+}
