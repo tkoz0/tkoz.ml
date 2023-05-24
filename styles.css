@@ -5,6 +5,14 @@ Some of these styles are inspired by the simple design on https://copy.sh/
 
 body {
     font-family: sans-serif;
+    background: #777777;
+}
+
+#root {
+    width: 1000px;
+    padding: 10px;
+    margin: auto;
+    background: #cccccc;
 }
 
 .proj_container {
@@ -14,11 +22,12 @@ body {
 }
 
 .proj_item {
-    width: 469px;
+    width: 300px;
     border: 2px solid black;
+    background: #eecc77;
     border-radius: 10px;
-    padding: 10px;
-    margin: 10px;
+    padding: 5px;
+    margin: 5px;
 }
 
 .proj_image {
@@ -26,6 +35,11 @@ body {
     height: 100px;
     float: left;
     margin-right: 10px;
+}
+
+.proj_desc {
+    width: 190px;
+    float: right;
 }
 
 .proj_name {
