@@ -6,6 +6,7 @@ Some of these styles are inspired by the simple design on https://copy.sh/
 body {
     font-family: sans-serif;
     background: #777777;
+    margin: 0;
 }
 
 #root {
