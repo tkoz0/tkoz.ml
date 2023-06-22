@@ -1,0 +1,6 @@
+# includue files to ignore from things such as
+# - scripts to download contents into here for reducing repo bloat
+# - files generated from any of the php code
+
+# created by librespeed speedtest
+speedtest/backend/getIP_serverLocation.php
