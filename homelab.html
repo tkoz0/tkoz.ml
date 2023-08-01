@@ -9,49 +9,78 @@
         <p>This page describes my janky homelab setup. Someone has to pay the power bill for this thing... (around $100/month)</p>
         <p>Everything is connected to a cheap 8 port gigabit switch which is connected to a router.
             I have everything on a wooden rack I designed and built myself.
-            The equipment is attached to an APC Smart UPS SUA1500RM2U.</p>
+            Some of the equipment is attached to an APC Smart UPS SUA1500RM2U.</p>
+        <p>My primary interest with homelabbing is high performance computing (HPC).
+            It is also a good opportunity to learn to setup things myself and a much cheaper alternative to cloud computing.
+            Used x86_64/amd64 based servers are probably the most power efficient option I have for heavy computing that is not prohibitively expensive.</p>
         <h3>Rimuru (main server)</h3>
-        <p>Named after the main character in the anime <em>Tensei Shitara Slime Datta Ken (Tensura)</em>.
-            I use this one for data storage and running various services.</p>
+        <p>Named after the main character in the anime
+            <a href="https://anilist.co/anime/101280/Tensei-Shitara-Slime-Datta-Ken/" target="_blank">Tensei Shitara Slime Datta Ken (Tensura)</a>.
+            I use this one for data storage and running various services. This was previously used for computation before
+            I bought more hard drives to move my data storage from Lacia, the server I used previously for data storage.</p>
         <ul>
             <li>Dell PowerEdge R720xd</li>
             <li>1x Intel Xeon E5-2643 v2 (6C/12T 3.5GHz)</li>
             <li>64GB (2x32GB) PC3-10600R memory</li>
             <li>12x8TB SAS HDD in ZFS RAIDZ2</li>
+            <li>Dell PERC H310 (flashed to IT mode)</li>
             <li>1TB PCIe NVMe SSD for OS</li>
             <li>2x750W Power Supplies</li>
             <li>Ubuntu Server 22.04</li>
+            <li>Used from July 2022 - Present</li>
         </ul>
         <h3>Lacia (compute server)</h3>
-        <p>Named after a character in the anime <em>Beatless</em>. I use this one for running heavy computing
-            projects including my own math code for research.</p>
+        <p>Named after the character Lacia in the anime <a href="https://anilist.co/anime/100245/BEATLESS/" target="_blank">Beatless</a>.
+            I use this one for running heavy computing projects.
+            These include my own code, performance experiments, and other various dumb ideas.
+            The large amount of storage and RAM make this nice to use for certain applications such as
+            <a href="http://numberworld.org/y-cruncher/" target="_blank">y-cruncher</a>.</p>
         <ul>
             <li>Dell PowerEdge R720</li>
             <li>2x Intel Xeon E5-2697 v2 (24C/48T 2.7GHz)</li>
             <li>NVidia Tesla P100 16GB GPU</li>
             <li>512GB (16x32GB) PC3L-10600R memory</li>
             <li>8x4TB SATA HDD</li>
+            <li>Dell PERC H710 (flashed to IT mode)</li>
             <li>1TB PCIe NVMe SSD for OS</li>
             <li>2x750W Power Supplies</li>
             <li>Ubuntu Server 22.04</li>
+            <li>Used from July 2020 - Present</li>
         </ul>
-        <!--
-        <h3>Shirase (no longer in use)</h3>
-        <p>Named after the main character from the anime <em>Battle Programmer Shirase (BPS)</em>.
-            One memory channel is bad. I found this in the trash at RPI.</p>
+        <h3>Shirase (decommissioned)</h3>
+        <p>Named after the main character from the anime <a href="https://anilist.co/anime/579/Battle-Programmer-Shirase/" target="_blank">Battle Programmer Shirase (BPS)</a>.
+            One memory channel is bad. I found this in the trash at RPI and used it for a while before I got the R720xd (named Lacia).
+            It used to be an extra server I used for testing software installation/setup to get things working before repeating it.</p>
         <ul>
             <li>IBM System x3530 M4</li>
             <li>250GB SATA SSD</li>
-            <li>2x2GB + 2x4GB PC3-10600E memory (one channel is bad)</li>
+            <li>2x2GB + 2x4GB PC3-10600E memory (one channel is bad, it had 12GB of RAM until it rebooted when errors were detected, after which it had 6GB of RAM)</li>
             <li>Intel Core i3-4170</li>
             <li>2x460W Power Supplies</li>
+            <li>Used from 2020 - 2022</li>
         </ul>
-        -->
+        <h3>Kurumi (compute server)</h3>
+        <p>Primarily named after Kurumi, the hacker character in the anime
+            <a href="https://anilist.co/anime/143270/Lycoris-Recoil/" target="_blank">Lycoris Recoil</a>.
+            Also happens to be the same name as Kurumi from the anime
+            <a href="https://anilist.co/anime/15583/Date-A-Live/" target="_blank">Date A Live</a>.
+            This is another compute server, used for CPU bound code with low memory requirements since
+            it has a lot less memory and storage than Lacia has.</p>
+        <ul>
+            <li>Dell PowerEdge R630</li>
+            <li>2x Intel Xeon E5-2690 v4 (28C/56T 2.6GHz)</li>
+            <li>32GB (4x8GB) PC4-2400T memory</li>
+            <li>500GB SATA SSD</li>
+            <li>Dell PERC H330 (not in IT mode yet)</li>
+            <li>2x750W Power Supplies</li>
+            <li>Ubuntu Server 22.04</li>
+            <li>Used from July 2023 - Present</li>
+        </ul>
         <h3>Pictures</h3>
         <img src="hl_img/front2.jpg" class="img_fw" />
         <img src="hl_img/back2.jpg" class="img_fw" />
         <hr />
-        <p>Page last updated: 2023-06-22</p>
+        <p>Page last updated: 2023-08-01</p>
         <a href="index.html">Back to the home page</a>
     </div></div></body>
 </html>
