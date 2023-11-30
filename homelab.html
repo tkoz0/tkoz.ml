@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Homelab (tkoz.ml)</title>
+        <title>tkoz.me homelab</title>
         <link rel="stylesheet" href="styles.css" />
     </head>
-    <body><div id="root"><div id="content">
-        <h1>Homelab</h1>
+    <body><div id="root">
+        <header id="header">
+            <span class="title_text">Homelab</span>
+        </header>
+        <div id="content">
         <p>This page describes my janky homelab setup. Someone has to pay the power bill for this thing... (around $100/month)</p>
         <p>Everything is connected to a cheap 8 port gigabit switch which is connected to a router.
             I have everything on a wooden rack I designed and built myself.
@@ -54,8 +57,12 @@
         <ul>
             <li>IBM System x3530 M4</li>
             <li>250GB SATA SSD</li>
-            <li>2x2GB + 2x4GB PC3-10600E memory (one channel is bad, it had 12GB of RAM until it rebooted when errors were detected, after which it had 6GB of RAM)</li>
-            <li>Intel Core i3-4170</li>
+            <li>2x2GB + 2x4GB PC3-10600E memory</li>
+            <li style="list-style:none;"><ul>
+                <li>One memory channel is bad</li>
+                <li>Usable RAM is 6GB</li>
+            </ul></li>
+            <li>Intel Core i3-4170 (2C/4T 3.7GHz)</li>
             <li>2x460W Power Supplies</li>
             <li>Used from 2020 - 2022</li>
         </ul>
@@ -80,7 +87,7 @@
         <img src="hl_img/front2.jpg" class="img_fw" />
         <img src="hl_img/back2.jpg" class="img_fw" />
         <hr />
-        <p>Page last updated: 2023-11-04</p>
+        <p>Page last updated: 2023-11-30</p>
         <a href="index.html">Back to the home page</a>
     </div></div></body>
 </html>

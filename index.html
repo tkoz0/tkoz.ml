@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Home page (tkoz.me)</title>
+        <title>tkoz.me</title>
         <link rel="stylesheet" href="styles.css" />
     </head>
     <body><div id="root">
         <header id="header">
-            <span class="title_text">TKoz's Website</span>
-            <div id="links">
-                <a href="/wordpress">Blog</a>
-                <a href="/mediawiki">Wiki</a>
+            <span class="title_text">TKoz</span>
+            <div id="header_links">
                 <div class="dropdown_container">
+                    <a href="/wordpress">Blog</a>
+                </div><!-- no newline = remove whitespace between inline blocks --><div class="dropdown_container">
+                    <a href="/mediawiki">Wiki</a>
+                </div><!-- --><div class="dropdown_container">
+                    <a class="dropdown_button">Pages</a>
+                    <div class="dropdown_menu">
+                        <a href="faq.html">FAQ</a>
+                        <a href="homelab.html">Homelab</a>
+                        <a href="cv.html">Resume/CV</a>
+                    </div>
+                </div><!-- --><div class="dropdown_container">
                     <a class="dropdown_button">Tools</a>
                     <div class="dropdown_menu">
                         <a href="/speedtest">Speed Test</a>
-                        <a href="/myip.php">My IP Address</a>
+                        <a href="/myip.php">My IP</a>
                     </div>
-                </div>
-                <div class="dropdown_container">
+                </div><!-- --><div class="dropdown_container">
                     <a class="dropdown_button">Links</a>
                     <div class="dropdown_menu">
                         <a href="https://github.com/tkoz0/" target="_blank">My GitHub</a>
@@ -27,12 +35,13 @@
             </div>
         </header>
         <div id="content">
-        <p>Welcome. I'm a person who likes math and computers. On the internet, I use the name "TKoz".</p>
-        <p>I recently graduated from <a href="https://rpi.edu/" target="_blank">RPI</a> with a B.S. in Math+CS and a M.S. in Applied Math.
-            I am very interested in pure math and algorithms, and exploring a wide range of topics.</p>
-        <p>If you have interesting ideas for a math or programming project, or anything to say about content on my website, I'd like to hear about it.
-            See the <a href="#contact">contact</a> section at the bottom of the page.</p>
-        <h2>Projects</h2>
+        <p>Welcome. I'm a person who likes math, computers, and many other things. On the internet, I usually use the names "TKoz" and "TKoz0".
+            I am from New Jersey in the United States.</p>
+        <p>I recently graduated from <a href="https://rpi.edu/" target="_blank">RPI</a> with degrees in Math and Computer Science.
+            I am interested in exploring a wide range of topics and solving challenging problems.
+            I am most interested in math, algorithms, and high performance computing.</p>
+        <p>If you have interesting ideas for a math or programming project, or comments about this website, please see the <a href="#contact">contact</a> section.</p>
+        <h1>Projects</h1>
         <div class="proj_container">
             <div class="proj_item">
                 <img class="proj_image" src="proj_icons/op-fitch.png" />
@@ -62,62 +71,53 @@
                 </div>
             </div>
         </div>
-        <h2>Education/Skills/Interests</h2>
-        Formal stuff:
+        <h1>Summary of Me</h1>
+        <h2>Education</h2>
         <ul>
-            <li>B.S. in Mathematics and Computer Science from RPI (2022)</li>
-            <li>M.S. in Applied Mathematics from RPI (2023)</li>
-        </ul>
-        Some of my interests/skills:
-        <ul>
-            <li>
-                Math: number theory, linear algebra, (linear) optimization, analysis,
-                algorithms, numerical computation, logic and formal proof systems
+            <li>M.S. in Applied Mathematics from Rensselaer Polytechnic Institute (Aug 2022 &ndash; May 2023)
+                <ul>
+                    <li>Specialized in computational math.</li>
+                </ul>
             </li>
-            <li>
-                Algorithms: graphs, data structures, mathematical computation, computational complexity,
-                NP complete/hard problems, efficient implementation
-            </li>
-            <li>
-                Programming: high performance computing (HPC), optimizing code performance
-            </li>
-            <li>
-                Computer Languages/Tools: C/C++, Python3, Java, HTML, CSS,
-                JavaScript, TypeScript, Prolog, Matlab, NumPy
-            </li>
-            <li>
-                Computers: hardware and components, assembling computers from parts,
-                configuring software/hardware, servers and networking
-            </li>
-            <li>
-                Linux: commands, configuration, scripts, I use Ubuntu 22.04 with XFCE
-                (<a href="https://xubuntu.org/" target="_blank">Xubuntu</a>) as my primary operating system
+            <li>B.S. in Computer Science and Mathematics from Rensselaer Polytechnic Institute (Aug 2017 &ndash; May 2022)
+                <ul>
+                    <li>Specialized in algorithms and pure math.</li>
+                </ul>
             </li>
         </ul>
         <h2>Work</h2>
         <ul>
-            <li>Foundations of Computer Science mentor at RPI (2018-2020)</li>
-            <li>Programming Languages mentor at RPI (2020-2021)</li>
-            <li>Undergraduate Research Assistant at the RPI
-                <a href="https://lacailab.cogsci.rpi.edu/" target="_blank">LACAI Lab</a> (2020)</li>
-            <li>Graduate Research Assistant for
-                <a href="https://submitty.org/" target="_blank">Submitty</a> (2022)</li>
-            <li>Graduate Teaching Assistant for
-                <a href="https://submitty.org/" target="_blank">Submitty</a> (2022-2023)</li>
+            <li>Graduate Research Assistant at Rensselaer Polytechnic Institute (May 2022 &ndash; May 2023)
+                <ul>
+                    <li>Contributed to <a href="https://github.com/Submitty" target="_blank">Submitty</a>, mainly the back end.</li>
+                </ul>
+            </li>
+            <li>Undergraduate Teaching Assistant at Rensselaer Polytechnic Institute (Aug 2018 &ndash; May 2022)
+                <ul>
+                    <li>Graded assignments and tutored during office hours for Discrete Math and Programming Languages classes.</li>
+                </ul>
+            </li>
+            <li>Undergraduate Research Assistant at Rensselaer Polytechnic Institute (Jan 2020 &ndash; Aug 2020)
+                <ul>
+                    <li>Explored tools for natural language processing and analyzed datasets from Reddit and Twitter.</li>
+                    <li>Worked with a professor and Ph.D. students in the <a href="https://lacailab.cogsci.rpi.edu/" target="_blank">LACAI Lab</a>.</li>
+                </ul>
+            </li>
         </ul>
-        <h2>FAQ</h2>
+        <h1>FAQ</h1>
         Have a question? Look at my <a href="faq.html">FAQ</a> page first,
         otherwise I'm happy to respond on any of the platforms listed below.
-        <h2 id="contact">Contact</h2>
+        <h1 id="contact">Contact</h1>
         <p>Email: contact me at <a href="mailto:jsmith2147483647@gmail.com">jsmith2147483647@gmail.com</a>.
-            This is an alternative address because I don't want to make my real one too public.
-            I check this one less frequently so it may take me a little longer to respond.
-            I need email forwarding so I can use tkoz@tkoz.me as an email address.</p>
-        <p>Discord: tkoz (previously TKoz#9039). Feel free to send me a message or friend request.
+            This is not my main email because I want to limit spam.
+            I may be slow to respond to this address.
+            I plan on having email forwarding eventually so I can use tkoz@tkoz.me.</p>
+        <p>Discord: tkoz (formerly TKoz#9039). Feel free to send me a message or friend request.
             This is the platform I will respond the fastest on.</p>
-        <p>Reddit: <a href="https://reddit.com/u/tkoz0" target="_blank">u/tkoz0</a></p>
+        <p>Reddit: <a href="https://reddit.com/u/tkoz0" target="_blank">u/tkoz0</a> (open to chats or direct messages)</p>
+        <p>LinkedIn: <a href="https://www.linkedin.com/in/kozlot/" target="_blank">in/kozlot</a> (for professional inquiries only please)</p>
         <hr />
-        <p>Page last updated: 2023-11-04</p>
+        <p>Page last updated: 2023-11-30</p>
         </div>
     </div></body>
 </html>

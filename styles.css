@@ -1,34 +1,65 @@
 
 /*
-Some of these styles are inspired by the simple design on https://copy.sh/
+
+CSS styles for the simple website design
+
+Last updated: 2023-11-30
+
 */
 
 body {
     font-family: sans-serif;
-    background: #777777;
+    background: black;
     margin: 0;
 }
 
 #root {
     width: 1000px;
     margin: auto;
-    background: #cccccc;
+    background: white;
+    min-height: 100vh;
 }
 
 #header {
     display: flex;
-    background: #77BBFF;
+    background: gray;
 }
 
-#links {
+#content {
+    padding: 10px;
+}
+
+.title_text {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin: auto;
+    padding: 10px;
+}
+
+.hide {
+    display: none;
+}
+
+/* links on homepage header */
+
+#header_links {
     padding: 20px;
 }
 
-#links > * {
+#header_links > * {
     font-size: 1.5em;
     padding: 5px;
-    margin-left: 10px;
-    background: #BBFF77;
+    background: white;
+    border: 2px solid black;
+    border-left: none;
+}
+
+#header_links > div:first-of-type {
+    border-left: 2px solid black;
+}
+
+#header_links > *:hover {
+    background: lightblue;
 }
 
 .dropdown_container {
@@ -44,8 +75,8 @@ body {
     display: none;
     position: absolute;
     text-align: right;
-    right: 0px;
-    min-width: 200px;
+    right: -2px;
+    min-width: 180px;
 }
 
 .dropdown_container:hover .dropdown_menu {
@@ -53,28 +84,23 @@ body {
 }
 
 .dropdown_menu a {
-    background: #FFFFFF;
+    background: white;
     padding: 5px;
     display: block;
+    border: 2px solid black;
+    border-top: none;
 }
 
 .dropdown_menu a:first-of-type {
     margin-top: 5px;
+    border-top: 2px solid black;
 }
 
 .dropdown_menu a:hover {
-    background: #77FFBB;
+    background: lightgreen;
 }
 
-#content {
-    padding: 10px;
-}
-
-.title_text {
-    font-size: 2.5em;
-    font-weight: bold;
-    margin: auto;
-}
+/* project listing on home page */
 
 .proj_container {
     display: flex;
@@ -85,7 +111,7 @@ body {
 .proj_item {
     width: 300px;
     border: 2px solid black;
-    background: #eecc77;
+    background: lightblue;
     padding: 5px;
     margin: 5px;
 }
@@ -112,8 +138,50 @@ body {
     font-size: 0.8em;
 }
 
+/* images */
+
 .img_fw {
     width: 980px;
 }
 
-/* Last updated: 2023-06-26 */
+/* resume/cv items */
+
+.cv_head {
+    width: 100%;
+    font-size: 1.8em;
+    border-bottom: 2px solid black;
+    font-weight: bold;
+    margin-top: 16px;
+    margin-bottom: 8px;
+}
+
+.cv_sub1 > * {
+    display: inline-block;
+    font-size: 1.5em;
+    margin-top: 8px;
+}
+
+.cv_sub1a {
+    font-weight: bold;
+}
+
+.cv_sub1b {
+    float: right;
+}
+
+.cv_sub2 > * {
+    display: inline-block;
+    font-size: 1.2em;
+}
+
+.cv_sub2a {
+    font-style: italic;
+}
+
+.cv_sub2b {
+    float: right;
+}
+
+.cv_list {
+    margin: 0;
+}
