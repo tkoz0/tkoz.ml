@@ -14,7 +14,7 @@ body {
 }
 
 #root {
-    width: 1000px;
+    width: 900px;
     margin: auto;
     background: white;
     min-height: 100vh;
@@ -109,23 +109,23 @@ body {
 }
 
 .proj_item {
-    width: 300px;
+    width: 270px;
     border: 2px solid black;
     background: lightblue;
-    padding: 5px;
-    margin: 5px;
+    margin: 2px;
+    padding: 2px;
 }
 
 .proj_image {
-    width: 100px;
-    height: 100px;
-    float: left;
-    margin-right: 10px;
+    width: 80px;
+    height: 80px;
+    text-align: center;
 }
 
 .proj_desc {
-    width: 190px;
+    width: 185px;
     float: right;
+    margin-left: 5px;
 }
 
 .proj_name {
@@ -136,12 +136,13 @@ body {
 
 .proj_text {
     font-size: 0.8em;
+    padding: 2px;
 }
 
 /* images */
 
 .img_fw {
-    width: 980px;
+    width: 880px;
 }
 
 /* resume/cv items */
