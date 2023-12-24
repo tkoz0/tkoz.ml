@@ -3,7 +3,7 @@
 
 CSS styles for the simple website design
 
-Last updated: 2023-11-30
+Last updated: 2023-12-23
 
 */
 
@@ -144,6 +144,8 @@ body {
 
 .img_fw {
     width: 880px;
+    max-width: 95vw;
+    margin: 0 auto;
 }
 
 /* resume/cv items */
