@@ -72,6 +72,7 @@ window.onload = () => {
 // mathjax settings
 window.MathJax = {
     tex: {
+        ...window.MathJax.tex,
         inlineMath: [['\\(','\\)']], // \( inline \)
         displayMath: [['\\[','\\]']], // \[ display \]
         formatError: (jax,err) => {
@@ -80,16 +81,16 @@ window.MathJax = {
         }
     },
     options: {
+        ...window.MathJax.options
     }
 };
 
-/*
 // load mathjax script
 (function() {
     let script = document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
-    script.src = 'tex-svg-full.js';
+    // expect mathjax installed here
+    script.src = '/mathjax/tex-svg-full.js';
     document.head.appendChild(script);
 })();
-*/
