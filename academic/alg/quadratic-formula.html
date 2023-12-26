@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quadratic Formula</title>
+    <link rel="stylesheet" type="text/css" href="../mathstyles.css" />
+    <script type="text/javascript" src="../mathscripts.js"></script>
+    <script type="text/javascript">
+        window.MathJax.tex.macros = {
+            C: '\\mathbb{C}',
+            R: '\\mathbb{R}',
+            Z: '\\mathbb{Z}'
+        };
+    </script>
+    <script type="text/javascript" src="../tex-svg-full.js"></script>
+</head>
+<body>
+<div id="root">
+
+<h1>Quadratic Formula</h1>
+
+<p>For a quadratic equation \(ax^2+bx+c=0\) where \(a,b,c\in\C\) and \(a\neq0\),
+the solution(s) is(are):</p>
+
+\[x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}\]
+
+<h2>Proof</h2>
+
+<p>
+    A quadratic equation has the form \(ax^2+bx+c=0\) where \(a,b,c\in\C\)
+    (sometimes \(\R\) is used instead of \(\C\)) and \(a\neq0\). To solve for
+    \(x\), first divide both sides by \(a\):
+</p>
+
+\[x^2+\frac{b}{a}x+\frac{c}{a}=0\]
+
+<p>Next we write out the form for completing the square:</p>
+
+\[x^2+2\left(\frac{b}{2a}\right)x+\left(\frac{b}{2a}\right)^2
+-\left(\frac{b}{2a}\right)^2+\frac{c}{a}=0\]
+
+<p>The leftmost 3 terms can be factored in the form \(u^2+2uv+v^2=(u+v)^2\)
+    where \(u=x\) and \(v=\frac{b}{2a}\).</p>
+
+\[\left(x+\frac{b}{2a}\right)^2-\left(\frac{b}{2a}\right)^2+\frac{c}{a}=0\]
+
+<p>Now, move the other terms to the right side and simplify.</p>
+
+\[\left(x+\frac{b}{2a}\right)^2=\left(\frac{b}{2a}\right)^2-\frac{c}{a}
+=\frac{b^2}{4a^2}-\frac{4ac}{4a^2}=\frac{b^2-4ac}{(2a)^2}\]
+
+<p>Now, the quantity \(x+\frac{b}{2a}\) is squared on the left side, so it is
+    equal to either sign of the square root of the right side. For additional
+    details, see <a href="#note">note about roots of complex numbers</a>.
+</p>
+
+\[x+\frac{b}{2a}=\pm\frac{\sqrt{b^2-4ac}}{2a}\]
+
+<p>Then we rearrange this into the form commonly seen:</p>
+
+\[x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}\]
+
+<p>
+    When \(b^2-4ac=0\), there is 1 root with multiplicity 2. Often, we are
+    interested in quadratic equations where \(a,b,c\in\R\). For those, there are
+    2 real solutions when \(b^2-4ac&gt;0\), and 2 imaginary solutions when
+    \(b^2-4ac&lt;0\). Sometimes the quantity \(b^2-4ac\) is called the
+    discriminant.
+</p>
+
+
+<h2 id="note">Note about roots of complex numbers</h2>
+
+<p>
+    We look at solving the equation specifically for square roots: \(x^2=y\). Let
+    \(x=re^{i\theta}\) and \(y=r'e^{i\theta'}\). Substituting these, we have:
+</p>
+
+\[r^2e^{2i\theta}=r'e^{i\theta'}\]
+
+<p>
+    This means we have \(r=\sqrt{r'}\) and \(2i\theta=i(\theta'+2n\pi)\) for
+    some \(n\in\Z\), so \(i\theta=i\left(\frac{\theta'}{2}+n\pi\right)\).
+    When \(n\) is even, this means \(x=\sqrt{r'}e^{i\theta'/2}=\sqrt{y}\).
+    When \(n\) is odd, we have:
+</p>
+
+\[x=\sqrt{r'}e^{i\theta'/2+i\pi}=\sqrt{r'}e^{i\theta'/2}e^{i\pi}
+=-\sqrt{r'}e^{i\theta'/2}=-\sqrt{y}\]
+
+<p>So, properties of complex numbers show us that the only roots are
+    \(x=\pm\sqrt{y}=\pm\sqrt{r'}e^{i\theta'/2}\).</p>
+
+</div>
+</body>
+</html>
