@@ -7,3 +7,4 @@ speedtest/backend/getIP_serverLocation.php
 
 # mathjax files, use script to install them
 mathjax/
+prismjs/

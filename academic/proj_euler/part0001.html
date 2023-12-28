@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Euler</title>
+    <link rel="stylesheet" type="text/css" href="/mathstyles.css" />
+    <link rel="stylesheet" type="text/css" href="/prismjs/proj_euler.css" />
+    <script type="text/javascript">
+        window.MathJax = { tex: { macros: {
+            red: ['{\\color{red}#1}',1]
+        }}};
+    </script>
+    <script type="text/javascript" src="/mathscripts.js"></script>
+    <script type="text/javascript" src="/prismjs/proj_euler.js"></script>
+</head>
+<body>
+<div id="root">
+
+<h1>Project Euler</h1>
+
+Written solutions for problems 1-10.
+
+<!-- generate table of contents using h2-h6 tags -->
+<div id="toc"></div>
+
+<h2>Problem 1</h2>
+
+<p>
+    Problem: Find the sum of all natural numbers below 1000 which are divisible
+    by 3 or 5.
+</p>
+
+<p>
+    The basic solution is to iterate over all numbers and check each:
+</p>
+
+<pre><code class="language-python">
+L = 1000
+total = 0
+for i in range(1,L):
+    if i % 3 == 0 or i % 5 == 0:
+        total += i
+print(total)
+</code></pre>
+
+<p>
+    Something a little more advanced we can do is use the summations. For
+    example, we would add the following multiples of 3:
+</p>
+
+\[3+6+9+\ldots+996+999=3\left(1+2+3+\ldots+333\right)
+=3\sum_{i=1}^{333}i=3\left(\frac{333\cdot334}{2}\right)\]
+
+<p>
+    We do the same for multiples of 5. But everything that is a multiple of
+    \(\text{lcm}(3,5)=15\) is counted twice so we must subtract those. This part
+    is doable by hand calculation. Let \(S(d,L)=
+    d\sum_{i=1}^{\lfloor L/d\rfloor}i=d\left(\frac{(\lfloor L/d\rfloor)
+        (\lfloor L/d\rfloor+1)}{2}\right)\) be one such summation. Then the
+    solution is:
+</p>
+
+\[S(3,999)+S(5,999)-S(15,999)\]
+
+<p>
+    Note: 999 is used instead of 1000 because the problem asks for numbers below
+    1000 so we should not count 1000.
+</p>
+
+<details><summary>Answer:</summary>233168</details>
+
+<h2>Problem 2</h2>
+
+<p>
+    Problem: Find the sum of all even Fibonacci numbers up to 4000000.
+</p>
+
+<p>
+    The Fibonacci sequence starts with \(F_0=0,F_1=1\) and then is recursively
+    defined \(F_n=F_{n-1}+F_{n-2}\) when \(n\geq2\). The simple way to solve
+    this is iterating this increasing sequence until going past 4000000:
+</p>
+
+<pre><code class="language-python">
+L = 4000000
+a,b = 0,1
+total = 0
+while True:
+    a,b = b,a+b
+    if b &gt; L:
+        break
+    if b % 2 == 0:
+        total += b
+print(total)
+</code></pre>
+
+<p>
+    This is a bit tedious but doable by hand. We can actually be even faster by
+    observing that indexes \(0,3,6,9,\ldots\) of the Fibonacci sequence are
+    even:
+</p>
+
+\[\red{0},1,1,\red{2},3,5,\red{8},13,21,\red{34},55,89,\ldots\]
+
+<p>
+    Using the recursive definition, we can write \(F_n\) in terms of
+    \(F_{n-3},F_{n-6}\):
+</p>
+
+\[\begin{align}
+F_n&=F_{n-1}+F_{n-2}=(F_{n-2}+F_{n-3})+(F_{n-3}+F_{n-4})\\
+&=2F_{n-3}+F_{n-2}+F_{n-4}=2F_{n-3}+(F_{n-3}+F_{n-4})+(F_{n-5}+F_{n-6})\\
+&=3F_{n-3}+(F_{n-4}+F_{n-5})+F_{n-6}=4F_{n-3}+F_{n-6}\\
+\end{align}\]
+
+<p>
+    Now we can solve the problem in almost the same way, but we start with
+    \(F_0=0,F_3=2\) and use this recurrence which generates only even terms:
+</p>
+
+<pre><code class="language-python">
+L = 4000000
+a,b = 0,2
+total = 2
+while True:
+    a,b = b,4*b+a
+    if b > L:
+        break
+    total += b
+print(total)
+</code></pre>
+
+<p>
+    Note: the largest term included in the sum is \(F_{33}=3524578\).
+</p>
+
+<details><summary>Answer:</summary>4613732</details>
+
+<h2>Problem 3</h2>
+
+<p>
+    Problem: Find the largest prime factor of 600851475143.
+</p>
+
+<p>
+    One way to solve this problem is by using the <code>factor</code> command
+    which is included in some Linux distros. But if we challenge ourselves to
+    write some actual code, TODO...
+</p>
+
+<details><summary>Answer:</summary>6857<br />
+The factorization is \(71\cdot839\cdot1471\cdot6857\)</details>
+
+<h2>Problem 4</h2>
+
+<h2>Problem 5</h2>
+
+<h2>Problem 6</h2>
+
+<h2>Problem 7</h2>
+
+<h2>Problem 8</h2>
+
+<h2>Problem 9</h2>
+
+<h2>Problem 10</h2>
+
+</div>
+</body>
+</html>
