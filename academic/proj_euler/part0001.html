@@ -6,7 +6,8 @@
     <link rel="stylesheet" type="text/css" href="/prismjs/proj_euler.css" />
     <script type="text/javascript">
         window.MathJax = { tex: { macros: {
-            red: ['{\\color{red}#1}',1]
+            red: ['{\\color{red}#1}',1],
+            lcm: '\\text{lcm}'
         }}};
     </script>
     <script type="text/javascript" src="/mathscripts.js"></script>
@@ -52,7 +53,7 @@ print(total)
 
 <p>
     We do the same for multiples of 5. But everything that is a multiple of
-    \(\text{lcm}(3,5)=15\) is counted twice so we must subtract those. This part
+    \(\lcm(3,5)=15\) is counted twice so we must subtract those. This part
     is doable by hand calculation. Let \(S(d,L)=
     d\sum_{i=1}^{\lfloor L/d\rfloor}i=d\left(\frac{(\lfloor L/d\rfloor)
         (\lfloor L/d\rfloor+1)}{2}\right)\) be one such summation. Then the
@@ -144,7 +145,31 @@ print(total)
 <p>
     One way to solve this problem is by using the <code>factor</code> command
     which is included in some Linux distros. But if we challenge ourselves to
-    write some actual code, TODO...
+    write some actual code, here is how we can do it. Let \(n\) be the number to
+    factor. Test divisors \(d=2,d=3,\ldots\) to find a factor. If \(n\) has a
+    factor, one of them will be at most \(\lfloor\sqrt{n}\rfloor\) so we can
+    stop as soon as \(d^2>n\). Each time we find a factor, we divide \(n\) until
+    it it no longer divisible by that factor. At the end, we may have \(n=1\)
+    or if \(n\neq1\) then it is a prime.
+</p>
+
+<pre><code class="language-python">
+n = 600851475143
+d = 2
+dmax = 1
+while d*d &lt;= n:
+    while n % d == 0:
+        n //= d
+        dmax = max(dmax,d)
+    d += 1
+dmax = max(dmax,n) # if n!=1 it is prime
+print(dmax)
+</code></pre>
+
+<p>
+    Factoring methods can get a whole lot more complicated, but we'll leave it
+    here for this problem. This method is reasonably efficient for 12 digit
+    numbers.
 </p>
 
 <details><summary>Answer:</summary>6857<br />
@@ -152,9 +177,177 @@ The factorization is \(71\cdot839\cdot1471\cdot6857\)</details>
 
 <h2>Problem 4</h2>
 
+<p>
+    Problem: Find the largest palindrome that is a product of 2 3-digit numbers.
+</p>
+
+<p>
+    The basic solution is to have a double loop over all possible 3 digit
+    numbers. It is fast enough for this problem and we can check if numbers are
+    palindrome by converting them to strings.
+</p>
+
+<pre><code class="language-python">
+largest = 0
+for a in range(100,1000):
+    for b in range(100,1000):
+        n = a*b
+        s = str(n)
+        if n > largest and s == s[::-1]:
+            largest = n
+print(largest)
+</code></pre>
+
+<p>
+    It can be done faster by starting from the largest and terminating the loops
+    when it is impossible to multiply to a bigger number. Additionally, we can
+    generalize the code a bit by using a variable for the number lengths.
+    Lastly, due to symmetry, we can require \(a\geq b\) and start the inner loop
+    at \(a\) instead of 999.
+</p>
+
+<pre><code class="language-python">
+D = 3
+largest = 0
+for a in range(10**D-1,10**(D-1)-1,-1):
+    if a * (10**D-1) &lt; largest:
+        break # stop when a*b cannot exceed largest
+    for b in range(a,10**(D-1)-1,-1):
+        n = a*b
+        if n &lt; largest:
+            break
+        s = str(n)
+        if s == s[::-1]:
+            largest = n
+print(largest)
+</code></pre>
+
+<details><summary>Answer:</summary>906609<br />
+The product is \(993\cdot913\)</details>
+
 <h2>Problem 5</h2>
 
+<p>
+    Problem: Find the smallest number divisible by all of \(1,2,3,\ldots,20\).
+</p>
+
+<p>
+    It is slow, but we can have a basic loop that checks divisibility for every
+    integer counting up. We could even go up in increments of 20, but that would
+    still be very slow. The efficient way to solve this would be using prime
+    factorizations, which is doable by hand. We factor all the numbers
+    \(1,2,3,\ldots,20\) and then construct a new number that has each of the
+    prime factors with minimum multiplicity.
+</p>
+
+<ul>
+    <li>\(1=1\)</li>
+    <li>\(2=2\)</li>
+    <li>\(3=3\)</li>
+    <li>\(4=2\cdot2\)</li>
+    <li>\(5=5\)</li>
+    <li>\(6=2\cdot3\)</li>
+    <li>\(7=7\)</li>
+    <li>\(8=2\cdot2\cdot2\)</li>
+    <li>\(9=3\cdot3\)</li>
+    <li>\(10=2\cdot5\)</li>
+    <li>\(11=11\)</li>
+    <li>\(12=2\cdot2\cdot3\)</li>
+    <li>\(13=13\)</li>
+    <li>\(14=2\cdot7\)</li>
+    <li>\(15=3\cdot5\)</li>
+    <li>\(16=2\cdot2\cdot2\cdot2\)</li>
+    <li>\(17=17\)</li>
+    <li>\(18=2\cdot3\cdot3\)</li>
+    <li>\(19=19\)</li>
+    <li>\(20=2\cdot2\cdot5\)</li>
+</ul>
+
+<p>
+    Then from here, we take the highest multiplicities of each prime factor that
+    occur in any of these factorizations and combine them to produce the
+    smallest number that all of these divide into. This can be automated with
+    code that finds the smallest multiplicity of each prime needed:
+</p>
+
+<pre><code class="language-python">
+def is_prime(p):
+    return p &gt; 1 and all(p % d != 0 for d in range(2,p))
+
+n = 20
+primes = [p for p in range(n+1) if is_prime(p)]
+result = 1
+for p in primes:
+    multiplicity = 1
+    while p**(multiplicity+1) &lt;= n:
+        multiplicity += 1
+    result *= p**multiplicity
+print(result)
+</code></pre>
+
+<p>
+    Another way is to compute \(\lcm(1,2,3,\ldots,20)\). This can be done with
+    a number theory theorem: \(\lcm(a,b)=\frac{ab}{\gcd(a,b)}\). This theorem
+    can be extended to more than 2 numbers. We can do this with the code here:
+</p>
+
+<pre><code class="language-python">
+from math import gcd
+n = 20
+result = 1
+for i in range(1,n+1):
+    result = (result*i) // gcd(result,i)
+print(result)
+</code></pre>
+
+<details><summary>Answer:</summary>232792560<br />
+The factorization is:
+\(2^4\cdot3^2\cdot5\cdot7\cdot11\cdot13\cdot17\cdot19\)</details>
+
 <h2>Problem 6</h2>
+
+<p>
+    Problem: Find the difference between the sum of squares of
+    \(1,2,3,\ldots,100\) and the square of \(1+2+3+\ldots+100\).
+</p>
+
+<p>
+    This problem does not require programming, but if you really wanted to do
+    it with code, a simple solution is:
+</p>
+
+<pre><code class="language-python">
+n = 100
+square_of_sum = sum(range(1,n+1))**2
+sum_of_squares = sum(i**2 for i in range(1,n+1))
+print(square_of_sum - sum_of_squares)
+</code></pre>
+
+<p>
+    Now without code, we write this using the well known summation formulas:
+</p>
+
+\[\begin{align}
+\left(\sum_{i=1}^Ni\right)^2-\sum_{i=1}^Ni^2
+&=\left(\frac{N(N+1)}{2}\right)^2-\frac{N(N+1)(2N+1)}{6}
+=\frac{N^2(N+1)^2}{4}-\frac{N(N+1)(2N+1)}{6}\\
+&=N(N+1)\left(\frac{N(N+1)}{4}-\frac{2N+1}{6}\right)
+=N(N+1)\left(\frac{3N^2+3N}{12}-\frac{4N+2}{12}\right)\\
+&=N(N+1)\frac{3N^2-N-2}{12}=\frac{N(N+1)(3N+2)(N-1)}{12}
+\end{align}\]
+
+<p>
+    With a bit of algebra, we get a nicely factored expression. Plug in
+    \(N=100\) to get the answer.
+</p>
+
+<p>
+    Note: this is equivalent to the sum of cubes minus the sum of squares. The
+    sum of cubes is the dominating part which is asymptotic to \(N^4/4\). As
+    expected, the solution expression is also asymptotic to \(N^4/4\).
+</p>
+
+<details><summary>Answer:</summary>25164150</details>
 
 <h2>Problem 7</h2>
 
