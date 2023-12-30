@@ -26,8 +26,8 @@ Written solutions for problems 1-10.
 <h2>Problem 1</h2>
 
 <p>
-    Problem: Find the sum of all natural numbers below 1000 which are divisible
-    by 3 or 5.
+    <b>Problem:</b> Find the sum of all natural numbers below 1000 which are
+    divisible by 3 or 5.
 </p>
 
 <p>
@@ -72,7 +72,7 @@ print(total)
 <h2>Problem 2</h2>
 
 <p>
-    Problem: Find the sum of all even Fibonacci numbers up to 4000000.
+    <b>Problem:</b> Find the sum of all even Fibonacci numbers up to 4000000.
 </p>
 
 <p>
@@ -139,7 +139,7 @@ print(total)
 <h2>Problem 3</h2>
 
 <p>
-    Problem: Find the largest prime factor of 600851475143.
+    <b>Problem:</b> Find the largest prime factor of 600851475143.
 </p>
 
 <p>
@@ -178,7 +178,8 @@ The factorization is \(71\cdot839\cdot1471\cdot6857\)</details>
 <h2>Problem 4</h2>
 
 <p>
-    Problem: Find the largest palindrome that is a product of 2 3-digit numbers.
+    <b>Problem:</b> Find the largest palindrome that is a product of 2 3-digit
+    numbers.
 </p>
 
 <p>
@@ -228,7 +229,8 @@ The product is \(993\cdot913\)</details>
 <h2>Problem 5</h2>
 
 <p>
-    Problem: Find the smallest number divisible by all of \(1,2,3,\ldots,20\).
+    <b>Problem:</b> Find the smallest number divisible by all of
+    \(1,2,3,\ldots,20\).
 </p>
 
 <p>
@@ -307,7 +309,7 @@ The factorization is:
 <h2>Problem 6</h2>
 
 <p>
-    Problem: Find the difference between the sum of squares of
+    <b>Problem:</b> Find the difference between the sum of squares of
     \(1,2,3,\ldots,100\) and the square of \(1+2+3+\ldots+100\).
 </p>
 
@@ -351,11 +353,425 @@ print(square_of_sum - sum_of_squares)
 
 <h2>Problem 7</h2>
 
+<p>
+    <b>Problem:</b> Find the 10001st prime.
+</p>
+
+<p>
+    This problem can be done by checking numbers for primality and counting.
+    This is a slow method but fast enough to solve this problem in a reasonable
+    amount of time. The prime checking function here handles 2 and even numbers
+    separately. Then tests odd divisors up to the square root of the input.
+    The main loop starts at 1 and counts primes until reaching the 10001st one.
+</p>
+
+<pre><code class="language-python">
+from math import sqrt
+
+def is_prime(p):
+    # handle 2 and even numbers first
+    if p &lt; 2:
+        return False
+    if p == 2:
+        return True
+    if p % 2 == 0:
+        return False
+    # test possible odd divisors
+    for d in range(3,1+int(sqrt(p)),2):
+        if p % d == 0:
+            return False
+    return True
+
+ind = 10001
+p = 1
+i = 0
+while i &lt; ind:
+    p += 1
+    if is_prime(p):
+        i += 1
+print(p)    
+</code></pre>
+
+<p>
+    The alternative faster method is using a sieve. This uses more memory. The
+    sieve of Eratosthenes works by making a list integers starting at 2:
+</p>
+
+\[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
+21,22,23,24,25,26,27,28,29,30,\ldots\]
+
+<p>
+    First, 2 is prime, and we cross off multiples of 2.
+</p>
+
+\[\red{2},3,\cancel{4},5,\cancel{6},7,\cancel{8},9,\cancel{10},
+11,\cancel{12},13,\cancel{14},15,\cancel{16},17,\cancel{18},
+19,\cancel{20},21,\cancel{22},23,\cancel{24},25,\cancel{26},
+27,\cancel{28},29,\cancel{30},\ldots\]
+
+<p>
+    Next 3 is prime and so are all uncrossed numbers below \(3^2\). We cross out
+    multiples of 3 starting at 9.
+</p>
+
+\[\red{2},\red{3},\cancel{4},\red{5},\cancel{6},\red{7},\cancel{8},
+\cancel{9},\cancel{10},
+11,\cancel{12},13,\cancel{14},\cancel{15},\cancel{16},17,\cancel{18},
+19,\cancel{20},\cancel{21},\cancel{22},23,\cancel{24},25,\cancel{26},
+\cancel{27},\cancel{28},29,\cancel{30},\ldots\]
+
+<p>
+    Now we look at 5 and cross multiples starting at \(5^2\).
+</p>
+
+\[\red{2},\red{3},\cancel{4},\red{5},\cancel{6},\red{7},\cancel{8},
+\cancel{9},\cancel{10},\red{11},\cancel{12},\red{13},\cancel{14},\cancel{15},
+\cancel{16},\red{17},\cancel{18},\red{19},\cancel{20},\cancel{21},\cancel{22},
+\red{23},\cancel{24},\cancel{25},\cancel{26},\cancel{27},
+\cancel{28},29,\cancel{30},\ldots\]
+
+<p>
+    We can stop here because the next prime 7 is above
+    \(\lfloor\sqrt{30}\rfloor\). 29 is uncrossed so it is also prime. This
+    procedure allows us to create a list of primes much faster but requires more
+    memory because we must store the sieve.
+</p>
+
+<p>
+    It is helpful to know how big our sieve must be before we start. Based on a
+    table from
+    <a href="https://en.wikipedia.org/wiki/Prime-counting_function" target="_blank">Wikipedia</a>,
+    \(x/\ln(x)\) is an underestimate of the number of primes below \(x\) for any
+    \(x\) we would care about in this problem. So if we find \(x\) such that
+    \(x/\ln(x)=n\), then we will have enough primes below \(x\) to find the
+    \(n\)th prime. We can use Newton's method to solve \(x/\ln(x)=n\). I'll
+    avoid the details of Newton's method for now to focus on the sieving method.
+    Here is the code:
+</p>
+
+<pre><code class="language-python">
+from math import log,ceil
+
+def sieve_size(ind):
+    # solve x/ln(x)=ind with newton's method
+    assert ind &gt;= 3
+    f = lambda x : x/log(x) - ind
+    fp = lambda x : (log(x)-1)/log(x)**2
+    x = 3.0 # initial guess must be &gt; e
+    while True:
+        xold = x
+        x -= f(xold)/fp(xold)
+        # terminate when new guess is close enough to previous
+        if abs(x-xold)/xold &lt; 2**-44:
+            break
+    return ceil(x)
+
+ind = 10001
+siz = sieve_size(ind)
+
+# sieve 2,3,4,...,siz
+sieve = [True]*(siz+1) # initially mark all as prime
+sieve[0] = sieve[1] = False
+for i in range(2,siz+1):
+    # loop termination and ignore composite numbers
+    if i*i &gt; siz:
+        break
+    if not sieve[i]:
+        continue
+    # cross off multiples of i starting at i*i
+    for j in range(i*i,siz+1,i):
+        sieve[j] = False
+
+# count primes until reaching desired index
+i = 0
+result = 0
+for p in range(2,siz+1):
+    if sieve[p]:
+        i += 1
+        if i == ind:
+            result = p
+            break
+
+# this should always work in practical cases
+# but in general, it is harder to prove
+assert i == ind
+print(result)
+</code></pre>
+
+<p>
+    Note: the sieve size calculated to use is 116684, about 11% overestimated.
+</p>
+
+<details><summary>Answer:</summary>104743</details>
+
 <h2>Problem 8</h2>
+
+<p>
+    <b>Problem:</b> Find the greatest product formed from 13 consecutive digits
+    in the following:
+</p>
+
+<pre style="text-align:center;">
+73167176531330624919225119674426574742355349194934
+96983520312774506326239578318016984801869478851843
+85861560789112949495459501737958331952853208805511
+12540698747158523863050715693290963295227443043557
+66896648950445244523161731856403098711121722383113
+62229893423380308135336276614282806444486645238749
+30358907296290491560440772390713810515859307960866
+70172427121883998797908792274921901699720888093776
+65727333001053367881220235421809751254540594752243
+52584907711670556013604839586446706324415722155397
+53697817977846174064955149290862569321978468622482
+83972241375657056057490261407972968652414535100474
+82166370484403199890008895243450658541227588666881
+16427171479924442928230863465674813919123162824586
+17866458359124566529476545682848912883142607690042
+24219022671055626321111109370544217506941658960408
+07198403850962455444362981230987879927244284909188
+84580156166097919133875499200524063689912560717606
+05886116467109405077541002256983155200055935729725
+71636269561882670428252483600823257530420752963450
+</pre>
+
+<p>
+    The easiest way to solve this would just be trying every product:
+</p>
+
+<pre><code class="language-python">
+digits = '\
+73167176531330624919225119674426574742355349194934\
+96983520312774506326239578318016984801869478851843\
+85861560789112949495459501737958331952853208805511\
+12540698747158523863050715693290963295227443043557\
+66896648950445244523161731856403098711121722383113\
+62229893423380308135336276614282806444486645238749\
+30358907296290491560440772390713810515859307960866\
+70172427121883998797908792274921901699720888093776\
+65727333001053367881220235421809751254540594752243\
+52584907711670556013604839586446706324415722155397\
+53697817977846174064955149290862569321978468622482\
+83972241375657056057490261407972968652414535100474\
+82166370484403199890008895243450658541227588666881\
+16427171479924442928230863465674813919123162824586\
+17866458359124566529476545682848912883142607690042\
+24219022671055626321111109370544217506941658960408\
+07198403850962455444362981230987879927244284909188\
+84580156166097919133875499200524063689912560717606\
+05886116467109405077541002256983155200055935729725\
+71636269561882670428252483600823257530420752963450'
+
+L = 13
+largest = 0
+for i in range(len(digits)-L+1):
+    product = 1
+    for j in range(i,i+L):
+        product *= int(digits[j])
+    if product &gt; largest:
+        largest = product
+print(largest)
+</code></pre>
+
+<p>
+    It can be done a little faster by reusing work instead of multiplying 13
+    digits every time we test a product. Ignore the zeroes because a product
+    containing them is just 0. For each block of consecutive nonzero digits, we
+    start with the product of the first 13. Then multiply the 14th and divide
+    the 1st. Then multiply the 15th and divide the 2nd. By repeating this, we
+    have a sliding window of 13 digits and we shift it over 1 digit by doing 1
+    multiplication and 1 division. This is faster than doing 13 multiplications.
+    Here is the code:
+</p>
+
+<pre><code class="language-python">
+digits = '\
+73167176531330624919225119674426574742355349194934\
+96983520312774506326239578318016984801869478851843\
+85861560789112949495459501737958331952853208805511\
+12540698747158523863050715693290963295227443043557\
+66896648950445244523161731856403098711121722383113\
+62229893423380308135336276614282806444486645238749\
+30358907296290491560440772390713810515859307960866\
+70172427121883998797908792274921901699720888093776\
+65727333001053367881220235421809751254540594752243\
+52584907711670556013604839586446706324415722155397\
+53697817977846174064955149290862569321978468622482\
+83972241375657056057490261407972968652414535100474\
+82166370484403199890008895243450658541227588666881\
+16427171479924442928230863465674813919123162824586\
+17866458359124566529476545682848912883142607690042\
+24219022671055626321111109370544217506941658960408\
+07198403850962455444362981230987879927244284909188\
+84580156166097919133875499200524063689912560717606\
+05886116467109405077541002256983155200055935729725\
+71636269561882670428252483600823257530420752963450'
+
+L = 13
+largest = 0
+i = 0 
+while i &lt; len(digits):
+    # find the next nonzero digit
+    while i &lt; len(digits) and digits[i] == '0':
+        i += 1
+    # find the end of the span of nonzero digits
+    j = i+1
+    while j &lt; len(digits) and digits[j] != '0':
+        j += 1
+    if j-i >= L:
+        # with enough digits, form the initial product
+        product = 1
+        for k in range(i,i+L):
+            product *= int(digits[k])
+        largest = max(largest,product)
+        # slide the product over 1 digit at a time
+        for k in range(i+L,j):
+            product //= int(digits[k-L])
+            product *= int(digits[k])
+            largest = max(largest,product)
+    i = j # start next iteration after what this iteration found
+print(largest)
+</code></pre>
+
+<details><summary>Answer:</summary>23514624000<br />
+The consecutive digits forming this product are: 5576689664895
+(starts with the last 3 digits on the 4th line)</details>
 
 <h2>Problem 9</h2>
 
+<p>
+    <b>Problem:</b> find the product \(abc\) of the unique Pythagorean triple
+    \((a,b,c)\) with \(a+b+c=1000\) and \(a&lt;b&lt;c\).
+</p>
+
+<p>
+    The first way we could do this is choosing \(a,b\) (by brute force), setting
+    \(c=1000-a-b\), and then checking if it is a Pythagorean triple. We can
+    speed this up a little bit with some bounds. Since \(a&lt;b&lt;c\), we have
+    \(1000=a+b+c&gt;3a \Rightarrow a\leq\lfloor1000/3\rfloor\). Similarly,
+    \(1000=a+b+c&gt;a+b&gt;2b \Rightarrow b\leq\lfloor1000/2\rfloor\).
+</p>
+
+<pre><code class="language-python">
+S = 1000
+for a in range(1,1+S//3):
+    for b in range(a+1,1+S//2):
+        c = S - a - b
+        if a*a + b*b == c*c:
+            print(a*b*c)
+</code></pre>
+
+<p>
+    Another method to solve this is by generating and scaling primitive
+    Pythagorean triples, where \(a,b,c\) only have a commmon factor of 1 (if
+    \((a,b,c)\) is a Pythagorean triple, then so is \((da,db,dc)\)).
+</p>
+
+<p>
+    We can generate Pythagorean triples using Euclid's formula described on
+    <a href="https://en.wikipedia.org/wiki/Pythagorean_triple" target="_blank">Wikipedia</a>.
+    We choose integers \(m&gt;n&gt;0\). Then a Pythagorean triple is
+    \(a=m^2-n^2,b=2mn,c=m^2+n^2\) because:
+</p>
+
+\[a^2+b^2=(m^4-2m^2n^2+n^4)+4m^2n^2=m^4+2m^2n^2+n^4=(m^2+n^2)^2=c^2\]
+
+<p>
+    Every primitive triple corresponds to a unique choice of \(m,n\) where they
+    are coprime, one is even, and the other is odd. There is a proof for this
+    on the Wikipedia page. For solving the problem, suppose \(a,b,c\) is a
+    primitive triple and we scale it by a factor \(d\). Then:
+</p>
+
+\[d(a+b+c)=1000=d(m^2-n^2+2mn+m^2+n^2)=2dm(m+n)\]
+
+<p>
+    So we can choose \(m,n\) to partially factor 1000 and then choose \(d\).
+    First, \(m\) must be a factor of \(1000/2\). Our bound for \(m\) can be
+    determined like this:
+</p>
+
+\[1000/2=dm(m+n)\geq m(m+n)&gt;m^2
+\Rightarrow m\leq\left\lfloor\sqrt{1000/2}\right\rfloor\]
+
+<p>
+    Next, we can implement this idea in code:
+</p>
+
+<pre><code class="language-python">
+from math import sqrt,gcd
+
+S = 1000
+assert S % 2 == 0
+
+for m in range(1,1+int(sqrt(S//2))):
+    if (S//2) % m != 0:
+        continue # m must be a factor of S/2
+    n0 = 1 if m % 2 == 0 else 2 # m odd -> n even, m even -> n odd
+    for n in range(n0,m,2):
+        if (S//2//m) % (m+n) != 0:
+            continue # m+n must be a factor of S/(2m)
+        if gcd(m,n) != 1:
+            continue # m,n must be coprime for a primitive triple
+        a = m*m - n*n
+        b = 2*m*n
+        c = m*m + n*n
+        d = S//2//m//(m+n)
+        print(a*b*c * d**3)
+</code></pre>
+
+<details><summary>Answer:</summary>31875000<br />
+The triple is (200,375,425), 25 times the primitive triple (8,15,17)</details>
+
 <h2>Problem 10</h2>
+
+<p>
+    <b>Problem:</b> Find the sum of all primes below 2000000.
+</p>
+
+<p>
+    For this problem, I reuse the sieve of Eratosthenes from problem 7, but make
+    an improvement. Since we need all primes below a given limit, there is no
+    need to estimate a sieve size. This time, to reduce the amount of memory
+    by half, only store odd numbers in the sieve. Index \(i\) in the 0-indexed
+    array represents \(2i+1\). It is not much different from the sieve with
+    every number, but we have to calculate indexes a little. The inner loop goes
+    up skipping even numbers. Finally, remember the missing even prime that is
+    not in the sieve.
+</p>
+
+<p>
+    In general, the sieve of Eratosthenes can be faster and use less memory by
+    excluding numbers divisible by more primes. For example,
+    <a href="https://github.com/kimwalisch/primesieve" target="_blank">primesieve</a>
+    is a fast implementation of the sieve of Eratosthenes that skips multiples
+    of 2, 3, 5, and 7.
+</p>
+
+<pre><code class="language-python">
+L = 2000000
+
+sieve = [True]*(L//2) # index i means number 2*i+1
+sieve[0] = False
+for i in range(1,L//2): # 3 is at index 1
+    inum = 2*i+1
+    if inum*inum >= L:
+        break
+    if not sieve[i]:
+        continue
+    # start at inum*inum and go in increments of
+    # 2*inum because this sieve skips even numbers
+    for jnum in range(inum*inum,L,2*inum):
+        sieve[jnum//2] = False
+
+# remember to include 2 in the sum
+print(2 + sum(2*i+1 for i in range(L//2) if sieve[i]))
+</code></pre>
+
+<p>
+    Note: a total of 148933 primes are summed.
+</p>
+
+<details><summary>Answer:</summary>142913828922</details>
 
 </div>
 </body>
