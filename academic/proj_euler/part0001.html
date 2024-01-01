@@ -18,7 +18,11 @@
 
 <h1>Project Euler</h1>
 
-Written solutions for problems 1-10.
+<p>Written solutions for problems 1-10.</p>
+
+<p>Prev: (none)</p>
+
+<p>Next: <a href="part0011.html">problems 11-20</a></p>
 
 <!-- generate table of contents using h2-h6 tags -->
 <div id="toc"></div>
@@ -161,8 +165,11 @@ while d*d &lt;= n:
     while n % d == 0:
         n //= d
         dmax = max(dmax,d)
+        print(f'factor {d}')
     d += 1
 dmax = max(dmax,n) # if n!=1 it is prime
+if n != 1:
+    print(f'factor {n}')
 print(dmax)
 </code></pre>
 
@@ -190,12 +197,15 @@ The factorization is \(71\cdot839\cdot1471\cdot6857\)</details>
 
 <pre><code class="language-python">
 largest = 0
+p,q = 0,0
 for a in range(100,1000):
     for b in range(100,1000):
         n = a*b
         s = str(n)
         if n > largest and s == s[::-1]:
             largest = n
+            p,q = a,b
+print(f'product {p} * {q}')
 print(largest)
 </code></pre>
 
@@ -210,6 +220,7 @@ print(largest)
 <pre><code class="language-python">
 D = 3
 largest = 0
+p,q = 0,0
 for a in range(10**D-1,10**(D-1)-1,-1):
     if a * (10**D-1) &lt; largest:
         break # stop when a*b cannot exceed largest
@@ -220,6 +231,8 @@ for a in range(10**D-1,10**(D-1)-1,-1):
         s = str(n)
         if s == s[::-1]:
             largest = n
+            p,q = a,b
+print(f'product {p} * {q}')
 print(largest)
 </code></pre>
 
@@ -284,6 +297,7 @@ for p in primes:
     while p**(multiplicity+1) &lt;= n:
         multiplicity += 1
     result *= p**multiplicity
+    print(f'factor {p}^{multiplicity}')
 print(result)
 </code></pre>
 
@@ -657,6 +671,7 @@ for a in range(1,1+S//3):
     for b in range(a+1,1+S//2):
         c = S - a - b
         if a*a + b*b == c*c:
+            print(f'triple ({a},{b},{c})')
             print(a*b*c)
 </code></pre>
 
@@ -716,6 +731,7 @@ for m in range(1,1+int(sqrt(S//2))):
         b = 2*m*n
         c = m*m + n*n
         d = S//2//m//(m+n)
+        print(f'triple {d} * ({a},{b},{c})')
         print(a*b*c * d**3)
 </code></pre>
 
@@ -765,6 +781,7 @@ for i in range(1,L//2): # 3 is at index 1
 
 # remember to include 2 in the sum
 print(2 + sum(2*i+1 for i in range(L//2) if sieve[i]))
+print(f'number of primes is {1 + sum(1 for i in range(L//2) if sieve[i])}')
 </code></pre>
 
 <p>
@@ -772,6 +789,8 @@ print(2 + sum(2*i+1 for i in range(L//2) if sieve[i]))
 </p>
 
 <details><summary>Answer:</summary>142913828922</details>
+
+<div style="height:50vh;"></div><!-- allow scrolling a little past end -->
 
 </div>
 </body>
