@@ -62,15 +62,25 @@ function decryptmsg(msg,key) {
     return new TextDecoder().decode(new Uint8Array(ret));
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    let toc = document.getElementById('toc');
+    if (toc !== null)
+        toc.innerHTML += maketoc();
+    console.log(decryptmsg(_msg,_key));
+});
+
+/*
 window.onload = () => {
     let toc = document.getElementById('toc');
     if (toc !== null)
         toc.innerHTML += maketoc();
     console.log(decryptmsg(_msg,_key));
 };
+*/
 
 // mathjax settings
 window.MathJax = {
+    ...window.MathJax,
     tex: {
         ...window.MathJax.tex,
         inlineMath: [['\\(','\\)']], // \( inline \)
