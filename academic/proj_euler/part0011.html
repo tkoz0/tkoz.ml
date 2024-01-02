@@ -648,7 +648,7 @@ for n in max_len_nums:
     as shown in the image below borrowed from the Project Euler website.
 </p>
 
-<img src="0015.png" style="display:block;margin:0 auto;" />
+<img src="0015.png" />
 
 <p>
     One way is to recursively find all paths, but that is too slow for this
@@ -739,6 +739,118 @@ print(sum(number))
     "one hundred and fifteen")
 </p>
 
+<p>
+    We will look at a programming way to do this by writing a function that
+    generates the word form of numbers. For small numbers, we use a lookup
+    table. Then in the range 20-99, we spit words into 2 parts. For example, 22
+    would be "twenty" and "two" so we take the "twenty" from a lookup table for
+    the tens place and the ones part with the other lookup table. The ones part
+    is nothing when the ones place is 0, so 20 would just by "twenty". For
+    hundreds, we need the words for the hundreds digit followed by "and" and
+    words for the other 2 digits when it is nonzero, which can be done with the
+    work already done. For example, 100 is "one hundred" and 122 is
+    "one hundred and twenty two". For simplicity, we handle the special case of
+    1000 separately.
+</p>
+
+<pre><code class="language-python">
+def word_form(n):
+    if n &lt; 0:
+        return 'negative' + word_form(-n)
+    if n &lt; 20: # use lookup table for small numbers
+        return [
+            'zero', 'one', 'two', 'three', 'four', 'five',
+            'six', 'seven', 'eight', 'nine', 'ten',
+            'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen',
+            'sixteen', 'seventeen', 'eighteen', 'nineteen'
+        ][n]
+    elif n &lt; 100: # 20-99
+        tens,ones = divmod(n,10)
+        ret = [
+            '', '', 'twenty', 'thirty', 'forty', 'fifty',
+            'sixty', 'seventy', 'eighty', 'ninety'
+        ][tens]
+        if ones != 0:
+            ret += word_form(ones)
+        return ret
+    elif n &lt; 1000: # 100-999
+        hundreds,remainder = divmod(n,100)
+        ret = word_form(hundreds) + 'hundred'
+        if remainder != 0:
+            ret += 'and' + word_form(remainder)
+        return ret
+    else:
+        raise Exception('too big')
+
+print(sum(len(word_form(n)) for n in range(1,1000)) + len('onethousand'))
+</code></pre>
+
+<p>
+    We can also solve this by counting. It is a bit tedious, but doable by hand.
+    First, we count the lengths of the numbers 1-19. Below is a table for 1-9
+    and 10-19 separately:
+</p>
+
+<div style="display:flex;">
+<table>
+    <tr><th>number</th><th>word form</th><th>length</th></tr>
+    <tr><td>1</td><td>one</td><td>3</td></tr>
+    <tr><td>2</td><td>two</td><td>3</td></tr>
+    <tr><td>3</td><td>three</td><td>5</td></tr>
+    <tr><td>4</td><td>four</td><td>4</td></tr>
+    <tr><td>5</td><td>five</td><td>4</td></tr>
+    <tr><td>6</td><td>six</td><td>3</td></tr>
+    <tr><td>7</td><td>seven</td><td>5</td></tr>
+    <tr><td>8</td><td>eight</td><td>5</td></tr>
+    <tr><td>9</td><td>nine</td><td>4</td></tr>
+    <tr><th></th><th>total</th><th>36</th></tr>
+</table>
+<table>
+    <tr><th>number</th><th>word form</th><th>length</th></tr>
+    <tr><td>10</td><td>ten</td><td>3</td></tr>
+    <tr><td>11</td><td>eleven</td><td>6</td></tr>
+    <tr><td>12</td><td>twelve</td><td>6</td></tr>
+    <tr><td>13</td><td>thirteen</td><td>8</td></tr>
+    <tr><td>14</td><td>fourteen</td><td>8</td></tr>
+    <tr><td>15</td><td>fifteen</td><td>7</td></tr>
+    <tr><td>16</td><td>sixteen</td><td>7</td></tr>
+    <tr><td>17</td><td>seventeen</td><td>9</td></tr>
+    <tr><td>18</td><td>eighteen</td><td>8</td></tr>
+    <tr><td>19</td><td>nineteen</td><td>8</td></tr>
+    <tr><th></th><th>total</th><th>70</th></tr>
+</table>
+</div>
+
+<p>
+    Next, for each range of 10 numbers (20-29, 30-39, ...), we count the tens
+    word like "twenty" which is used 10 times and each number 1-9.
+</p>
+
+<table>
+    <tr><th>tens word</th><th>length</th><th>letters used</th></tr>
+    <tr><td>twenty</td><td>6</td><td>10&times;6 + 36 = 96</td></tr>
+    <tr><td>thirty</td><td>6</td><td>10&times;6 + 36 = 96</td></tr>
+    <tr><td>forty</td><td>5</td><td>10&times;5 + 36 = 86</td></tr>
+    <tr><td>fifty</td><td>5</td><td>10&times;5 + 36 = 86</td></tr>
+    <tr><td>sixty</td><td>5</td><td>10&times;5 + 36 = 86</td></tr>
+    <tr><td>seventy</td><td>7</td><td>10&times;7 + 36 = 106</td></tr>
+    <tr><td>eighty</td><td>6</td><td>10&times;6 + 36 = 96</td></tr>
+    <tr><td>ninety</td><td>6</td><td>10&times;6 + 36 = 96</td></tr>
+    <tr><th></th><th>total</th><th>748</th></tr>
+</table>
+
+<p>
+    So far we have used 36 + 70 + 748 = 854 letters for numbers 1-99. Now to
+    count the ranges 100-199, 200-299, and so on, we have a few parts. First are
+    the words like "one hundred". We use each single digit (1-9) word 100 times
+    and the word "hundred" 900 times so that is 100&times;36 + 900&times;7 =
+    9900. The word "and" is used 99 times in each of the 9 ranges so that is
+    another 9&times;99&times;3 = 2673 letters. Finally, in each of the 9 ranges
+    we use the words for the numbers 1-99 once each so that is another
+    9&times;854 = 7686 letters. Lastly is "one thousand" with 11 letters. By
+    adding all these together, we get the answer.
+</p>
+
 <details><summary>Answer:</summary>21124</details>
 
 <h2>Problem 18</h2>
@@ -764,10 +876,60 @@ print(sum(number))
 70 11 33 28 77 73 17 78 39 68 17 57<br />
 91 71 52 38 17 14 91 43 58 50 27 29 48<br />
 63 66 04 68 89 53 67 30 73 16 69 87 40 31<br />
-04 62 98 27 23 09 70 98 73 93 38 53 60 04 23
+04 62 98 27 23 09 70 98 73 93 38 53 60 04 23<br />
 </p>
 
-<details><summary>Answer:</summary>1074</details>
+<p>
+    The most obvious solution to this is to try all paths from top to bottom.
+    There is a nicer solution, but we will save that for problem 67 which asks
+    the same thing on a much larger triangle where brute force is too slow. We
+    can do this by recursion. The triangle will be a 2D array with varying row
+    lengths. If we are at position \((r,c)\) in the array, then going down a row
+    we can move to either \((r+1,c)\) or \((r+1,c+1)\). The following code uses
+    a recursive function to try all paths and updates a global variable at the
+    end of each path.
+</p>
+
+<pre><code class="language-python">
+triangle = [
+[75],
+[95,64],
+[17,47,82],
+[18,35,87,10],
+[20, 4,82,47,65],
+[19, 1,23,75, 3,34],
+[88, 2,77,73, 7,63,67],
+[99,65, 4,28, 6,16,70,92],
+[41,41,26,56,83,40,80,70,33],
+[41,48,72,33,47,32,37,16,94,29],
+[53,71,44,65,25,43,91,52,97,51,14],
+[70,11,33,28,77,73,17,78,39,68,17,57],
+[91,71,52,38,17,14,91,43,58,50,27,29,48],
+[63,66, 4,68,89,53,67,30,73,16,69,87,40,31],
+[ 4,62,98,27,23, 9,70,98,73,93,38,53,60, 4,23]]
+
+largestsum = 0
+largestpath = []
+path = [] # path during recursion (stack)
+def recur(r,c):
+    global largestsum,largestpath,path,triangle
+    path.append(triangle[r][c]) # add to path
+    if r == len(triangle)-1: # bottom row
+        if sum(path) > largestsum:
+            largestsum = sum(path)
+            largestpath = path[:]
+    else:
+        recur(r+1,c)
+        recur(r+1,c+1)
+    path.pop() # backtrack
+
+recur(0,0)
+print(f'the path is {largestpath}')
+print(largestsum)
+</code></pre>
+
+<details><summary>Answer:</summary>1074<br />The path is:
+75, 64, 82, 87, 82, 75, 73, 28, 83, 32, 91, 78, 58, 73, 93</details>
 
 <h2>Problem 19</h2>
 
@@ -783,8 +945,29 @@ print(sum(number))
     <li>September, April, June, and November have 30 days</li>
     <li>All other months have 31 days</li>
     <li>Leap years are on any year divisible by 4 except centuries that are not
-        divisible by 100</li>
+        divisible by 400</li>
 </ul>
+
+<p>
+    To solve this, we can begin at 1 Jan 1900 and go up a month at a time. The
+    day of the week can be kept track of with an integer modulo 7. The number of
+    days to go up at each step is calculated by finding the month length.
+</p>
+
+<pre><code class="language-python">
+weekday = 1 # 0 = sunday, 1 = monday, ...
+count = 0
+for y in range(1900,2001):
+    months = [31,28,31,30,31,30,31,31,30,31,30,31]
+    # set february to 29 days if leap year
+    if y % 4 == 0 and not (y % 100 == 0 and y % 400 != 0):
+        months[1] = 29
+    for m in months:
+        if weekday == 0 and 1901 <= y <= 2000:
+            count += 1
+        weekday = (weekday + m) % 7
+print(count)
+</code></pre>
 
 <details><summary>Answer:</summary>171</details>
 
@@ -793,6 +976,39 @@ print(sum(number))
 <p>
     <b>Problem:</b> Find the sum of digits in the number \(100!\).
 </p>
+
+<p>
+    This is straight forward in Python with large integer support and using the
+    factorial function.
+</p>
+
+<pre><code class="language-python">
+from math import factorial
+print(sum(map(int,str(factorial(100)))))
+</code></pre>
+
+<p>
+    For a bit more of a challenge, we can represent a decimal number and
+    repeatedly multiply it which lets us manage large integer arithmetic code.
+    Here is an example where the number is stored as an array of base 10 digits
+    starting from least significant. This method works similar to writing out a
+    row of the grade school multiplication method.
+</p>
+
+<pre><code class="language-python">
+num = [1] # start at 1
+for n in range(1,1+100): # multiply 1,2,..,100
+    carry = 0
+    for i in range(len(num)):
+        tmp = n*num[i] + carry
+        num[i] = tmp % 10
+        carry = tmp // 10
+    # at the end, we may need to append extra digits for carry
+    while carry > 0:
+        num.append(carry % 10)
+        carry //= 10
+print(sum(num))
+</code></pre>
 
 <details><summary>Answer:</summary>648</details>
 
