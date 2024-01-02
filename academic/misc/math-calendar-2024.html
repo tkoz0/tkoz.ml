@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Math Calendar 2024</title>
+    <link rel="stylesheet" type="text/css" href="/mathstyles.css" />
+    <script type="text/javascript">
+        window.MathJax = { tex: { macros: {
+        }}};
+    </script>
+    <script type="text/javascript" src="/mathscripts.js"></script>
+</head>
+<body>
+<div id="root">
+
+<h1>Math Calendar 2024</h1>
+
+<div id="toc"></div>
+
+<h2>January</h2>
+
+<h3>Jan 01</h3>
+
+Some wack geometry problem with circles.
+
+<h3>Jan 02</h3>
+
+\[\left(\sum_{n=1}^\infty\frac{1}{(2n-1)(2n+1)}\right)^{-1}\]
+
+<p>
+    We'll evaluate the inner summation first. By partial fractions, we solve:
+</p>
+
+\[\begin{align}
+\frac{A}{2n-1}+\frac{B}{2n+1}&=\frac{1}{(2n-1)(2n+1)}\\
+A(2n+1)+B(2n-1)&=1\\
+(2A+2B)n+(A-B)&=1\\
+\Rightarrow A=\frac{1}{2},B=-\frac{1}{2}
+\end{align}\]
+
+<p>
+    Now we rewrite the inner summation:
+</p>
+
+\[\begin{align}
+&\sum_{n=1}^\infty\frac{1}{(2n-1)(2n+1)}=\sum_{n=1}^\infty\left(
+    \frac{1}{4n-2}-\frac{1}{4n+2}\right)\\
+&=\left(\frac{1}{2}-\frac{1}{6}\right)+\left(\frac{1}{6}-\frac{1}{10}\right)
++\left(\frac{1}{10}-\frac{1}{14}\right)+\left(\frac{1}{14}-\frac{1}{18}\right)
++\ldots\\
+&=\lim_{n\to\infty}\left(\frac{1}{2}-\frac{1}{4n+2}\right)=\frac{1}{2}
+\end{align}\]
+
+<p>
+    Then we take the \(-1\)th power of this to get the answer: \(2\).
+</p>
+
+</div>
+</body>
+</html>
