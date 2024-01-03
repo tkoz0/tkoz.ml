@@ -54,6 +54,98 @@ A(2n+1)+B(2n-1)&=1\\
     Then we take the \(-1\)th power of this to get the answer: \(2\).
 </p>
 
+<h3>Jan 03</h3>
+
+\[4^x+5^x+6^x=405\]
+
+<p>
+    If we are concerned with only \(x\in\mathbb{R}\), then the problem is
+    simple. The left side \(4^x+5^x+6^x\) is a differentiable and strictly
+    increasing function (because the derivative is strictly positive
+    everywhere), so there can only be one solution if it exists. Using a little
+    "big brain" reasoning, we try \(x=3\) and find that it works. This is the
+    only solution for \(x\in\mathbb{R}\). If there were 2 solutions, then the
+    mean value theorem would require the left side has a 0 derivative somewhere,
+    which cannot happen.
+</p>
+
+<p>
+    But the problem never specified the domain. What if \(x\in\mathbb{C}\)? The
+    problem can get a whole lot harder. The function is holomorphic so we can
+    apply Newton's method to find solutions of \(4^x+5^x+6^x-405=0\). I wrote
+    the following Python code to utilize floating point operations on complex
+    numbers for implementing Newton's method:
+</p>
+
+<pre><code>
+import sys
+from cmath import log,exp
+#f  = lambda x: 4**x + 5**x + 6**x - 405
+#fp = lambda x: (4**x)*log(4) + (5**x)*log(5) + (6**x)*log(6)
+f  = lambda x: exp(x*log(4)) + exp(x*log(5)) + exp(x*log(6)) - 405
+fp = lambda x: exp(x*log(4))*log(4) + exp(x*log(5))*log(5) + exp(x*log(6))*log(6)
+
+x = float(sys.argv[1])
+y = float(sys.argv[2])
+z0 = x + y*1j
+print(z0)
+
+z = z0
+i = 0
+while True:
+    i += 1
+    zz = z - f(z)/fp(z)
+    print(f'iter {i} {zz} {abs(zz-z)/abs(z)}')
+    if abs(zz-z)/abs(z) &lt; 2**-50:
+        break
+    z = zz
+print(z,f(z))
+</code></pre>
+
+<p>
+    By playing around with different values for the initial point, I was able
+    to find the following estimates of some other zeroes:
+</p>
+
+<ul>
+    <li>3.5017972508541466 - 10.71742884439549j</li>
+    <li>3.9253089239469547 - 52.65729631941949j</li>
+    <li>3.2142772380749354 - 70.16812321327346j</li>
+    <li>3.521872497531317 - 297.9333406366225j</li>
+    <li>3.327958222698801 - 7.338622689733879j</li>
+    <li>3.7436003721508793 - 20.88776322477031j</li>
+    <li>3.5994514995153435 + 157.77281528568807j</li>
+    <li>3.7436003721508793 + 20.88776322477031j</li>
+    <li>3.0907926449072503 + 3.738836066672608j</li>
+    <li>3.1002647381284145 + 35.195697916288744j</li>
+    <li>3.5942060942475123 + 17.654225129058005j</li>
+    <li>3.0536063750753657 - 168.1095063661735j</li>
+    <li>3.0907926449072507 - 3.738836066672608j</li>
+    <li>3.0964894133277245 - 62.98121964842654j</li>
+    <li>3.4927339968551534 - 14.139728883610228j</li>
+    <li>3.246294012452595 - 98.0855545958108j</li>
+    <li>3.211459534981861 - 4832.391314588924j</li>
+    <li>3.1835148099730293 - 4832586.50315164j</li>
+    <li>3.076487229266584 - 5999999999.500303j</li>
+</ul>
+
+<p>
+    Since \(b^{x+iy}=e^{\ln(b)(x+iy)}=e^{x\ln(b)}e^{iy\ln(b)}\), the complex
+    coordinate of the start point only affects angles of each exponent term,
+    not magnitude. Based on my experimentation, it looks like all these
+    solutions may have a real part a bit bigger than 3, and varying imaginary
+    parts. The Newton's method iteration seemed to fail when trying near any
+    other part of the complex plane. This result is entirely experimental and
+    not a proof of any sort. It seems plausible that we may be able to choose
+    almost any \(y\) value that distributes the angles around just right so we
+    can rescale by adjusting \(x\) so we get a solution, but it is hard to say.
+    Newton's method suggests there are many more zeroes if we extend solutions
+    to the complex plane.
+</p>
+
+<!-- allow scroll past end a bit -->
+<div style="height:50vh;"></div>
+
 </div>
 </body>
 </html>
