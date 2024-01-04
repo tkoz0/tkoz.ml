@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Euler</title>
+    <link rel="stylesheet" type="text/css" href="/mathstyles.css" />
+    <link rel="stylesheet" type="text/css" href="/prismjs/proj_euler.css" />
+    <script type="text/javascript">
+        window.MathJax = { tex: { macros: {
+            red: ['{\\color{red}#1}',1],
+            lcm: '\\text{lcm}'
+        }}};
+    </script>
+    <script type="text/javascript" src="/mathscripts.js"></script>
+    <script type="text/javascript" src="/prismjs/proj_euler.js"></script>
+</head>
+<body>
+<div id="root">
+
+<h1>Project Euler</h1>
+
+<p>Written solutions for problems 21-30.</p>
+
+<p>Prev: <a href="part0011.html">problems 11-20</a></p>
+
+<p>Next: (coming soon)</p>
+
+<!-- generate table of contents using h2-h6 tags -->
+<div id="toc"></div>
+
+<h2>Problem 21</h2>
+
+<p>
+    <b>Problem:</b> Let \(d(n)\) be the sum of divisors of \(n\) smaller than
+    \(n\) for \(n>0\). Two numbers \(a\neq b\) are amicable if \(d(a)=b\) and
+    \(d(b)=a\). Find the sum of all amicable numbers below 10000.
+</p>
+
+<p>
+    This can be done be done by brute force, but we will focus on a better
+    method for this problem after discussing ways to sum divisors. Let
+    \(n=p_1^{a_1}p_2^{a_2}\ldots\) be a prime factorization. In a previous
+    problem, we showed that we can count divisors as \((a_1+1)(a_2+1)\ldots\).
+    We can sum divisors similarly. If we write out the product
+    \((1+p_1+p_1^2+\ldots+p_1^{a_1})(1+p_2+p_2^2+\ldots+p_2^{a_2})\ldots\) then
+    we can see after distributing, each term will be a divisor. We select an
+    acceptable power of each prime factor to form a divisor, and sum them all
+    together. The only thing to be careful of here is that it also counts \(n\),
+    and \(d(n)\) as given does not, so we just subtract \(n\). We can also sum
+    divisors with a loop up to \(\lfloor\sqrt{n}\rfloor\), similar to a method
+    we looked at for counting them in a previous problem.
+</p>
+
+<p>
+    So now that we understand how we could do this by brute force, we can focus
+    on a faster method. Since the numbers we are concerned with are consecutive,
+    we can use something like the sieve of Eratosthenes. Instead of marking
+    primality, we sum the divisors. We start at 2, then add it to the counters
+    for 4, 6, 8, and so on since 2 is a proper divisor of those. Then for 3, we
+    add 3 to the counter for 6, 9, 12, and so on. This goes on up to half of our
+    limit.
+</p>
+
+<p>
+    An additional consideration for the sieve is to go past the limit of 10000
+    because there are going to be quite a few highly divisible numbers with a
+    divisor sum greater than itself. If we sieve considerably bigger, we avoid
+    having to perform a more expensive calculation to sum divisors for as many
+    numbers. For the code here, we sieve to 1.5 times the limit. In the case
+    that the divisor sum goes above the sieve limit, we utilize another function
+    to sum divisors.
+</p>
+
+<pre><code class="language-python">
+def sum_divisors(n):
+    total = 0
+    d = 1
+    while d*d &lt; n:
+        if n % d == 0:
+            total += d
+            total += n//d
+        d += 1
+    if d*d == n: # perfect square
+        total += d
+    return total
+
+L = 10000
+Ls = 15000 # sieve limit
+sieve = [1]*(Ls) # 1 divides everything so start with this
+sieve[0] = sieve[1] = 0
+for d in range(2,L):
+    # add d to indexes for 2*d,3*d,...
+    for n in range(2*d,Ls,d):
+        sieve[n] += d
+# search for amicable pairs
+total = 0
+for a in range(2,L):
+    b = sieve[a]
+    if b &lt;= a:
+        continue # require a &lt; b to avoid counting twice
+    # make sure sieve[b] = a (if b is small enough)
+    # if b is not in our sieve, we have to sum its divisors
+    if b &lt; Ls:
+        if sieve[b] != a:
+            continue # not an amicable pair
+    elif sum_divisors(b) - b != a:
+        continue # not amicable pair
+    print(f'pair {a} {b}')
+    total += a
+    if b &lt; L: # only include a if b is above limit
+        total += b
+print(total)
+</code></pre>
+
+<details><summary>Answer:</summary>31626<br />
+The amicable pairs are (220,284), (1184,1210), (2620,2924), (5020,5564),
+(6232,6368)</details>
+
+<h2>Problem 22</h2>
+
+<p>
+    <b>Problem:</b> use the names in
+    <a href="data_files/0022_names.txt" target="_blank">names.txt</a>,
+    sort it into alphabetical order and then sum values computed for each name.
+    For each name, sum its letter values (A=1, B=2, ..., Z=26) and then multiply
+    the total by its position in the list (1-indexed).
+</p>
+
+<p>
+    This problem isn't as mathy as a lot of the others. The main part is sorting
+    the list, which can get interesting if we cover sorting algorithms. They are
+    explored in depth so much elsewhere that we won't repeat that here and will
+    just use the builtin sort function in Python.
+</p>
+
+<pre><code class="language-python">
+file = open('0022_names.txt','r')
+data = file.read()
+# separate names into a list
+data = data.split(',')
+# remove the quotes
+data = [s[1:-1] for s in data]
+# sort
+data.sort()
+
+def name_value(s):
+    return sum(1+ord(c)-ord('A') for c in s)
+
+print(sum((i+1)*name_value(name) for i,name in enumerate(data)))
+</code></pre>
+
+<details><summary>Answer:</summary>871198282</details>
+
+<h2>Problem 23</h2>
+
+<p>
+    <b>Problem:</b> A number \(n\) is abundant if the sum of its divisors less
+    than \(n\) is larger than \(n\). All integers greater than 28123 are the sum
+    of 2 abundant numbers. Find the sum of all positive integers which are not
+    the sum of 2 abundant numbers.
+</p>
+
+<p>
+    First we find all abundant numbers by summing divisors. This can be sped up
+    a bit by observing that in \(n\) is abundant, then \(an\) is abundant for
+    any positive integer \(a\) because if \(d|n\) then \(ad|an\) so the sum of
+    divisors of \(an\) is at least \(a\) times the sum of divisors of \(n\).
+</p>
+
+<p>
+    Next we collect the abundant numbers into a list and use a double loop to
+    find all possible numbers up to 28123 which are the sum of 2 abundant
+    numbers. From here, we just have to sum the ones which were not possible to
+    create by adding 2 of the abundant numbers.
+</p>
+
+<pre><code class="language-python">
+def sum_divisors(n):
+    total = 0
+    d = 1
+    while d*d &lt; n:
+        if n % d == 0:
+            total += d
+            total += n//d
+        d += 1
+    if d*d == n: # perfect square
+        total += d
+    return total
+
+L = 28123
+abundant = [False]*(L+1)
+for n in range(1,L+1):
+    # only consider unmarked numbers for possible abundance
+    if not abundant[n] and sum_divisors(n) - n &gt; n:
+        for m in range(n,L+1,n):
+            abundant[m] = True
+
+# make a list of abundant numbers and double loop for sums
+abundantlist = [i for i in range(L+1) if abundant[i]]
+print(f'abundant number list has {len(abundantlist)} numbers')
+abundantsum = [False]*(L+1)
+for i in range(len(abundantlist)):
+    for j in range(i,len(abundantlist)):
+        # check bound to terminate inner loop early
+        s = abundantlist[i] + abundantlist[j]
+        if s &gt; L:
+            break
+        abundantsum[s] = True
+
+nonabundantsums = [i for i in range(L+1) if not abundantsum[i]]
+print(f'largest non abundant sum number is {max(nonabundantsums)}')
+print(sum(nonabundantsums))
+</code></pre>
+
+<p>
+    Note: there is a proof that all integers greater than 28123 are the sum of
+    2 abundant numbers
+    <a href="https://mathschallenge.net/view/sum_of_two_abundant_numbers" target="_blank">here</a>.
+    This bound can be lowered to 20161 as stated on
+    <a href="https://en.wikipedia.org/wiki/Abundant_number" target="_blank">Wikipedia</a>.
+    The code finds 6965 abundant numbers and confirms the result stated on
+    Wikipedia.
+</p>
+
+<details><summary>Answer:</summary>4179871</details>
+
+<h2>Problem 24</h2>
+
+<p>
+    <b>Problem:</b> What is the 1000000th lexicographic permutation of the
+    digits 0-9?
+</p>
+
+<p>
+    Since there are only 10 digits and \(10!=3628800\), we could list all
+    permutations and sort them, but there are more clever methods. Here is the
+    very basic solution which utilizes the permutations function in Python:
+</p>
+
+<pre><code class="language-python">
+from itertools import permutations
+index = 1000000
+perms = list(permutations('0123456789'))
+print(''.join(perms[index-1]))
+</code></pre>
+
+<p>
+    We can reduce the memory requirement by generating the permutations in
+    order. This can be done recursively by selecting digits in order:
+</p>
+
+<pre><code class="language-python">
+digits = set('0123456789')
+I = 1000000
+index = 0
+def recur(perm):
+    global index,digits
+    if len(digits) == 0: # selected all 10 in some order
+        index += 1
+        if index == I:
+            print(perm)
+    elif index >= I: # terminate early
+        return
+    else:
+        for d in sorted(digits):
+            digits.remove(d) # select a digit
+            recur(perm+d)
+            digits.add(d) # backtrack
+recur('')
+</code></pre>
+
+<p>
+    Another way is to use an algorithm for advancing a permutation to the next,
+    which also has low memory requirements. We start with the lowest permutation
+    and then repeat the following to increment it to the next permutation:
+</p>
+
+<ol>
+    <li>
+        Identify all contiguous items at the end that are in reverse order. If
+        this is all of them, then we are at the lexicographically highest
+        permutation. Let \(i\) be the index 1 before this section. For examaple,
+        if we had \(4,2,5,3,1\), then we would have \(i=1\) (0-indexing) because
+        the digits after it \(5,3,1\) are decreasing and we cannot extend this
+        further.
+    </li>
+    <li>
+        Find the smallest item past index \(i\) which is lexicographically
+        larger than \(i\). There will exist one because of how we chose \(i\).
+        If item \(i\) were larger than the others, we could extend the
+        contiguous decreasing part which means we would have chosen \(i\) to be
+        smaller in step 1. Let this other item be at index \(j\). Swap the items
+        at indexes \(i,j\).
+    </li>
+    <li>
+        After swapping \(i,j\), everything after index \(i\) will still be in
+        decreasing order. So what we have done is increase \(i\) to the next
+        item because we can't go to a lexicographically higher permutation by
+        rearranging the items after it. Next, we reorder the items after index
+        \(i\) to increasing order, which is simply reversing the order of them.
+    </li>
+</ol>
+
+<pre><code class="language-python">
+digits = list('0123456789')
+I = 1000000
+index = 1
+while index &lt; I: # loop to advance permutation
+    # decrease i until the digits stop increasing
+    i = len(digits)-1
+    while i != 0 and digits[i-1] &gt;= digits[i]:
+        i -= 1
+    # choose i to be 1 before this
+    i -= 1
+    if i == -1: # the permutation is lexicographically highest
+        break
+    # choose digits[j] to be the smallest digit after digits[i]
+    j = len(digits)-1
+    while digits[j] &lt;= digits[i]:
+        j -= 1
+    # swap these indexes
+    digits[i],digits[j] = digits[j],digits[i]
+    # finally, reverse the order of everything after index i
+    i += 1
+    j = len(digits)-1
+    while i &lt; j:
+        digits[i],digits[j] = digits[j],digits[i]
+        i += 1
+        j -= 1
+    index += 1
+print(''.join(digits))
+</code></pre>
+
+<p>
+    Finally, we can do this with combinatorics. It's a little easier since the
+    digits are unique. Furthermore, this is a small enough amount of work that
+    it can be done by hand. What is the first digit of the answer? If it is 0,
+    then we only have permutations 1 through \(9!=362880\) possible, not enough
+    to reach 1000000. If the first digit is 1, then the next \(9!\) permutations
+    are possible, still not enough. The first digit must be 2 because
+    permutations \(2\times9!+1\) through \(3\times9!\) are possible, which
+    includes 1000000. So we choose 2 as the first digit and repeat this method
+    to determine which digit should be the 2nd. It turns out to be 7, which
+    gives us a permutation index range of \(2\times9!+6\times8!+1\) through
+    \(2\times9!+7\times8!\). Below is a table showing the work:
+</p>
+
+<table>
+    <tr>
+        <th>step</th>
+        <th>digit chosen</th>
+        <th>remaining digits</th>
+        <th>lowest index</th>
+        <th>highest index</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>013456789</td>
+        <td>\(2\times9!+1=725761\)</td>
+        <td>\(3\times9!=1088640\)</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>7</td>
+        <td>01345689</td>
+        <td>\(2\times9!+6\times8!+1=967681\)</td>
+        <td>\(2\times9!+7\times8!=1008000\)</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>8</td>
+        <td>0134569</td>
+        <td>997921</td>
+        <td>1002960</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>3</td>
+        <td>014569</td>
+        <td>999361</td>
+        <td>1000080</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>9</td>
+        <td>01456</td>
+        <td>999961</td>
+        <td>1000080</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>1</td>
+        <td>0456</td>
+        <td>999985</td>
+        <td>1000008</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>5</td>
+        <td>046</td>
+        <td>999997</td>
+        <td>1000002</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>4</td>
+        <td>06</td>
+        <td>999999</td>
+        <td>1000000</td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td>6</td>
+        <td>0</td>
+        <td>1000000</td>
+        <td>1000000</td>
+    </tr>
+</table>
+
+<p>
+    Repeating the steps over and over, we can choose the digits and narrow the
+    permutation index range until we have the right one. To automate this in
+    code, at each step we would look at how many jumps of size (number of
+    remaining digits) factorial to take.
+</p>
+
+<details><summary>Answer:</summary>2783915460</details>
+
+<h2>Problem 25</h2>
+
+<p>
+    <b>Problem:</b> Find the index of the first Fibonacci number to have 1000
+    digits.
+</p>
+
+<p>
+    The brute force way is to calculate the Fibonacci sequence and test the
+    length of the numbers until we get 1000 digits. Here is an example that
+    keeps track of the last 2 numbers as arrays starting with least significant
+    digit.
+</p>
+
+<pre><code class="language-python">
+L = 1000
+a = [0]
+b = [1]
+i = 1 # represents the fibonacci index of b
+while len(b) &lt; L:
+    # add b to a (a &lt; b is maintained)
+    # this is for the step a,b -&gt; b,a+b
+    j = 0
+    c = 0 # carry
+    while j &lt; len(a): # add to existing elements of a
+        a[j] += b[j] + c
+        if a[j] &gt;= 10: # determine carry
+            a[j] -= 10
+            c = 1
+        else:
+            c = 0
+        j += 1
+    while j &lt; len(b): # if b is longer, a grows
+        a.append(b[j] + c)
+        if a[j] &gt;= 10:
+            a[j] -= 10
+            c = 1
+        else:
+            c = 0
+        j += 1
+    if c != 0: # carry extends length of 1
+        a.append(c)
+    # swap to maintain a &lt; b (a,b -&gt; b,a+b)
+    a,b = b,a
+    i += 1
+print(i)
+</code></pre>
+
+<p>
+    Another way is using the closed form formula for Fibonacci numbers which is:
+</p>
+
+\[F_n=\frac{\phi^n-(1-\phi)^n}{\sqrt{5}}
+=\frac{\phi^n-(-1)^n\phi^{-n}}{\sqrt{5}}
+=\frac{\phi^n}{\sqrt{5}}-\frac{(-1)^n\phi^{-n}}{\sqrt{5}}\]
+
+<p>
+    Where \(\phi=\frac{1+\sqrt{5}}{2}\) is the golden ratio. Since \(10^{999}\)
+    has 1000 digits, we need to look for \(n\) so that
+    \(\log_{10}(F_n)\geq999\). We also observe that \(F_n\) is the closest
+    integer to \(\phi^n/\sqrt{5}\) since the other part has absolute value
+    smaller than \(1/2\) for any \(n\geq0\). If we assume
+    \(F_n=\phi^n/\sqrt{5}\) for simplicity, we need to solve the following
+    equation:
+</p>
+
+\[\begin{align}
+&\frac{\phi^n}{\sqrt{5}}\geq10^{999} \Rightarrow
+n\log_{10}(\phi)-\frac{1}{2}\log_{10}(5)\geq999 \\
+&\Rightarrow n\geq\frac{999+\frac{1}{2}\log_{10}(5)}{\log_{10}(\phi)}
+\approx4781.859... \\
+\end{align}\]
+
+<p>
+    This shows that \(\phi^{4782}/\sqrt{5}\) is 1000 digits while
+    \(\phi^{4781}/\sqrt{5}\) is 999 digits. The base 10 logarithm of the former
+    is \(999.029...\) and of the latter is \(998.820...\). We can be certain
+    that rounding \(\phi^n/\sqrt{5}\) to the nearest integer does not change the
+    number of digits in these numbers.
+</p>
+
+<details><summary>Answer:</summary>4782</details>
+
+<h2>Problem 26</h2>
+
+<p>
+    <b>Problem:</b> Find the positive integer \(d&lt;1000\) for which the
+    decimal expansion of \(1/d\) contains the longest repeating cycle.
+</p>
+
+<p>
+    When doing long division, we start with the \(1\) and have divisor \(d>1\).
+    First we write a \(0\), leaving remainder of \(1\) since we try to divide
+    \(1\) by \(d\) to determine this digit. At each step, we determine the next
+    digit by bringing down a \(0\), so we multiply the remainder by \(10\), then
+    divide it by \(d\). At each step, we are keeping track of a remainder from
+    division by \(d\).
+</p>
+
+<p>
+    The next digit can be determined only from the remainder at the previous
+    step. Multiply by \(10\), divide by \(d\), and keep the remainder. If the
+    remainder reaches \(0\) at some point, the result is not periodic. If it
+    does not, then it must cycle with length at most \(d-1\). We could keep
+    track of these remainders for up to \(d\) digits in the answer, and know a
+    cycle exists at that point, which we can find by going back from the end
+    until finding an identical remainder.
+</p>
+
+<p>
+    A further optimization would be to try starting from the largest \(d=999\)
+    and work down. If we have found longest cycle length of \(l\), then we can
+    stop once \(d\leq l\) since the longest possible cycle is \(d-1\).
+</p>
+
+<pre><code class="language-python">
+L = 1000
+num = 1 # number generating longest cycle
+cycle = 0 # longest cycle length
+rems = [0]*L # track remainders in iteration
+#for d in range(2,L): # loop increasing
+for d in range(L-1,1,-1): # loop decreasing
+    if d &lt;= cycle: # cycle cannot be longer than d-1
+        break
+    rems[0] = 1
+    i = 1
+    while i &lt; d: # generate remainder sequence
+        rems[i] = (10*rems[i-1]) % d
+        if rems[i] == 0:
+            break # not cyclic
+        i += 1
+    if i &lt; d: # stopped early because result is not cyclic
+        continue
+    # find the start point of the cycle
+    i -= 1 # end index
+    j = i-1
+    while rems[j] != rems[i]:
+        j -= 1
+    if i-j &gt; cycle:
+        print(f'cycle {i-j} with d={d}')
+        num = d
+        cycle = i-j
+print(num)
+</code></pre>
+
+<details><summary>Answer:</summary>983<br />
+The cycle length is 982</details>
+
+<h2>Problem 27</h2>
+
+<p>
+    <b>Problem:</b> Consider quadratic functions \(n^2+an+b\) with
+    \(|a|&lt;1000\) and \(|b|\leq1000\). Find the product \(ab\) for the choice
+    of \(a,b\) that maximizes the number of consecutive primes it generates for
+    \(n=0,n=1,\ldots\).
+</p>
+
+<p>
+    Since we will be trying many functions and testing primality over and over
+    again for repeated small numbers, it makes sense to cache primes for lookup.
+    It is hard to say how many would be a good amount. It may even be helpful to
+    adjust the cache size during runtime depending on how high the primes get.
+    For simplicity, we will cache primes below 10000 for this problem. Small
+    enough numbers will get tested for primality with a sieve and larger numbers
+    will get a regular prime test.
+</p>
+
+<p>
+    We can observe that \(f(0)=b\) must be prime as well as \(f(1)=1+a+b\).
+    Optimizing based on this won't help that much though since functions that
+    don't start with a prime would be skipped as soon as the first number is
+    checked. Other than caching some primes, the rest is fairly straight forward
+    brute force.
+</p>
+
+<pre><code class="language-python">
+A = 999
+B = 1000
+S = 10000 # prime cache
+
+# sieve of eratosthenes
+sieve = [True]*S
+sieve[0] = sieve[1] = False
+for i in range(2,S):
+    if i*i &gt;= S:
+        break
+    if not sieve[i]:
+        continue
+    for j in range(i*i,S,i):
+        sieve[j] = False
+
+# check primality using the sieve for small numbers
+def prime(n):
+    global S,sieve
+    if n &lt; 0:
+        return False
+    elif n &lt; S:
+        return sieve[n]
+    else:
+        if n % 2 == 0:
+            return False
+        d = 3
+        while d*d &lt;= n:
+            if n % d == 0:
+                return False
+            d += 2
+        return True
+
+xmax = 40
+amax = 1
+bmax = 41
+
+# loop b first over positive numbers since b must be prime
+for b in range(2,B+1):
+    if not prime(b):
+        continue
+    # 1+a+b must be prime so restrict the range for a
+    # use a+b &gt; 0 -&gt; a &gt; -b
+    for a in range(max(-A,-b),A+1,1):
+        if not prime(1+a+b):
+            continue
+        f = lambda n : n*n + a*n + b
+        x = 2
+        while prime(f(x)):
+            x += 1
+        if x &gt; xmax: # new better quadratic
+            print(f'found a={a},b={b} wih {x} primes')
+            xmax,amax,bmax = x,a,b
+print(amax*bmax)
+</code></pre>
+
+<details><summary>Answer:</summary>-59231<br />
+The function is \(f(n)=n^2-61x+971\)</details>
+
+<h2>Problem 28</h2>
+
+<p>
+    <b>Problem:</b> Find the sum of the diagonal numbers on a \(1001\times1001\)
+    spiral formed like the one below:
+</p>
+
+<pre style="text-align:center;">
+21 22 23 24 25
+20  7  8  9 10
+19  6  1  2 11
+18  5  4  3 12
+17 16 15 14 13
+</pre>
+
+<p>
+    The spiral is formed by starting at 1 in the center (1x1 spiral). Then we
+    get to the next 4 corners by adding 2 4 times (3x3 spiral). Then we add 4
+    4 times to get the corners completing the 5x5 spiral. This repetitive
+    procedure can get us the answer with some simple code:
+</p>
+
+<pre><code class="language-python">
+S = 1001
+size = 1
+step = 2
+diagsum = 1
+number = 1
+while size &lt; S:
+    size += 2
+    # add the 4 corner numbers
+    for _ in range(4):
+        number += step
+        diagsum += number
+    step += 2
+print(diagsum)
+</code></pre>
+
+<p>
+    It turns out we can find a closed form solution for this. Let \(x=1\) for
+    the 3x3 ring, \(x=2\) for the 5x5 ring, and so on. Then for some \(x\),
+    the corners of the \((2x+1)\times(2x+1)\) ring would be \((2x+1)^2-2xa\)
+    for \(a=0,1,2,3\). Adding these 4, we have \(4(2x+1)^2-12x=16x^2+4x+4\). So
+    we would sum this from \(x=1\) (3x3) to \(x=500\) (1001x1001) and add the
+    1 in the center to get the answer. Here is the formula in terms of \(S\),
+    the largest \(x\) for the spiral of variable size.
+</p>
+
+\[\begin{align}
+&1+\sum_{x=1}^S\left(16x^2+4x+4\right)
+=1+\frac{8S(S+1)(2S+1)}{3}+2S(S+1)+4S\\
+&=1+\frac{S}{3}\left(8(S+1)(2S+1)+6(S+1)+12\right)
+=1+\frac{S}{3}(16S^2+30S+26)
+\end{align}\]
+
+<details><summary>Answer:</summary>669171001</details>
+
+<h2>Problem 29</h2>
+
+<p>
+    <b>Problem:</b> How many distinct values of \(a^b\) are there for integers
+    \(2\leq a,b\leq100\)?
+</p>
+
+<p>
+    In Python, with large integer support, we see that \(100^{100}\) isn't too
+    big and there are only \(99^2\) values so we can do this with one line where
+    we use a set to eliminate duplicates:
+</p>
+
+<pre><code class="language-python">
+print(len(set(a**b for a in range(2,101) for b in range(2,101))))
+</code></pre>
+
+<p>
+    Without large integer support, we can use exponent properties. Rewrite each
+    \(a^b\) as \((n^p)^b=n^{bp}\) by choosing the smallest integer \(n\)
+    possible so we have a "canonical form" of each value. For example, we would
+    use \(2^{32}\) instead of \(4^{16}\) and \(7^{18}\) instead of \(49^9\).
+    The following code first creates the power rewriting representation for each
+    number (the \(n^p\) described), then generates the "canonical form" for all
+    possible \(a^b\) and uses a set to remove duplicates.
+</p>
+
+<pre><code class="language-python">
+L = 100
+# express each integer 2,3,..,L as an integer power
+intpow = [(n,1) for n in range(L+1)]
+p = 2
+while 2**p &lt;= L:
+    n = 2
+    while n**p &lt;= L:
+        intpow[n**p] = (n,p)
+        n += 1
+    p += 1
+# make set of (a,b) pairs with a reduced to smallest possible integer
+values = set()
+for a in range(2,L+1):
+    for b in range(2,L+1):
+        # rewrite a^b as n^(bp) using a=n^p
+        n,p = intpow[a]
+        values.add((n,b*p))
+print(len(values))
+</code></pre>
+
+<p>
+    It would also be possible to do this without the extra memory of a set by
+    checking alternative representations to see if any others exist and only
+    counting it for the representation with the smallest base.
+</p>
+
+<details><summary>Answer:</summary>9183</details>
+
+<h2>Problem 30</h2>
+
+<p>
+    <b>Problem:</b> Find the sum of all numbers equal to the sum of 5th powers
+    of their digits. (Exclude 1 since \(1^5\) is not a sum.)
+</p>
+
+<p>
+    The first thing we need here is an upper bound. For \(n\) digit numbers, the
+    largest sum we can form is \(n\times9^5\). If we have 7 digit numbers, then
+    \(7\times9^5&lt;10^6\) so the sum of 5th powers could not even reach the
+    smallest 7 digit number. So 6 digits is a bound on length. The largest sum
+    we could get with 6 digits is \(6\times9^5=354294\) so we can use this as
+    our upper bound. Finally, we can cache the 5th powers to save some
+    calculation time and use this brute force solution:
+</p>
+
+<pre><code class="language-python">
+pow5 = [d**5 for d in range(10)]
+total = 0
+for n in range(10,6*(9**5)+1):
+    powsum = sum(pow5[int(d)] for d in str(n))
+    if n == powsum:
+        total += n
+        print(f'found {n}')
+print(total)
+</code></pre>
+
+<details><summary>Answer:</summary>443839<br />
+The numbers are 4150, 4151, 54748, 92727, 93084, 194979</details>
+
+<div style="height:50vh;"></div><!-- allow scrolling a little past end -->
+
+</div>
+</body>
+</html>

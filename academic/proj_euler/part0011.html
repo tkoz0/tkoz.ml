@@ -22,7 +22,7 @@
 
 <p>Prev: <a href="part0001.html">problems 1-10</a></p>
 
-<p>Next: (coming soon)</p>
+<p>Next: <a href="part0021.html">problems 21-30</a></p>
 
 <!-- generate table of contents using h2-h6 tags -->
 <div id="toc"></div>
@@ -963,7 +963,7 @@ for y in range(1900,2001):
     if y % 4 == 0 and not (y % 100 == 0 and y % 400 != 0):
         months[1] = 29
     for m in months:
-        if weekday == 0 and 1901 <= y <= 2000:
+        if weekday == 0 and 1901 &lt;= y &lt;= 2000:
             count += 1
         weekday = (weekday + m) % 7
 print(count)
