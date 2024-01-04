@@ -143,6 +143,57 @@ print(z,f(z))
     to the complex plane.
 </p>
 
+<h3>Jan 04</h3>
+
+\[\begin{align}
+&\sqrt{2\sqrt{4\sqrt{8\sqrt{16\ldots}}}}
+=2^{1/2}\sqrt[4]{4\sqrt{8\sqrt{16\ldots}}}
+=2^{1/2}4^{1/4}\sqrt[8]{8\sqrt{16\ldots}}\\
+&=2^{1/2}4^{1/4}8^{1/8}\sqrt{16\ldots}
+=2^{1/2}2^{2/4}2^{3/8}2^{4/16}\ldots
+=2^{\sum_{n=1}^\infty n/2^n}
+\end{align}\]
+
+<p>
+    Now we focus on the summation on the exponent.
+</p>
+
+\[\begin{align}
+&\sum_{n=1}^\infty\frac{n}{2^n}=\sum_{n=1}^\infty\sum_{m=1}^n\frac{1}{2^n}
+\end{align}\]
+
+<p>
+    Now we show the terms in a table to describe how to rewrite the summation.
+</p>
+
+\[\begin{array}{c|ccccc}
+&m=1&m=2&m=3&\ldots\\\hline
+n=1&1/2\\
+n=2&1/4&1/4\\
+n=3&1/8&1/8&1/8\\
+\vdots&\vdots&&&\ddots
+\end{array}\]
+
+<p>
+    The double summation above has the outer summation go over the rows. We will
+    rewrite it with an outer summation over the columns which gives us a way to
+    use geometric series.
+</p>
+
+\[\begin{align}
+&\sum_{n=1}^\infty\sum_{m=1}^n\frac{1}{2^n}
+=\sum_{m=1}^\infty\sum_{n=m}^\infty\frac{1}{2^n}
+=\sum_{m=1}^\infty\sum_{n=0}^\infty\frac{1}{2^{n+m}}
+=\sum_{m=1}^\infty\frac{1}{2^m}\sum_{n=0}^\infty\frac{1}{2^n}\\
+&=\sum_{m=1}^\infty\frac{1}{2^m}\frac{1}{1-\frac{1}{2}}
+=2\sum_{m=1}^\infty\frac{1}{2^m}
+=2\left(\frac{1}{1-\frac{1}{2}}-1\right)=2\\
+\end{align}\]
+
+<p>
+    So plug in this 2 for the exponent and the answer is \(2^2=4\).
+</p>
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
 
