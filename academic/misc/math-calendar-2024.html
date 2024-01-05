@@ -194,6 +194,44 @@ n=3&1/8&1/8&1/8\\
     So plug in this 2 for the exponent and the answer is \(2^2=4\).
 </p>
 
+<h3>Jan 05</h3>
+
+\[2\log_5(2x-5)-\log_4(x-1)=1\]
+
+<p>
+    The "big brain" reasoning shows us that \(x=5\) is a solution. Let's see if
+    the derivative of the left side changes sign:
+</p>
+
+\[\frac{4}{\ln(5)(2x-5)}-\frac{1}{\ln(4)(x-1)}
+=\frac{4\ln(4)(x-1)-\ln(5)(2x-5)}{\ln(5)\ln(4)(2x-5)(x-1)}\]
+
+<p>
+    The function is only defined for \(x&gt;5/2\) so the bottom is always
+    positive, which means we need to analyze the sign of the top:
+</p>
+
+\[(4\ln(4)-2\ln(5))x+(5\ln(5)-4\ln(4))\]
+
+<p>
+    The slope is \(4\ln(4)-2\ln(5)\approx2.326\) and the zero is
+    \(x\approx-1.076\). Therefore, this function is always increasing on its
+    entire domain, so there can be no other solution.
+</p>
+
+<p>
+    What about a more satisfying solution? A friend suggested ignoring the logs
+    and thinking of it as \(2y-z=1\). If \(y=z=1\) then it would be solved.
+    It turns out that the single choice of \(x=5\) makes \(y=z=1\). This still
+    isn't the most satisfying solution though. WolframAlpha does not show a
+    clever way to solve it, instead showing the solution as a result of plots.
+</p>
+
+<p>
+    So is there a more satisfying way to solve this that doesn't exactly end up
+    being a form of "guess and check"?
+</p>
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
 
