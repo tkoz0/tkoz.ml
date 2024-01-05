@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Euler 31-40</title>
+    <link rel="stylesheet" type="text/css" href="/mathstyles.css" />
+    <link rel="stylesheet" type="text/css" href="/prismjs/proj_euler.css" />
+    <script type="text/javascript">
+        window.MathJax = { tex: { macros: {
+            red: ['{\\color{red}#1}',1],
+            lcm: '\\text{lcm}'
+        }}};
+    </script>
+    <script type="text/javascript" src="/mathscripts.js"></script>
+    <script type="text/javascript" src="/prismjs/proj_euler.js"></script>
+</head>
+<body>
+<div id="root">
+
+<h1>Project Euler 31-40</h1>
+
+<span>
+    <a href="index.html">index</a> |
+    <a href="part0021.html">prev (21-30)</a> |
+    next (coming soon)
+</span>
+
+<!-- generate table of contents using h2-h6 tags -->
+<div id="toc"></div>
+
+<h2>Problem 31</h2>
+
+<p>
+    <b>Problem:</b> United Kingdom currency has pences (p) and pounds (&pound;)
+    (equal to 100p). There are 8 coins: 1p, 2p, 5p, 10p, 20p, 50p, 100p, 200p.
+    How many ways can &pound;2 be made with these coins?
+</p>
+
+<p>
+    This is a common dynamic programming (DP) problem in computer science
+    course material. We can solve it by defining \(W(i,p)\) to be the number of
+    ways to make \(p\) pences with coins of value \(c_1,c_2,\ldots,c_i\) and
+    smaller. The reason we need \(i\) as a part of the subproblem is so we order
+    the coin types to avoid counting different permutations multiple times.
+    Then the subproblem is defined as:
+</p>
+
+\[W(i,p)=\begin{cases}
+1 & p=0 \\
+0 & p&lt;c_i \:\text{and}\: i=1\\
+W(i-1,p) & p&lt;c_i \:\text{and}\: i>1\\
+W(i,p-c_i) & p\geq c_i \:\text{and}\: i=1\\
+W(i-1,p)+W(i,p-c_i) & p\geq c_i \:\text{and}\: i>1\\
+\end{cases}\]
+
+<p>
+    For 0p, there is 1 way (with no coins). When \(0&lt;p&lt;c_i\), coin \(c_i\)
+    cannot be used so count the ways with the other coin types that come before
+    coin \(i\) (or 0 if \(i=1\)). When \(p\geq c_i\), we can use coin type
+    \(c_i\). So we take 1 of those and count how many ways to make the remaining
+    \(p-c_i\) with coins up to the same type (multiple uses of the same coin
+    type are allowed). If \(i>1\), we also suppose we don't use a \(c_i\) coin
+    and count the ways with the coin types ordered before \(c_i\).
+</p>
+
+<pre><code class="language-python">
+P = 200
+c = [1,2,5,10,20,50,100,200]
+
+W = [[0]*(P+1) for _ in range(len(c))]
+
+# i is 1 indexed in explanation but 0 indexed here
+for i in range(len(c)):
+    for p in range(P+1):
+        if p == 0:
+            W[i][p] = 1
+        elif p &lt; c[i] and i &gt; 0:
+            W[i][p] = W[i-1][p]
+        else: # p &gt;= c[i]
+            W[i][p] = W[i][p-c[i]]
+            if i &gt; 0:
+                W[i][p] += W[i-1][p]
+print(W[-1][P])
+</code></pre>
+
+<p>
+    This is fast enough, but we can actually use less memory by only tracking
+    one row at a time, since \(W(i,\cdot)\) only depends on \(W(i-1,\cdot)\)
+    (where the \(\cdot\) means for all values \(p\), to identify a single row).
+    We can even update the row in place by starting from \(p=0\), because they
+    dependence is only in the direction toward lower values of \(p\). It might
+    be a little harder to understand this, but before an iteration of the outer
+    loop, we have all values for \(W(i-1,\cdot)\). The only time we add to it is
+    for the bottom case of \(W(i,p)\) shown above. Everything else is handled by
+    the initialization of the array before the loop and keeping the values of
+    \(W(i-1,\cdot)\) from the previous iteration.
+</p>
+
+<pre><code class="language-python">
+P = 200
+c = [1,2,5,10,20,50,100,200]
+
+W = [0]*(P+1)
+W[0] = 1
+for ci in c:
+    for p in range(ci,P+1):
+        W[p] += W[p-ci]
+print(W[P])
+</code></pre>
+
+<details><summary>Answer:</summary>73682</details>
+
+<h2>Problem 32</h2>
+
+<p>
+    <b>Problem:</b> Find the sum of all possible values \(c\) for which there is
+    a multiplication identity \(a\times b=c\) with positive integers where
+    \(a,b,c\) combined uses the digits 1 through 9 exactly once and \(a&lt;b\).
+    Count each \(c\) only once, even if it corresponds to multiple identities.
+</p>
+
+<p>
+    The total number of digits used must be 9. If \(c\) were 3 digits, we could
+    form it with the product of a 3 digit and 1 digit number, or 2 2 digit
+    numbers, or a 2 digit and 1 digit number, which is not enough.
+    If \(c\) were 5 digits, then we could form it from a product of a 5 and 1
+    digit pair, 4 and 2 or 1, or 2 3 digit numbers, which is too many.
+    Therefore, \(c\) must be 4 digits and formed from the product of 1 and 4
+    digit numbers or 2 and 3 digit numbers. Below is a brute force loop with
+    these observations that checks each possibility.
+</p>
+
+<pre><code class="language-python">
+c_set = set()
+for a in range(2,100):
+    for b in range(a+1,10000//a+1):
+        c = a*b
+        s = str(a) + str(b) + str(c)
+        if ''.join(sorted(s)) == '123456789':
+            print(f'product {a} * {b} = {c}')
+            c_set.add(c)
+print(sum(c_set))
+</code></pre>
+
+<details><summary>Answer:</summary>45228<br />
+The product identities are:
+<pre>
+4 * 1738 = 6952
+4 * 1963 = 7852
+12 * 483 = 5796
+18 * 297 = 5346
+27 * 198 = 5346
+28 * 157 = 4396
+39 * 186 = 7254
+42 * 138 = 5796
+48 * 159 = 7632
+</pre></details>
+
+<h2>Problem 33</h2>
+
+<p>
+    <b>Problem:</b> There are 4 fractions \(a/b\) where \(0&lt;a&lt;b\) are 2
+    digits each and "canceling" a nonzero digit common to both simplifies it to
+    an equivalent fraction with single digit numbers. For example \(49/98=4/8\)
+    by "canceling" the nines. The nonzero requirement is to exclude "trivial"
+    simplifications such as \(30/50=3/5\). Find the denominator of the product
+    of these 4 fractions in lowest terms.
+</p>
+
+<p>
+    We can create a loop with the "canceling" digit \(c\), as well as the other
+    digits \(n\) for the numerator and \(d\) for the denominator. There are 4
+    possible fractions we can form:
+</p>
+
+\[\frac{10n+c}{10d+c},\frac{10c+n}{10d+c},
+\frac{10n+c}{10c+d},\frac{10c+n}{10c+d}\]
+
+<p>
+    We must have \(1\leq n,d,c\leq9\). If \(n\) or \(d\) were 0, then we would
+    be left with a 0 numerator (these fractions are nonzero) or 0 denominator
+    (undefined). We also must have \(n&lt;d\) otherwise our fraction would be
+    \(\geq1\). In the code below, Python fractions are utilized to handle
+    comparing fractions and automatically reducing to lowest terms.
+</p>
+
+<pre><code class="language-python">
+from fractions import Fraction
+product = Fraction(1)
+for n in range(1,10):
+    for d in range(n+1,10):
+        for c in range(1,10):
+            f1 = (10*n+c,10*d+c)
+            f2 = (10*c+n,10*d+c)
+            f3 = (10*n+c,10*c+d)
+            f4 = (10*c+n,10*d+c)
+            for fn,fd in [f1,f2,f3,f4]:
+                if Fraction(fn,fd) == Fraction(n,d):
+                    product *= Fraction(n,d)
+                    print(f'found {fn}/{fd} = {n}/{d}')
+print(f'product {product}')
+print(product.denominator)
+</code></pre>
+
+<details><summary>Answer:</summary>100<br />
+The 4 fractions are: 16/64, 19/95, 26/65, 49/98 which simplify to
+1/4, 1/5, 2/5, 1/2 and multiply to 1/100</details>
+
+<h2>Problem 34</h2>
+
+<p>
+    <b>Problem:</b> Find the sum of all numbers which are equal to the sum of
+    the factorial of their digits, excluding the single digit numbers.
+</p>
+
+<p>
+    We need to find some number of digits, \(n\), to stop where
+    \(n\times9!&lt;10^n\). For \(n\geq8\), there will be no such numbers since
+    \(8\times9!&lt;10^7\), so we cannot sum to the smallest 8 digit number. We
+    can put our upper bound at 7 digits and test numbers up to
+    \(7\times9!=2540160\). There does not appear to be an elegant way to lower
+    this bound significantly. We can also speed things up by caching the
+    factorials instead of calculating them every time.
+</p>
+
+<pre><code class="language-python">
+# cache factorials
+f = [1]
+while len(f) &lt; 10:
+    f.append(len(f)*f[-1])
+
+total = 0
+for n in range(10,7*f[9]+1):
+    n2 = n
+    s = 0 # digit factorial sum
+    while n2: # take digits lowest to highest
+        s += f[n2%10]
+        n2 //= 10
+    if s == n:
+        print(f'solution {n}')
+        total += n
+print(total)
+</code></pre>
+
+<details><summary>Answer:</summary>40730<br />
+There are only 2 such numbers: 145, 40585</details>
+
+<h2>Problem 35</h2>
+
+<p>
+    <b>Problem:</b> Find how many circular primes are below 1000000. A circular
+    prime is prime in all rotations of its digits, such as 197, 971, 719.
+</p>
+
+<p>
+    Other than single digit primes, all the other circular primes must only
+    contain digits 1, 3, 7, 9 because some rotation will move each digit to the
+    ones place. We can start with single digit primes and build the others by
+    recursion, which only results in \(4^6=4096\) numbers to try. If we have a
+    \(l\) digit number \(n\), then to rotate the digits right, we shift them
+    to the right with \(\lfloor n/10\rfloor\), and add the remaining digit to
+    this result as \((n\mod10)\times10^l\). After \(l\) rotations, we return to
+    the original number.
+</p>
+
+<pre><code class="language-python">
+L = 1000000
+
+# primality testing with caching
+primecache = {0:False,1:False,2:True,3:True}
+def prime(n):
+    global primecache
+    if n in primecache:
+        return primecache[n]
+    if n % 2 == 0:
+        return False
+    d = 3
+    while d*d &lt;= n:
+        if n % d == 0:
+            primecache[n] = False
+            return False
+        d += 2
+    primecache[n] = True
+    return True
+
+# start with single digit circular primes
+circulars = set([2,3,5,7])
+
+def recur(n,l):
+    global circulars
+    # n with l digits, add one of the 4 digits to it
+    for d in [1,3,7,9]:
+        n2 = 10*n + d
+        if n2 &gt;= L:
+            break
+        # test if it is a circular prime
+        if n2 not in circulars:
+            iscircular = True
+            # go through rotations to test primality
+            for _ in range(l+1):
+                if not prime(n2):
+                    iscircular = False
+                    break
+                n2 = (n2%10)*10**l + (n2//10)
+            # go through rotations and add them to set
+            if iscircular:
+                for _ in range(l+1):
+                    circulars.add(n2)
+                    n2 = (n2%10)*10**l + (n2//10)
+        recur(n2,l+1)
+
+# initialize recursion from single digit numbers
+recur(1,1)
+recur(3,1)
+recur(7,1)
+recur(9,1)
+
+print(sorted(circulars))
+print(len(circulars))
+</code></pre>
+
+<details><summary>Answer:</summary>55<br>
+Full list: 2, 3, 5, 7, 11, 13, 17, 31, 37, 71, 73, 79, 97, 113, 131, 197, 199,
+311, 337, 373, 719, 733, 919, 971, 991, 1193, 1931, 3119, 3779, 7793, 7937,
+9311, 9377, 11939, 19391, 19937, 37199, 39119, 71993,
+91193, 93719, 93911, 99371, 193939, 199933, 319993, 331999, 391939, 393919,
+919393, 933199, 939193, 939391, 993319, 999331</details>
+
+<h2>Problem 36</h2>
+
+<p>
+    <b>Problem:</b> Find the sum of all numbers below 1000000 that are
+    palindromes in both decimal and binary.
+</p>
+
+<p>
+    This could be done by trying every number, but we can do something more
+    intelligent. Palindromes can be generated by choosing a half, a middle digit
+    if the length is odd, and putting the pieces together. This means that there
+    are roughly \(\sqrt{n}\) palindromes below \(n\). The code below generates
+    base 10 palindromes in increasing order using this method and converts
+    them to binary for testing if they are palindromes in base 2.
+</p>
+
+<pre><code class="language-python">
+L = 1000000
+total = 0
+
+# handle single digits separately
+for n in range(1,10):
+    dstr = str(n)
+    bstr = f'{n:b}'
+    if dstr == dstr[::-1] and bstr == bstr[::-1]:
+        total += n
+        print(f'palindrome {n}')
+
+# generate base 10 palindromes
+l = 1 # length of a half
+while True:
+    if 10**(2*l-1) &gt;= L:
+        break
+    for h in range(10**(l-1),10**l): # even length loop
+        dstr = str(h) + str(h)[::-1]
+        n = int(dstr)
+        if n &gt;= L:
+            break
+        bstr = f'{n:b}'
+        if bstr == bstr[::-1]:
+            total += n
+            print(f'palindrome {n}')
+    for h in range(10**(l-1),10**l): # odd length loop
+        end_loop = False
+        for m in range(10): # middle digit
+            dstr = str(h) + str(m) + str(h)[::-1]
+            n = int(dstr)
+            if n &gt;= L:
+                end_loop = True
+                break
+            bstr = f'{n:b}'
+            if bstr == bstr[::-1]:
+                total += n
+                print(f'palindrome {n}')
+            if end_loop:
+                break
+    l += 1
+print(total)
+</code></pre>
+
+<details><summary>Answer:</summary>872187<br />
+The double palindromes: 1, 3, 5, 7, 9, 33, 99, 313, 585, 717, 7447, 9009,
+15351, 32223, 39993, 53235, 53835, 73737, 585585</details>
+
+<h2>Problem 37</h2>
+
+<p>
+    <b>Problem:</b> Find the sum of the 11 primes that are both left truncatable
+    and right truncatable. (2, 3, 5, 7 are not considered truncatable primes
+    for this problem).
+</p>
+
+<p>
+    We can start by generating right truncatable primes recursively, by adding a
+    digit to the right. There are fewer right truncatable primes because the
+    digits we can add on the right are restricted to 1, 3, 7, 9 while we can
+    form left truncatable primes by adding other digits too. We must initialize
+    the search with a single digit prime.
+</p>
+
+<pre><code class="language-python">
+# primality testing with caching
+primecache = {0:False,1:False,2:True,3:True}
+def prime(n):
+    global primecache
+    if n in primecache:
+        return primecache[n]
+    if n % 2 == 0:
+        return False
+    d = 3
+    while d*d &lt;= n:
+        if n % d == 0:
+            primecache[n] = False
+            return False
+        d += 2
+    primecache[n] = True
+    return True
+
+def ltrunc(n,l):
+    # test if l digit number n is left truncatable prime
+    l -= 1
+    while n &gt;= 10:
+        if not prime(n):
+            return False
+        # truncate a digit
+        d = n//10**l
+        n -= d*10**l
+        l -= 1
+    return prime(n)
+
+lrtrunc = set()
+
+def recur(n,l):
+    # generate right truncatable primes
+    global lrtrunc
+    for d in [1,3,7,9]:
+        n2 = 10*n + d
+        if not prime(n2):
+            continue
+        if ltrunc(n2,l+1):
+            lrtrunc.add(n2)
+        recur(n2,l+1)
+
+# begin recursion with single digit primes
+recur(2,1)
+recur(3,1)
+recur(5,1)
+recur(7,1)
+
+print(sorted(lrtrunc))
+print(sum(lrtrunc))
+</code></pre>
+
+<details><summary>Answer:</summary>748317<br />
+Prime list: 23, 37, 53, 73, 313, 317, 373, 797, 3137, 3797, 739397</details>
+
+<h2>Problem 38</h2>
+
+<p>
+    <b>Problem:</b> Find the largest 9 digit number formed by concatenating
+    at least 2 multiples of another number. For example, concatenating the first
+    3 multiples of 192 gives 192384576.
+</p>
+
+<p>
+    Clearly 5 digits is too long since 5 + 5 &gt; 9. We could reduce the amount
+    of numbers we have to search by observing that using 9 and concatenating 5
+    multiples gives us 918273645, but we won't do that here, so we can see all
+    solutions. It can be done by brute force without much difficulty.
+</p>
+
+<pre><code class="language-python">
+largest = 0
+for n in range(1,10000):
+    s = str(n)
+    for i in range(2,10):
+        s += str(i*n)
+        if len(s) >= 9:
+            break
+    if ''.join(sorted(s)) == '123456789':
+        print(f'found {n} -> {s}')
+        largest = max(largest,int(s))
+print(largest)
+</code></pre>
+
+<details><summary>Answer:</summary>932718654<br />
+All starting numbers: 1, 9, 192, 219, 273, 327, 6729, 6792, 6927,
+7269, 7293, 7329, 7692, 7923, 7932, 9267, 9273, 9327</details>
+
+<h2>Problem 39</h2>
+
+<p>
+    <b>Problem:</b> Find the perimeter \(p\leq1000\) for which there are the
+    most possible integer right triangles with that perimeter.
+</p>
+
+<p>
+    Brute force is one way to solve this, but we can do something with
+    Pythagorean triples similar to in problem 9. Every integer right triangle
+    will be some multiple of a primitive Pythagorean triple. We can generate
+    all the triples and multiples up to the perimeter limit, counting how many
+    solutions there are for each perimeter. As a reminder, the primitive triples
+    are formed as:
+</p>
+
+\[a=m^2-n^2,b=2mn,c=m^2+n^2\]
+
+<p>
+    where \(m&gt;n\) and \(\gcd(m,n)=1\), one is even, and one is odd. The
+    perimeter would be \(a+b+c=2m^2+2mn=2m(m+n)&gt;2m^2\), so we can use
+    \(m\leq\lfloor\sqrt{P/2}\rfloor\) where \(P\) is the maximum perimeter.
+    The following code generates all primitive triples and their multiples,
+    counting how many solutions there are for each perimeter, then picks the
+    one with the most solutions.
+</p>
+
+<pre><code class="language-python">
+from math import sqrt,gcd
+
+P = 1000
+sols = [0]*(P+1) # count solutions for each perimeter
+
+for m in range(1,1+int(sqrt(P//2))):
+    n0 = 1 if m % 2 == 0 else 2
+    for n in range(n0,m,2):
+        if 2*m*(m+n) > P: # perimeter too big
+            break
+        if gcd(m,n) != 1:
+            continue
+        a = m*m - n*n
+        b = 2*m*n
+        c = m*m + n*n
+        d = 1
+        while d*(a+b+c) <= P:
+            sols[d*(a+b+c)] += 1
+            d += 1
+
+maxsol = max(sols)
+maxp = [p for p in range(P+1) if sols[p] == maxsol]
+print(f'found {maxsol} solutions for p = {maxp}')
+print(maxp[0])
+</code></pre>
+
+<details><summary>Answer:</summary>840<br />
+There are 8 solutions for perimeter 840</details>
+
+<h2>Problem 40</h2>
+
+<p>
+    <b>Problem:</b> An irrational number is formed by concatenating all positive
+    integers after the decimal point in \(0.\). Let \(d_n\) be the \(n\)th digit
+    after the decimal point. Find the value of \(\prod_{n=0}^6 d_{10^n}\).
+</p>
+
+<p>
+    This can be done with concatenating all the digits consecutively, but we can
+    do better. In fact, we don't even need to use programming. The first 9
+    numbers are 1 digit each, and form the first 9 digits. The next 90 numbers
+    (10-99) are 2 digits each and form the next 180 digits. We find how far into
+    this range we have to go to find the desired digit index. Here is a table
+    showing the work:
+</p>
+
+<table>
+    <tr>
+        <th>number range</th>
+        <th>total digits</th>
+        <th>index range</th>
+        <th>digit extraction</th>
+    </tr>
+    <tr>
+        <td>1-9</td>
+        <td>9</td>
+        <td>1-9</td>
+        <td>
+            \(d_1=1\) from the first number (1)
+        </td>
+    </tr>
+    <tr>
+        <td>10-99</td>
+        <td>180</td>
+        <td>10-189</td>
+        <td>
+            \(d_{10}=1\) from the very start (10)<br />
+            Index 100 is 90 after 10, so 90/2=45 means we go 45 numbers past 10,
+            to 55 so we take the first digit in 55, so \(d_{100}=5\)
+        </td>
+    </tr>
+    <tr>
+        <td>100-999</td>
+        <td>2700</td>
+        <td>190-2889</td>
+        <td>
+            Index 1000 is 810 after 190, so we go 810/3=270 numbers past 100 to
+            370 and take the first digit, so \(d_{1000}=3\)
+        </td>
+    </tr>
+    <tr>
+        <td>1000-9999</td>
+        <td>36000</td>
+        <td>2890-38889</td>
+        <td>
+            Index 10000 is 7110 past 2890 so we go 7110/4=1777R2 past 1000 to
+            2777 and 2 extra digits past the first digit, so \(d_{10000}=7\)
+        </td>
+    </tr>
+    <tr>
+        <td>10000-99999</td>
+        <td>450000</td>
+        <td>38890-488889</td>
+        <td>
+            Index 100000 is 61110 past 38890 so we go 61110/5=12222 past 10000
+            to 22222 and take the first digit, so \(d_{100000}=2\)
+        </td>
+    </tr>
+    <tr>
+        <td>100000-999999</td>
+        <td>5400000</td>
+        <td>488890-5888889</td>
+        <td>
+            Index 1000000 is 511110 past 488890 so we go 511110/6=85185 past
+            100000 to 185185 and take the first digit, so \(d_{1000000}=1\)
+        </td>
+    </tr>
+</table>
+
+<p>
+    We can perform these calculations in code as well, and multiply the digits
+    we find:
+</p>
+
+<pre><code class="language-python">
+di = [10**n for n in range(7)]
+
+digits = []
+l = 1 # length of next numbers to append
+cl = 0 # cumulative preceding length
+while cl &lt; max(di):
+    nmin,nmax = 10**(l-1),10**l-1
+    numdigits = l*9*10**(l-1)
+    imin,imax = cl+1,cl+numdigits
+    for i in di:
+        if imin &lt;= i &lt;= imax:
+            offset_num,offset_digit = divmod(i-imin,l)
+            num = nmin + offset_num
+            num_str = str(num)
+            digits.append(int(num_str[offset_digit]))
+    cl += numdigits
+    l += 1
+print(digits)
+prod = 1
+for d in digits:
+    prod *= d
+print(prod)
+</code></pre>
+
+<details><summary>Answer:</summary>210<br />
+The 7 digits multiplied are: 1, 1, 5, 3, 7, 2, 1</details>
+
+<div style="height:50vh;"></div><!-- allow scrolling a little past end -->
+
+</div>
+</body>
+</html>
