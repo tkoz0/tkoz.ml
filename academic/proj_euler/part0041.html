@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Euler 41-50</title>
+    <link rel="stylesheet" type="text/css" href="/mathstyles.css" />
+    <link rel="stylesheet" type="text/css" href="/prismjs/proj_euler.css" />
+    <script type="text/javascript">
+        window.MathJax = { tex: { macros: {
+            red: ['{\\color{red}#1}',1],
+            lcm: '\\text{lcm}',
+            pmod: ['\\:(\\text{mod}\\:#1)',1]
+        }}};
+    </script>
+    <script type="text/javascript" src="/mathscripts.js"></script>
+    <script type="text/javascript" src="/prismjs/proj_euler.js"></script>
+</head>
+<body>
+<div id="root">
+
+<h1>Project Euler 41-50</h1>
+
+<span>
+    <a href="index.html">index</a> |
+    <a href="part0031.html">prev (31-40)</a> |
+    next (coming soon)
+</span>
+
+<!-- generate table of contents using h2-h6 tags -->
+<div id="toc"></div>
+
+<h2>Problem 41</h2>
+
+<p>
+    <b>Problem:</b> Find the largest \(n\) digit pandigital prime (uses each
+    digits 1 through \(n\) exactly once).
+</p>
+
+<p>
+    We can try some manually. \(1,12,21\) are all not prime. In fact, the
+    solution must be 4 or 7 digits long. If it were any other length, the digit
+    sum would be divisible by 3, which makes the number divisible by 3. We can
+    utilize Python's itertools to try all the permutations for 4 and 7 digit
+    pandigital numbers. We could be slightly more efficient if we restrict which
+    ones digit the permutations have, but we won't go that far here.
+</p>
+
+<pre><code class="language-python">
+from itertools import permutations
+
+def prime(n):
+    if n &lt; 4:
+        return n == 2 or n == 3
+    if n % 2 == 0:
+        return False
+    d = 3
+    while d*d &lt;= n:
+        if n % d  == 0:
+            return False
+        d += 2
+    return True
+
+count = 0
+largest = 0
+for perm in permutations('1234'):
+    n = int(''.join(perm))
+    if prime(n):
+        largest = max(largest,n)
+        count += 1
+print(f'found {count} 4 digit primes')
+
+count = 0
+for perm in permutations('1234567'):
+    n = int(''.join(perm))
+    if prime(n):
+        largest = max(largest,n)
+        count += 1
+print(f'found {count} 7 digit primes')
+
+print(largest)
+</code></pre>
+
+<p>
+    Note: there are 4 pandigital 4 digit primes and 534 pandigital 7 digit
+    primes.
+</p>
+
+<details><summary>Answer:</summary>7652413</details>
+
+<h2>Problem 42</h2>
+
+<p>
+    <b>Problem:</b> Using <a href="data_files/0042_words.txt">words.txt</a>,
+    count how many words have a letter sum equal to a triangle number.
+    (A=1,B=2,...,Z=26)
+</p>
+
+<p>
+    Since the numbers will be small, we don't have to be fancy about how we test
+    if the numbers are triangle numbers, but we can take that opportunity to
+    describe a way to do it. The \(n\)th triangle number is
+    \(t_n=\frac{n(n+1)}{2}\). If we multiply each side by 2, then we can observe
+    the following:
+</p>
+
+\[\begin{align}&n^2&lt;2t_n=n^2+n&lt;n^2+2n+1=(n+1)^2\\
+&\Rightarrow n&lt;\sqrt{2t_n}&lt;n+1\end{align}\]
+
+<p>
+    So if we let \(n=\lfloor\sqrt{2t_n}\rfloor\), we will find \(2t_n=n(n+1)\).
+    This lets us identify triangle numbers.
+</p>
+
+<pre><code class="language-python">
+from math import sqrt
+file = open('0042_words.txt','r')
+# read and extract words
+data = file.read()
+data = data.split(',')
+data = [word[1:-1] for word in data]
+# compute letter sum for each word
+data = [sum(1+ord(c)-ord('A') for c in word) for word in data]
+
+def triangle(x):
+    n = int(sqrt(2*x))
+    return n*n + n == 2*x
+
+# count triangle numbers
+print(sum(1 for x in data if triangle(x)))
+</code></pre>
+
+<details><summary>Answer:</summary>162</details>
+
+<h2>Problem 43</h2>
+
+<p>
+    <b>Problem:</b> Find the sum of all 0-9 pandigital numbers (numbers with
+    each digit exactly once) that satisfy the following properties for 3 digit
+    substrings (where the digits are \(d_1d_2\ldots d_{10}\)).
+</p>
+
+<ul>
+    <li>\(d_2d_3d_4\) is divisible by 2</li>
+    <li>\(d_3d_4d_5\) is divisible by 3</li>
+    <li>\(d_4d_5d_6\) is divisible by 5</li>
+    <li>\(d_5d_6d_7\) is divisible by 7</li>
+    <li>\(d_6d_7d_8\) is divisible by 11</li>
+    <li>\(d_7d_8d_9\) is divisible by 13</li>
+    <li>\(d_8d_9d_{10}\) is divisble by 17</li>
+</ul>
+
+<p>
+    This would be doable by brute force trying all \(10!\) permutations of the
+    digits, but there are better ways. For example, if \(d_4\) is odd, then we
+    won't have \(d_2d_3d_4\) divisible by 2, so that would eliminate half of
+    the permutations. By recursively building the permutations left to right,
+    we can eliminate many possibilities early when the divisibility properties
+    aren't satisfied.
+</p>
+
+<pre><code class="language-python">
+numbers = []
+
+divby = [1,1,1,2,3,5,7,11,13,17]
+
+def recur(number,digits):
+    global numbers,divby
+    if len(digits) == 0:
+        numbers.append(int(''.join(map(str,number))))
+    else:
+        # choose a digit to append
+        for d in list(digits):
+            # make sure the divisibility rule is satisfied
+            if 3 &lt;= len(number) &lt;= 9 and \
+                (100*number[-2] + 10*number[-1] + d) \
+                    % divby[len(number)] != 0:
+                continue
+            digits.remove(d)
+            recur(number+[d],digits)
+            digits.add(d)
+
+recur([],set(range(10)))
+print(numbers)
+print(sum(numbers))
+</code></pre>
+
+<details><summary>Answer:</summary>16695334890<br />
+There are 6 such numbers:
+1460357289, 1430952867, 1406357289, 4160357289, 4130952867, 4106357289</details>
+
+<h2>Problem 44</h2>
+
+<p>
+    <b>Problem:</b> Find the minimum value \(D=|P_k-P_j|\) where \(P_j+P_k\) and
+    \(D\) are pentagonal numbers. The pentagonal numbers are
+    \(P_n=n(3n-1)/2\) with \(n&gt;0\).
+</p>
+
+<p>
+    First, we can come up with a way to test if a number is pentagonal simila to
+    in problem 42. The using \(2P_n=n(3n-1)\), we have the following inequality:
+</p>
+
+\[(n-1)^2&lt;\frac{2P_n}{3}=n^2-\frac{n}{3}&lt;n^2\]
+
+<p>
+    Checking the left side, we can verify that it is true for \(n&gt;3/5\). So
+    we set \(n=\lceil2P_n/3\rceil\) to test. The following code begins with
+    \(k=2\) going up, and for each \(k\), tests \(j&lt;k\) to find solutions.
+    Once a solution is found, it is used as a bound to speed up the remainder
+    to ensure there is no better solution. It finds a single solution somewhat
+    quickly, but takes significantly longer to finish the loop to be sure there
+    is no better solution.
+</p>
+
+<pre><code class="language-python">
+from math import sqrt,ceil
+P = lambda n : n*(3*n-1)//2
+
+def pentagonal(x):
+    n = ceil(sqrt(2*x/3))
+    return 2*x == n*(3*n-1)
+
+# find a solution and continue until a better one is not possible
+k = 2
+minD = 0
+while True:
+    Pk = P(k)
+    if minD != 0 and Pk - P(k-1) &gt; minD:
+        break
+    for j in range(k-1,0,-1):
+        Pj = P(j)
+        D = Pk - Pj
+        # stop if a solution was found already and D is too big
+        if minD != 0 and D &gt; minD:
+            break
+        S = Pk + Pj
+        if pentagonal(D) and pentagonal(S):
+            minD = D
+            print(f'solution D={D} with j={j},k={k}')
+            break
+    k += 1
+print(f'terminated main loop at k={k}')
+print(minD)
+</code></pre>
+
+<p>
+    Here is another method based on ideas found in the Project Euler forum.
+    Try \(i=1,i=2,i=3,\ldots\) as an index for the pentagonal number \(D=P_i\).
+    Now search for \(j,k\) so we have \(D=P_k-P_j\). We can use some necessary
+    conditions to reduce the search space, and since \(D\) goes up, we are
+    searching for a solution in order and can stop as soon as we find one.
+    First we write out \(D\) to find necessary conditions of \(d=k-j\).
+</p>
+
+\[\begin{align}
+&D=P_i=P_k-P_j=P_{j+d}-P_j=\frac{(j+d)(3j+3d-1)}{2}-\frac{j(3j-1)}{2}\\
+&=\frac{1}{2}\left(3j^2+3jd+3jd+3d^2-j-d-3j^2+j\right)=3jd+\frac{1}{2}(3d^2-d)\\
+&=3jd+\frac{d(3d-1)}{2}=3jd+P_d \Rightarrow j=\frac{P_i-P_d}{3d}
+\end{align}\]
+
+<p>
+    Since \(j\) is a positive integer, \(P_i-P_d&gt;0 \) and \(3|(P_i-P_d)\).
+    The first implies \(0&lt;d&lt;i\). For the other, we have:
+</p>
+
+\[P_i\equiv P_d \Rightarrow \frac{i(3i-1)}{2}\equiv\frac{d(3d-1)}{2}
+\Rightarrow i(3i-1)\equiv d(3d-1) \Rightarrow i\equiv d\pmod{3}\]
+
+<p>
+    We have used the property that 2 is invertible modulo 3, so we multiplied
+    each side by 2 and then by inverse of 2 (which is 2) because
+    \(3i-1\equiv3d-1\equiv2\pmod{3}\). Therefore, we must have \(0&lt;d&lt;i\)
+    and \(i\equiv d\pmod{3}\). Now we have to find a way to pick \(j,k\), which
+    will also lead us to another significant reduction of search space.
+</p>
+
+\[\begin{align}
+&D=P_i=P_k-P_j=\frac{k(3k-1)}{2}-\frac{j(3j-1)}{2}=\frac{i(3i-1)}{2}\\
+&\Rightarrow i(3i-1)=k(3k-1)-j(3j-1)=3k^2-3j^2-k+j\\
+&=3(k^2-j^2)-(k-j)=3(k+j)(k-j)-(k-j)\\
+&=(k-j)(3(k+j)-1)=d(3(k+j)-1)=2P_i\\
+\end{align}\]
+
+<p>
+    This tells us that \(d|2P_i\), equivalently \(d|i(3i-1)\). Since
+    \(\gcd(i,3i-1)=1\), we can find the divisors more easily. We find the
+    divisors of each \(i\) and \(3i-1\) as 2 separate lists. Then we form
+    divisors of \(i(3i-1)\) by multiplying 2 numbers, 1 taken from each list.
+    It is much faster to factor 2 numbers of half as many digits.
+</p>
+
+<p>
+    So putting all this together, we start a loop at \(i=1\). For each \(i\),
+    find the divisors \(d\) of \(i(3i+1)\) such that \(i\equiv d\pmod{3}\) and
+    \(0&lt;d&lt;i\). Then for each \(d\) do the following:
+</p>
+
+<ol>
+    <li>
+        Let \(t_1=2P_i/d\). This value is supposed to be \(3(k+j)-1\).
+    </li>
+    <li>
+        If \(t_1\not\equiv2\pmod{3}\), skip this \(d\). Otherwise, set
+        \(t_2=(t_1+1)/3\). This is supposed to be \(k+j\).
+    </li>
+    <li>
+        If \(t_2+d\equiv0\pmod{2}\), then we can get \(k=(t_2+d)/2\), otherwise
+        skip this \(d\).
+    </li>
+    <li>
+        Then we get \(j=k-d\), since \(d=k-j\). This value must be positive,
+        otherwise skip this \(d\).
+    </li>
+    <li>
+        Finally, test if \(P_k+P_j\) is pentagonal. If yes, we have found a
+        solution.
+    </li>
+</ol>
+
+<p>
+    This was a lot of math and a bit of a complicated algorithm. There are a lot
+    of parts so thet code is a bit longer and may take a while to understand.
+</p>
+
+<pre><code class="language-python">
+from math import sqrt,ceil
+P = lambda n : n*(3*n-1)//2
+
+def pentagonal(x):
+    n = ceil(sqrt(2*x/3))
+    return 2*x == n*(3*n-1)
+
+def divisors(n):
+    # return a list of divisors in increasing order
+    lo = []
+    hi = []
+    d = 1
+    while d*d &lt; n:
+        if n % d == 0:
+            lo.append(d)
+            hi.append(n//d)
+        d += 1
+    if d*d == n:
+        lo.append(d)
+    return lo + hi[::-1]
+
+def get_divisors(i):
+    # divisors of i
+    di = divisors(i)
+    # divisors of 3*i-1
+    dj = divisors(3*i-1)
+    ret = []
+    for d1 in di: # multiply 1 from each list
+        for d2 in dj:
+            d = d1*d2
+            if d &gt;= i:
+                break
+            ret.append(d)
+    return sorted(ret)
+
+i = 1
+found = False
+while not found:
+    Pi = P(i) # use as D
+    # next search for j,k so P(k)-P(j)=P(i)
+    # d must be = i (mod 3) and &lt; i
+    #divs = [d for d in range(i-3,0,-3) if (2*Pi) % d == 0]
+    divs = get_divisors(i)
+    for d in divs: # d=k-j
+        tmp1 = (2*Pi)//d # 3(k+j)-1
+        if tmp1 % 3 != 2:
+            continue
+        tmp2 = (tmp1+1)//3 # k+j
+        # get k
+        if (tmp2+d) % 2 != 0:
+            continue
+        k = (tmp2+d)//2
+        j = k - d
+        if j &lt;= 0:
+            continue
+        if pentagonal(P(k)+P(j)):
+            print(f'found {k},{j} with D={Pi}=P({i})')
+            print(Pi)
+            found = True
+    i += 1
+</code></pre>
+
+<details><summary>Answer:</summary>5482660<br />
+\(P_{1912}=P_{2167}-P_{1020}\) and \(P_{2395}=P_{2167}+P_{1020}\)<br />
+The next 3 solutions (k,j,i) are (121168,111972,46303),
+(110461,95506,55500), (91650,52430,75172)</details>
+
+<h2>Problem 45</h2>
+
+<p>
+    <b>Problem:</b> The smallest number that is triangle, pentagonal, and
+    hexagonal is \(T_{285}=P_{165}=H_{143}=40755\). Find the next such number.
+    (Note: \(T_n=n(n+1)/2,P_n=n(3n-1)/2,H_n=n(2n-1)\) where \(n&gt;0\))
+</p>
+
+<p>
+    First, we will look at a similar way to test if a number is hexagonal
+    (we already found one for triangle and pentagonal numbers in previous
+    problems). Then we will look at a different method for all 3 types.
+    For \(n&gt;2/3\), the following is true:
+</p>
+
+\[(n-1)^2&lt;\frac{H_n}{2}=n^2-\frac{n}{2}&lt;n^2
+\Rightarrow n-1&lt;\frac{H_n}{2}&lt;n^2\]
+
+<p>
+    We can also use the quadratic formula to identify a way to test for these
+    number types, taking the positive answer only.
+</p>
+
+\[x=\frac{n(n+1)}{2}\Rightarrow n^2+n-2x=0\Rightarrow
+n=\frac{-1+\sqrt{1+8x}}{2}\]
+
+\[x=\frac{n(3n-1)}{2}\Rightarrow 3n^2-n-2x=0\Rightarrow
+n=\frac{1+\sqrt{1+24x}}{6}\]
+
+\[x=n(2n-1)\Rightarrow 2n^2-n-x=0\Rightarrow
+n=\frac{1+\sqrt{1+8x}}{4}\]
+
+<p>
+    This tells us that for triangle numbers, we need \(D_T=\sqrt{1+8x}\) to be
+    an integer and \(D_T\equiv1\pmod{2}\). For pentagonal numbers, we need
+    \(D_P=\sqrt{1+24x}\) to be an integer and \(D_P\equiv5\pmod{6}\). Finally,
+    for hexagonal numbers, we need \(D_H=\sqrt{1+8x}\) to be an integer and
+    \(D_H\equiv3\pmod{4}\). Notice how \(D_T=D_H\). It corresponds to a triangle
+    number for every odd value and a hexagonal number for every value congruent
+    to 3 modulo 4. If we let \(m=2n-1\), then we can see:
+</p>
+
+\[T_m=\frac{m(m+1)}{2}=\frac{(2n-1)(2n)}{2}=n(2n-1)=H_n\]
+
+<p>
+    Since every hexagonal number is a triangle number, we can just try hexagonal
+    numbers and already have 2 of the 3 types satisfied. We just have to test
+    for pentagonal numbers, which we can do with the quadratic formula method.
+</p>
+
+<pre><code class="language-python">
+from math import isqrt
+given = 40755
+
+hexn = lambda n : n*(2*n-1)
+
+def pentagonal(x):
+    # return 0 if not pentagonal, otherwise the index
+    d = isqrt(1+24*x)
+    if d*d == 1+24*x and d % 6 == 5:
+        return (d+1)//6
+    else:
+        return 0
+
+h = 1
+while True:
+    n = hexn(h)
+    p = pentagonal(n)
+    if p != 0: # n is pentagonal
+        t = 2*h-1 # triangle number index
+        print(f'T({t}) = P({p}) = H({h}) = {n}')
+        if n &gt; given: # terminate when finding the next one
+            break
+    h += 1
+print(hexn(h))
+</code></pre>
+
+<p>
+    It is more complicated, but much faster to find an efficient solution to a
+    diophantime equation. We are looking for \(n,m\) such that \(H_n=P_m\). A
+    simpler diophantime equation can be created with some use of completing the
+    square.
+</p>
+
+\[\begin{align}
+&H_n=P_m \Rightarrow 4n^2-2n=3m^2-m
+\Rightarrow n^2-\frac{n}{2}=\frac{1}{4}\left(3m^2-m\right) \\
+&\Rightarrow \left(n-\frac{1}{4}\right)^2-\frac{1}{16}
+=\frac{1}{4}\left(3m^2-m\right) \Rightarrow \left(4n-1\right)^2-1
+=4\left(3m^2-m\right) \\
+&\Rightarrow \frac{1}{12}\left(4n-1\right)^2-\frac{1}{12}=m^2-\frac{m}{3}
+\Rightarrow \frac{1}{12}\left(4n-1\right)^2-\frac{1}{12}
+=\left(m-\frac{1}{6}\right)^2-\frac{1}{36} \\
+&\Rightarrow 3(4n-1)^2-3=(6m-1)^2-1 \Rightarrow
+(6m-1)^2-3(4n-1)^2=-2 \\
+\end{align}\]
+
+<p>
+    Now set \(x=6m-1\) and \(y=4n-1\) and we have \(x^2-3y^2=-2\) which is
+    similar to Pell's equation. This is a case of solving a hyperbolic quadratic
+    diophantine equation. A method of solving these is described at
+    <a href="https://www.alpertron.com.ar/METHODS.HTM#Hyperb" target="_blank"> this website</a>
+    which is supposedly implemented in
+    <a href="https://www.alpertron.com.ar/QUAD.HTM" target="_blank">this calculator</a>.
+    When finding a \((x,y)\) pair that solves it, we check if we can solve for
+    \(m\) and \(n\) as integers. We start with the trivial solution
+    \((x_0,y_0)=(1,1)\). Then further solutions in positive \(x\) and \(y\) are
+    found with the following step (written in matrix notation, taken from the
+    calculator linked from here):
+</p>
+
+\[\begin{pmatrix}x_{n+1}\\y_{n+1}\end{pmatrix}=
+\begin{pmatrix}2&3\\1&2\\\end{pmatrix}\begin{pmatrix}x_n\\y_n\\\end{pmatrix}\]
+
+<p>
+    Although I am not quite sure about the proof, this method should generate
+    all solutions. There is another way to see it, based on the content of this
+    <a href="https://en.wikipedia.org/wiki/Pell%27s_equation" target="_blank">Wikipedia page</a>.
+    Using Brahmagupta's identity, we take a triple \((x,y,-2)\) (a solution to
+    \(x^2-3y^2=-2\)) and the triple \((2,1,1)\) which is a solution to the
+    slightly different equation \(x^2-3y^2=1\). Then if we compose the 2 triples
+    to form another, we get \((2x+3y,x+2y,-2)\) which is the same as the matrix
+    notation above.
+</p>
+
+<p>
+    Below is an implementation in code.
+</p>
+
+<pre><code class="language-python">
+T = lambda n : n*(n+1)//2
+P = lambda n : n*(3*n-1)//2
+H = lambda n : n*(2*n-1)
+given = 40755
+
+x,y = 1,1
+while True:
+    x,y = 2*x+3*y,x+2*y
+    assert x*x - 3*y*y == -2
+    print(f'diophantine solution {x}^2 - 3*{y}^2 = -2')
+    if x % 6 == 5 and y % 4 == 3:
+        m = (x+1)//6
+        n = (y+1)//4
+        assert H(n) == P(m)
+        print(f'T({2*n-1}) = P({m}) = H({n}) = {H(n)}')
+        if H(n) &gt; given:
+            print(H(n))
+            break
+</code></pre>
+
+<p>
+    Note: 2 solutions past what the problem asks for are:
+</p>
+
+<ul>
+    <li>\(T_{10744501}=P_{6203341}=H_{5372251}=57722156241751\)</li>
+    <li>\(T_{2084377905}=P_{1203416145}=H_{1042188953}=2172315626468283465\)</li>
+</ul>
+
+<details><summary>Answer:</summary>1533776805<br />
+\(T_{55385}=P_{31977}=H_{27693}\)</details>
+
+<h2>Problem 46</h2>
+
+<p>
+    <b>Problem:</b> Find the smallest counterexample to Christian Goldbach's
+    conjecture (proven false): every odd composite number is the sum of a prime
+    and twice of a square.
+</p>
+
+<p>
+    This problem does not seem to have any obvious room for optimization so we
+    use a brute force double loop, the outer for odd composites, and the inner
+    for a square number.
+</p>
+
+<pre><code class="language-python">
+from math import isqrt
+
+def prime(n):
+    if n &lt; 4:
+        return n == 2 or n == 3
+    if n % 2 == 0:
+        return False
+    d = 3
+    while d*d &lt;= n:
+        if n % d == 0:
+            return False
+        d += 2
+    return True
+
+n = 9
+while True:
+    if not prime(n) and \
+        all(not prime(n - 2*r*r) for r in range(1,1+int(isqrt(n//2)))):
+        print(n)
+        break
+    n += 2
+</code></pre>
+
+<details><summary>Answer:</summary>5777<br />
+There is only 1 other known counterexample: 5993</details>
+
+<h2>Problem 47</h2>
+
+<p>
+    <b>Problem:</b> Find the smallest of the first 4 consecutive integers that
+    each have 4 distinct prime factors.
+</p>
+
+<p>
+    For this problem, brute force is an option, but a modification to the sieve
+    of Eratosthenes does better. The only issue is that we are not sure how big
+    the answer is, so we don't know how big the sieve has to be in advance.
+</p>
+
+<p>
+    In the sieve of Eratosthenes, we start with a prime \(p\) and cross out
+    multiples starting at \(p^2\). In our modification, we have a counter for
+    each number in the sieve. For each prime \(p\), add 1 to this counter for
+    each multiple \(p,2p,3p,\ldots\) to indicate that it has this prime factor.
+    The way we tell a number is prime is if it is the first 0 in the sieve,
+    indicating that its counter was not incremented for any smaller prime
+    factor.
+</p>
+
+<p>
+    The code below can be modified easily for other amounts of consecutive
+    numbers or a different number of distinct prime factors. The sieve size is
+    given a default size of 100000 which is too small, so it is enlarged once
+    to 200000 which is sufficient to find the solution.
+</p>
+
+<pre><code class="language-python">
+num_consec = 4
+num_factors = 4
+
+sieve_size = 100000 # arbitrary starting sieve size
+while True:
+    print(f'trying sieve size {sieve_size}')
+    answer_found = False
+    # sieve for counting distinct prime factors
+    sieve = [0]*sieve_size
+    for i in range(2,sieve_size):
+        if sieve[i] &gt; 0: # not prime
+            continue
+        for j in range(i,sieve_size,i):
+            sieve[j] += 1 # numbers which have this prime factor
+    # search for a solution
+    consec = 0 # count consecutive
+    for i in range(2,sieve_size):
+        if sieve[i] == num_factors:
+            consec += 1
+        else:
+            consec = 0 # reset counter
+        if consec &gt;= num_consec:
+            print(i - (num_consec - 1))
+            answer_found = True
+    if answer_found:
+        break
+    sieve_size *= 2 # double sieve size to try again
+</code></pre>
+
+<details><summary>Answer:</summary>134043<br />
+\(134043=3\cdot7\cdot13\cdot491\)<br />
+\(134044=2^2\cdot23\cdot31\cdot47\)<br />
+\(134045=5\cdot17\cdot19\cdot83\)<br />
+\(134046=2\cdot3^2\cdot11\cdot677\)</details>
+
+<h2>Problem 48</h2>
+
+<p>
+    <b>Problem:</b> Find the last 10 digits of the following:
+    \(1^1+2^2+3^3+\ldots+1000^{1000}\).
+</p>
+
+<p>
+    Large integer arithmetic in Python allows us to easily solve this in 1 line:
+</p>
+
+<pre><code class="language-python">
+print(sum(x**x for x in range(1,1+1000)) % 10**10)
+</code></pre>
+
+<p>
+    Using modular arithmetic, we can just take the last 10 digits of each number
+    being added, which is possible with another function in Python:
+</p>
+
+<pre><code class="language-python">
+print(sum(pow(x,x,10**10) for x in range(1,1+1000)) % 10**10)
+</code></pre>
+
+<p>
+    If we write the modular exponentiation code ourselves, one way to compute
+    \(x^x\pmod{10^{10}}\) is to start with \(x\) and multiply it \(x-1\) more
+    times, reducing modulo \(10^{10}\) each time. There is a faster way known
+    as modular exponentiation by squaring. More generally, suppose we want to
+    compute \(b^p\pmod{m}\). We can start with \(b\) and repeatedly square it
+    to get \(b^1,b^2,b^4,b^8,\ldots\). These correspond to binary digits. If we
+    have the binary representation of \(p=d_0+d_1\cdot2+d_2\cdot2^2+\ldots\),
+    then \(p\) is a sum of powers of 2 (where the digits are 1). Now when we
+    compute \(b^p\), it is equal to the product of some of those powers from
+    the repeated squaring. All these operations can be reduced modulo \(m\) so
+    we never have to handle very large integers.
+</p>
+
+<pre><code class="language-python">
+def modexp(b,p,m):
+    sq = b # b^1,b^2,b^4,b^8,...
+    ret = 1
+    while p != 0:
+        if p % 2 == 1:
+            ret = (ret * sq) % m
+        p //= 2 # shift to next binary digit
+        sq = (sq * sq) % m
+    return ret
+
+print(sum(modexp(x,x,10**10) for x in range(1,1+1000)) % 10**10)
+</code></pre>
+
+<details><summary>Answer:</summary>9110846700</details>
+
+<h2>Problem 49</h2>
+
+<p>
+    <b>Problem:</b> The arithmetic sequence 1487, 4817, 8147 has a step size of
+    3330 and satisfies the 2 properties below. Find the other increasing
+    arithmetic sequence of 3 4-digit numbers that satisfies both properties and
+    give the answer as the 3 number concatenated together.
+</p>
+
+<ul>
+    <li>Each term is prime</li>
+    <li>Each term is a permutation of the same digits</li>
+</ul>
+
+<p>
+    This could be done by brute force, but since we know each term must be a
+    permutation of the same digits, we can generate all permutations for
+    selections of digits. There are only \({10+3\choose4}=715\) ways to choose
+    4 digits (combinations with replacement) and up to 24 ways to create numbers
+    from them. Collect the 4 digit numbers which are prime, and sort them. Then
+    pick 2 and see if the 3rd in an arithmetic sequence is also one of them.
+    This is fast enough for 4 digit numbers. The code below utilizes some of
+    Python's itertools.
+</p>
+
+<pre><code class="language-python">
+from itertools import combinations_with_replacement,permutations
+
+# sieve for 4 digit primes
+prime = [True]*10000
+prime[0] = prime[1] = False
+for p in range(2,10000):
+    if p*p &gt;= 10000:
+        break
+    for i in range(p*p,10000,p):
+        prime[i] = False
+
+given = (1487,4817,8147)
+solutions = []
+
+for digits in combinations_with_replacement(range(10),4):
+    numbers_set = set()
+    for a,b,c,d in permutations(digits):
+        if a == 0: # only consider 4 digit numbers
+            continue
+        p = 1000*a + 100*b + 10*c + d
+        if prime[p]:
+            numbers_set.add(1000*a + 100*b + 10*c + d)
+    numbers_list = sorted(numbers_set)
+    # try to form an arithmetic sequence
+    for i in range(len(numbers_list)):
+        for j in range(i+1,len(numbers_list)):
+            d = numbers_list[j] - numbers_list[i]
+            if (numbers_list[j] + d) in numbers_set:
+                seq = (numbers_list[i],numbers_list[j],numbers_list[j]+d)
+                print(seq)
+                solutions.append(seq)
+
+for sol in solutions:
+    if sol != given:
+        print(''.join(map(str,sol)))
+</code></pre>
+
+<details><summary>Answer:</summary>296962999629<br />
+(2969, 6299, 9629), step size is also 3330</details>
+
+<h2>Problem 50</h2>
+
+<p>
+    <b>Problem:</b> Find the prime below 1000000 that can be written as a sum
+    of the most consecutive primes.
+</p>
+
+<p>
+    Since we need a lot of primes, we can use a sieve of Eratosthenes to produce
+    them. Since we need to add consecutive primes, we can form a list of the
+    primes from the sieve. Then we pick a starting point and add consecutive
+    primes, testing primality of the sum. We can stop once the sum reaches
+    1000000. We can also stop if our starting number times the maximum length
+    found so far reaches 1000000.
+</p>
+
+<pre><code class="language-python">
+L = 1000000
+
+# sieve primes
+prime = [True]*L
+prime[0] = prime[1] = False
+primelist = []
+for p in range(2,L):
+    if not prime[p]:
+        continue
+    primelist.append(p)
+    for i in range(p*p,L,p):
+        prime[i] = False
+
+llen = 1
+lmin = 2
+lmax = 2
+lsum = 2
+for i in range(len(primelist)):
+    if primelist[i] * (llen+1) &gt;= L:
+        break # cannot form a longer sum under L
+    s = 0
+    for j in range(i,len(primelist)):
+        s += primelist[j]
+        if s &gt;= L:
+            break
+        if prime[s] and j-i+1 &gt;= llen:
+            llen = j-i+1
+            lmin = primelist[i]
+            lmax = primelist[j]
+            lsum = s
+            print(f'sum of {llen} primes ({lmin},{lmax}) = {lsum}')
+
+print(lsum)
+</code></pre>
+
+<details><summary>Answer:</summary>997651</details>
+
+<div style="height:50vh;"></div><!-- allow scrolling a little past end -->
+
+</div>
+</body>
+</html>
