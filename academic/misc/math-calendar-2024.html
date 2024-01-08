@@ -20,7 +20,122 @@
 
 <h3>Jan 01</h3>
 
-Some wack geometry problem with circles.
+<p>
+    Some wack geometry problem with circles. I manually drew an SVG that looks
+    like what they give you. For the solution, I had to learn about the
+    assumptions to make from someone else because it is not obvious.
+</p>
+
+<svg width="250" height="250" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <rect x="1" y="1" width="248" height="248" fill="white" stroke="black" stroke-width="2" />
+    <!--
+    <circle cx="0" cy="250" r="125" stroke="black" stroke-width="2" fill="none" />
+    <circle cx="250" cy="250" r="125" stroke="black" stroke-width="2" fill="none" />
+    -->
+    <path d="M 0 125 a 125 125 0 0 1 125 125" stroke="black" stroke-width="2" fill="none" />
+    <path d="M 250 125 a 125 125 0 0 0 -125 125" stroke="black" stroke-width="2" fill="none" />
+    <circle cx="125" cy="83" r="83" stroke="black" stroke-width="2" fill="none" />
+    <circle cx="125" cy="83" r="2" stroke="black" fill="black" />
+    <circle cx="125" cy="183" r="17" stroke="black" stroke-width="2" fill="none" />
+    <circle cx="125" cy="183" r="2" stroke="black" fill="black" />
+    <line x1="125" y1="0" x2="125" y2="83" stroke="black" stroke-width="2" />
+    <text x="130" y="50" font-size="2em">5</text>
+    <line x1="125" y1="183" x2="110" y2="192" stroke="black" stroke-width="2" />
+    <text x="80" y="210" font-size="2em">x</text>
+</svg>
+
+<p>
+    There are some problems with this. You are supposed to make some assumptions
+    that are supposedly "obvious" but I would argue they are not. Those are that
+    the outer box is a square, and the 2 circles at the corners have radius
+    equal to half of the side length of the square. Anyway, let's label some
+    things.
+</p>
+
+<svg width="250" height="250" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <rect x="1" y="1" width="248" height="248" fill="white" stroke="black" stroke-width="2" />
+    <!--
+    <circle cx="0" cy="250" r="125" stroke="black" stroke-width="2" fill="none" />
+    <circle cx="250" cy="250" r="125" stroke="black" stroke-width="2" fill="none" />
+    -->
+    <path d="M 0 125 a 125 125 0 0 1 125 125" stroke="black" stroke-width="2" fill="none" />
+    <path d="M 250 125 a 125 125 0 0 0 -125 125" stroke="black" stroke-width="2" fill="none" />
+    <circle cx="125" cy="83" r="83" stroke="black" stroke-width="2" fill="none" />
+    <circle cx="125" cy="83" r="2" stroke="black" fill="black" />
+    <circle cx="125" cy="183" r="17" stroke="black" stroke-width="2" fill="none" />
+    <circle cx="125" cy="183" r="2" stroke="black" fill="black" />
+    <line x1="125" y1="0" x2="125" y2="83" stroke="black" stroke-width="2" />
+    <text x="130" y="50" font-size="2em">5</text>
+    <line x1="125" y1="183" x2="110" y2="192" stroke="black" stroke-width="2" />
+    <text x="80" y="210" font-size="2em">x</text>
+    <!-- 2r side lingths -->
+    <text x="120" y="270" stroke="red">2r</text>
+    <path d="M 115 265 h -110 l 5 5 m 0 -10 l -5 5" stroke="red" fill="none" />
+    <path d="M 1 255 v 20" stroke="red" stroke-width="2" />
+    <path d="M 140 265 h 105 l -5 -5 m 0 10 l 5 -5" stroke="red" fill="none" />
+    <path d="M 249 255 v 20" stroke="red" stroke-width="2" />
+    <text x="260" y="130" stroke="red">2r</text>
+    <path d="M 265 115 v -110 l 5 5 m -10 0 l 5 -5" stroke="red" fill="none" />
+    <path d="M 255 1 h 20" stroke="red" stroke-width="2" />
+    <path d="M 265 135 v 110 l 5 -5 m -10 0 l 5 5" stroke="red" fill="none" />
+    <path d="M 255 249 h 20" stroke="red" stroke-width="2" />
+    <!-- triangle 1 -->
+    <path d="M 125 83 L 249 249 h -125 Z" stroke="red" fill="none" stroke-width="2" />
+    <text x="180" y="240" stroke="red">r</text>
+    <text stroke="red" text-anchor="middle" transform="translate(195,165) rotate(55)">r + 5</text>
+    <text stroke="red" text-anchor="middle" transform="translate(120,140) rotate(-90)">2r - 5</text>
+    <path d="M 125 230 h 20 v 20" stroke="red" fill="none" stroke-width="2" />
+    <text x="130" y="120" stroke="red">&theta;</text>
+</svg>
+
+<p>
+    Now we can write some equations. For the right triangle, we have
+    \(r^2+(2r-5)^2=(r+5)^2\). With some algebra, this simplifies to
+    \(2r(2r-15)=0\) so \(r=15/2\) because \(r=0\) is physically impossible.
+    Also observe that \(\cos(\theta)=\frac{2r-5}{r+5}=4/5\). We will use this in
+    the next part. Now we can draw a different triangle, and I will use up a
+    bunch of space for another SVG.
+</p>
+
+<svg width="250" height="250" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <rect x="1" y="1" width="248" height="248" fill="white" stroke="black" stroke-width="2" />
+    <!--
+    <circle cx="0" cy="250" r="125" stroke="black" stroke-width="2" fill="none" />
+    <circle cx="250" cy="250" r="125" stroke="black" stroke-width="2" fill="none" />
+    -->
+    <path d="M 0 125 a 125 125 0 0 1 125 125" stroke="black" stroke-width="2" fill="none" />
+    <path d="M 250 125 a 125 125 0 0 0 -125 125" stroke="black" stroke-width="2" fill="none" />
+    <circle cx="125" cy="83" r="83" stroke="black" stroke-width="2" fill="none" />
+    <circle cx="125" cy="83" r="2" stroke="black" fill="black" />
+    <circle cx="125" cy="183" r="17" stroke="black" stroke-width="2" fill="none" />
+    <circle cx="125" cy="183" r="2" stroke="black" fill="black" />
+    <line x1="125" y1="0" x2="125" y2="83" stroke="black" stroke-width="2" />
+    <text x="130" y="50" font-size="2em">5</text>
+    <line x1="125" y1="183" x2="110" y2="192" stroke="black" stroke-width="2" />
+    <text x="80" y="210" font-size="2em">x</text>
+    <!-- triangle 2 -->
+    <path d="M 125 83 L 249 249 L 125 183 Z" stroke="red" stroke-width="2" fill="none" />
+    <text x="130" y="120" stroke="red">&theta;</text>
+    <text stroke="red" text-anchor="middle" transform="translate(195,165) rotate(55)">25 / 2</text>
+    <text stroke="red" text-anchor="middle" transform="translate(170,225) rotate(25)">x + 15 / 2</text>
+    <text stroke="red" text-anchor="middle" transform="translate(120,130) rotate(-90)">x + 5</text>
+</svg>
+
+<p>
+    Now it is time for some law of cosines.
+</p>
+
+\[\begin{align}
+&\left(x+\frac{15}{2}\right)^2=(x+5)^2+\left(\frac{25}{2}\right)^2
+-2(x+5)\left(\frac{25}{2}\right)\cos(\theta)\\
+&\cancel{x^2}+15x+\frac{225}{4}
+=\cancel{x^2}+10x+25+\frac{625}{4}-25(x+5)\frac{4}{5}\\
+&15x=10x+25+\frac{400}{4}-20x-100 \Rightarrow 25x=25\\
+\end{align}\]
+
+<p>
+    So there you have it. The answer is \(x=1\).
+</p>
 
 <h3>Jan 02</h3>
 
