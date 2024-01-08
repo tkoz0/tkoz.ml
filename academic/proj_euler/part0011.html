@@ -645,10 +645,32 @@ for n in max_len_nums:
     <b>Problem:</b> Starting from the top left corner of a \(20\times20\) grid,
     find how many possible paths there are to the bottom right corner by moving
     only right and down. For example, in a \(2\times2\) grid, the answer is 6,
-    as shown in the image below borrowed from the Project Euler website.
+    as shown in the image below, an SVG based on the image from Project Euler.
 </p>
 
-<img src="0015.png" class="img_center" />
+<svg xmlns="http://www.w3.org/2000/svg" class="img_center" width="285" height="195" viewbox="0 0 380 260" class="img_center">
+    <!-- main grid squares -->
+    <path d="M 20 20 h 100 v 100 h -100 v -100 m 0 50 h 100 m -50 -50 v 100" stroke="black" stroke-width="2" fill="none" />
+    <path d="M 140 20 h 100 v 100 h -100 v -100 m 0 50 h 100 m -50 -50 v 100" stroke="black" stroke-width="2" fill="none" />
+    <path d="M 260 20 h 100 v 100 h -100 v -100 m 0 50 h 100 m -50 -50 v 100" stroke="black" stroke-width="2" fill="none" />
+    <path d="M 20 140 h 100 v 100 h -100 v -100 m 0 50 h 100 m -50 -50 v 100" stroke="black" stroke-width="2" fill="none" />
+    <path d="M 140 140 h 100 v 100 h -100 v -100 m 0 50 h 100 m -50 -50 v 100" stroke="black" stroke-width="2" fill="none" />
+    <path d="M 260 140 h 100 v 100 h -100 v -100 m 0 50 h 100 m -50 -50 v 100" stroke="black" stroke-width="2" fill="none" />
+    <!-- paths -->
+    <path d="M 20 20 h 100 v 80" stroke="black" stroke-width="6" fill="none" />
+    <path d="M 140 20 h 50 v 50 h 50 v 30" stroke="black" stroke-width="6" fill="none" />
+    <path d="M 260 20 h 50 v 100 h 30" stroke="black" stroke-width="6" fill="none" />
+    <path d="M 20 140 v 50 h 100 v 30" stroke="black" stroke-width="6" fill="none" />
+    <path d="M 140 140 v 50 h 50 v 50 h 30" stroke="black" stroke-width="6" fill="none" />
+    <path d="M 260 140 v 100 h 80" stroke="black" stroke-width="6" fill="none" />
+    <!-- arrows -->
+    <path d="M 120 120 l -10 -25 h 20 Z" />
+    <path d="M 240 120 l -10 -25 h 20 Z" />
+    <path d="M 360 120 l -25 -10 v 20 Z" />
+    <path d="M 120 240 l -10 -25 h 20 Z" />
+    <path d="M 240 240 l -25 -10 v 20 Z" />
+    <path d="M 360 240 l -25 -10 v 20 Z" />
+</svg>
 
 <p>
     One way is to recursively find all paths, but that is too slow for this
