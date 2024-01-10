@@ -446,6 +446,106 @@ n=3&1/8&1/8&1/8\\
     of these are 3 and 12 respectively so the difference is 9.
 </p>
 
+<h3>Jan 10</h3>
+
+Oh boy it's time for more SVGs. This is what the problem gives us.
+
+<svg width="220" height="250" viewBox="-5 -10 110 110" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <path d="M -5 -30 h 100" stroke="black" stroke-width="1" />
+    <path d="M 0 0 h 99.5 v 99.5 h -99.5 Z" stroke="black" fill="none" stroke-width="1" />
+    <path d="M 25 0 v 25 h -25 M 50 -3 v 6 M -3 50 h 6 M 96 50 h 6
+            M 0 75 L 99 0 M 0 99 A 49.5 49.5 0 0 1 99 99" stroke="black" fill="none" stroke-width="1" />
+    <circle cx="0" cy="75" r="3" />
+    <circle cx="0" cy="99" r="3" />
+    <circle cx="99" cy="0" r="3" />
+    <circle cx="99" cy="99" r="3" />
+    <circle cx="49.5" cy="99" r="3" />
+    <circle cx="20" cy="60" r="3" />
+    <text transform="translate(38 38)">x</text>
+    <text transform="translate(46 -5)">8</text>
+</svg>
+
+<p>
+    The only assumption we have to make is that this thing is in a square. It
+    may not be 100% obvious because the bottom edge is not labeled as equal
+    length like the others with side length 8, and the top right corner is not
+    labeled as a right angle. Now let's draw a right triangle and label some
+    things.
+</p>
+
+<svg width="220" height="250" viewBox="-5 -10 110 110" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <path d="M -5 -30 h 100" stroke="black" stroke-width="1" />
+    <path d="M 0 0 h 99.5 v 99.5 h -99.5 Z" stroke="black" fill="none" stroke-width="1" />
+    <path d="M 25 0 v 25 h -25 M 50 -3 v 6 M -3 50 h 6 M 96 50 h 6
+            M 0 75 L 99 0 M 0 99 A 49.5 49.5 0 0 1 99 99" stroke="black" fill="none" stroke-width="1" />
+    <circle cx="0" cy="75" r="3" />
+    <circle cx="0" cy="99" r="3" />
+    <circle cx="99" cy="0" r="3" />
+    <circle cx="99" cy="99" r="3" />
+    <circle cx="49.5" cy="99" r="3" />
+    <circle cx="20" cy="60" r="3" />
+    <text transform="translate(38 38)">x</text>
+    <text transform="translate(46 -5)">8</text>
+    <!-- annotations -->
+    <path d="M 20 60 L 49.5 99 h 49.5" stroke="blue" fill="none" stroke-width="1" />
+    <text transform="translate(25 80)" font-size="0.5em" stroke="blue" stroke-width="0.5">4</text>
+    <text transform="translate(75 95)" font-size="0.5em" stroke="blue" stroke-width="0.5">4</text>
+    <path d="M 20 60 L 0 75 L 49.5 99" stroke="green" fill="none" stroke-width="1" />
+    <text transform="translate(5 65)" font-size="0.5em" stroke="green" stroke-width="0.5">y</text>
+    <text transform="translate(15 90)" font-size="0.5em" stroke="green" stroke-width="0.5">z</text>
+    <path d="M 20 60 L 99 0 L 49.5 99 M 25 57 l 4 5 l -5 4 M 93 99 v -6 h 6" stroke="red" fill="none" stroke-width="1" />
+</svg>
+
+<p>
+    There are 3 right triangles. Let's call them "left" (with the green sides),
+    "middle" (with the right sides), and "right" (with the bottom right right
+    angle). For the right one, we have side lengths 4 and 8 (from the right side
+    of the square) so the remaining side length is \(\sqrt{4^2+8^2}=\sqrt{80}\).
+    Now for the middle triangle, we have hypotenuse \(\sqrt{80}\) and a side of
+    length 4 so the remaining side is \(\sqrt{80-4^2}=8\). Now we know that
+    \(x=8+y\) so we must solve for \(y\). Let's focus on different triangles
+    next:
+</p>
+
+<svg width="220" height="250" viewBox="-5 -10 110 110" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <path d="M -5 -30 h 100" stroke="black" stroke-width="1" />
+    <path d="M 0 0 h 99.5 v 99.5 h -99.5 Z" stroke="black" fill="none" stroke-width="1" />
+    <path d="M 25 0 v 25 h -25 M 50 -3 v 6 M -3 50 h 6 M 96 50 h 6
+            M 0 75 L 99 0 M 0 99 A 49.5 49.5 0 0 1 99 99" stroke="black" fill="none" stroke-width="1" />
+    <circle cx="0" cy="75" r="3" />
+    <circle cx="0" cy="99" r="3" />
+    <circle cx="99" cy="0" r="3" />
+    <circle cx="99" cy="99" r="3" />
+    <circle cx="49.5" cy="99" r="3" />
+    <circle cx="20" cy="60" r="3" />
+    <text transform="translate(38 38)">x</text>
+    <text transform="translate(46 -5)">8</text>
+    <!-- annotations -->
+    <path d="M 20 60 L 49.5 99 L 0 99" stroke="blue" fill="none" stroke-width="1" />
+    <path d="M 20 60 L 0 75 L 0 99 M 0 75 L 49.5 99" stroke="green" fill="none" stroke-width="1" />
+    <path d="M 0 93 h 6 v 6 M 15 64 l 4 5 l 5 -4" stroke="red" fill="none" stroke-width="1" />
+    <text transform="translate(5 65)" font-size="0.5em" stroke="green" stroke-width="0.5">y</text>
+    <text transform="translate(-5 90)" font-size="0.5em" stroke="green" stroke-width="0.5">y</text>
+    <text transform="translate(15 90)" font-size="0.5em" stroke="green" stroke-width="0.5">z</text>
+</svg>
+
+<p>
+    The 2 blue sides are length 4 and they share the long green side. This means
+    they are similar right triangles so the 2 shorter green sides are the same
+    length. Now we can write out an equation for the right triangle formed with
+    \(x\), the top edge (8), and the left side \(8-y\).
+</p>
+
+\[\begin{align}
+&x^2=8^2+(8-y)^2\Rightarrow (8+y)^2=8^2+(8^2-16y+y^2)\\
+&\Rightarrow(\cancel{8^2}+16y+\cancel{y^2})=\cancel{8^2}+8^2-16y+\cancel{y^2}
+\Rightarrow 32y=64\\
+\end{align}\]
+
+<p>
+    So there we get \(y=2\) which means \(x=8+y=10\).
+</p>
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
 
