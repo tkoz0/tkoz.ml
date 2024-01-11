@@ -546,6 +546,41 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
     So there we get \(y=2\) which means \(x=8+y=10\).
 </p>
 
+<h3>Jan 11</h3>
+
+<p>
+    Find the area bounded by \(y=\frac{4}{9}x+3,x=3\) and the axes.
+</p>
+
+<p>
+    On the \(x\) axis, we have \(x=0\) and \(x=3\) as bounds, so we can
+    integrate on that interval. We have \(y=0\) on the \(y\) axis, and a
+    function that is positive on our entire interval \(x\in[0,3]\). One way to
+    solve this is by integration.
+</p>
+
+\[\begin{align}
+&\int_0^3\left(\frac{4}{9}x+3\right)dx=\left[\frac{2}{9}x^2+3x\right]_0^3
+=\frac{2}{9}(3)^2+3(3)=2+9=11
+\end{align}\]
+
+<p>
+    Alternatively, we can use geometry. The plot looks like this:
+</p>
+
+<svg width="220" height="220" viewBox="-5 -5 105 105" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <path d="M 1 0 v 100 h 100 M 30 100 v -5 m 30 0 v 5 m 30 0 v -5 M 1 80 h 5 m 0 -20 h -5 m 0 -20 h 5 m 0 -20 h -5 m 0 -20 h 5" stroke="black" stroke-width="1" fill="none" />
+    <path d="M 90 95 v -95 M 1 40 L 90 13" stroke="red" stroke-width="2" fill="none" />
+</svg>
+
+<p>
+    So we have a trapezoid with a base length of \(3\), left height of \(3\),
+    and right height of \(\frac{4}{3}+3=\frac{13}{3}\). Using the trapezoid area
+    formula:
+</p>
+
+\[\frac{1}{2}(3)\left(3+\frac{13}{3}\right)=\frac{3}{2}\frac{22}{3}=11\]
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
 
