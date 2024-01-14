@@ -668,6 +668,120 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
     That is, \(\frac{11+15}{2}=13\).
 </p>
 
+<h3>Jan 14</h3>
+
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <path d="M 25 25 L 95 15 L 5 95 Z" stroke-width="1" fill="none" stroke="black" />
+    <path d="M 25 25 L 45 60 M 67 35 l 5 5 M 25 72 l 5 5" stroke-width="1" fill="none" stroke="black" />
+    <text transform="translate(5 60)">9</text>
+    <text transform="translate(50 15)">7</text>
+    <text transform="translate(25 55)">4</text>
+    <text transform="translate(50 70)">x</text>
+</svg>
+
+<p>
+    The first way I came up with to solve this is really stupid because the
+    algebra becomes disgusting. We use Heron's formula. The area for the full
+    triangle is:
+</p>
+
+\[A=\sqrt{s(s-7)(s-9)(s-x)},s=\frac{7+9+x}{2}=8+\frac{x}{2}\]
+
+<p>
+    This can be simplified somewhat with algebra. I won't go into all the
+    details because I don't feel like typing all the disgusting algebra.
+</p>
+
+\[4A=\sqrt{(256-x^2)(x^2-4)}\]
+
+<p>
+    This area is equal to the areas of the 2 smaller triangles added together.
+    Let's find formulas for those areas similarly. Again, I don't feel like
+    writing out all the work, but these are the formulas I obtained:
+</p>
+
+\[16A_1=\sqrt{(676-x^2)(x^2-100)},16A_2=\sqrt{(484-x^2)(x^2-36)}\]
+
+<p>
+    So now we know that \(A=A_1+A_2 \Rightarrow A^2=A_1^2+A_2^2+2A_1A_2\). Since
+    we are squaring something with square roots, we may introduce extraneous
+    solutions. I'm going to multiply each side by 256 to make it a little easier
+    to plug in the formulas above, so we have
+    \(256A^2=256A_1^2+256A_2^2+512A_1A_2\) which can also be written as
+    \(16(4A)^2=(16A_1)^2+(16A_2)^2+2(16A_1)(16A_2)\). Now we plug in the Heron's
+    formula results. What happens is we will end up with a square root and some
+    polynomial terms. I will omit all the tedious algebra, but after separating
+    the polynomial stuff and the square root on different side, you should have
+    this:
+</p>
+
+\[-14x^4+2864x^2+68640=2\sqrt{(676-x^2)(x^2-100)(484-x^2)(x^2-36)}\]
+
+<p>
+    Now, square both sides so we can write it as a single polynomial. This gets
+    very disgusting.
+</p>
+
+\[192x^8-75008x^6+4326400x^4+587862016x^2=0\]
+
+<p>
+    Now let's substitute \(u=x^2\) since all the \(x\) degrees are even. We can
+    divide 64 out of each coefficient too.
+</p>
+
+\[u(3u^3-1172u^2+67600u+9185344)=0\]
+
+<p>
+    It's a lot of work by hand, but using a tool like WolframAlpha, this can be
+    factored. With that assistance, the factorization I found is:
+</p>
+
+\[u(u-196)(3u^2-584u-46864)=0\]
+
+<p>
+    So from this, we have a few solutions. \(x^2=0\Rightarrow x=0\) doesn't work
+    because it is physically impossible. \(x^2=\frac{292-8\sqrt{3529}}{3}\)
+    gives imaginary solutions so that doesn't work. For
+    \(x^2=\frac{292+8\sqrt{3529}}{3}\), we get a solution \(x\approx15.992\)
+    which is not physically possible, but that takes a bit more work to show so
+    I will omit that as well. So that leaves \(x^2=196\Rightarrow x=\pm14\) so
+    the only solution that does work is \(x=14\).
+</p>
+
+<hr />
+
+<p>
+    The Heron's method way was really stupid because if you are experienced with
+    algebra, you'll realize that if anything you plug in at the start is mildly
+    disgusting, its disgustingness will be amplified by multiplying and squaring
+    several mildly disgusting formulas together.
+</p>
+
+<p>
+    It turns out that since the edge of length 4 is a median (because it bisects
+    the edge of length \(x\)), we could use Apollonius's theorem, which was new
+    to me. Instead, I will present a solution using the law of cosines which is
+    similar to a proof of Apollonius's theorem. Let \(\alpha\) be the angle
+    between the sides of lengths \(x\) and \(7\). Then we can use the law of
+    cosines on that angle for both triangles it is contained in.
+</p>
+
+\[9^2=x^2+7^2-2(x)(7)\cos(\alpha) \Rightarrow \cos(\alpha)=\frac{x^2-32}{14x}\]
+
+\[4^2=\left(\frac{x}{2}\right)^2+7^2-2(7)\left(\frac{x}{2}\right)\cos(\alpha)
+\Rightarrow \cos(\alpha)=\frac{x^2+132}{28x}\]
+
+<p>
+    So we have 2 things equal to \(\cos(\alpha)\) so let's solve for \(x\).
+</p>
+
+\[\frac{x^2-32}{14x}=\frac{x^2+132}{28x} \Rightarrow
+2x^2-64=x^2+132 \Rightarrow x^2-196=0\]
+
+<p>
+    So \(x=\pm14\) and of course \(x=14\) is the only possible solution.
+</p>
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
 
