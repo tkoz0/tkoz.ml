@@ -11,8 +11,13 @@ function maketoc() {
         if (htags.includes(tn)) {
             let tnn = Number(tn.substring(1));
             let text = all[i].innerHTML;
-            let idtext = '_toc' + String(++id);
-            all[i].id = idtext;
+            let idtext = '';
+            if (all[i].hasAttribute('id')) {
+                idtext = all[i].id;
+            } else {
+                idtext = '_toc' + String(++id);
+                all[i].id = idtext;
+            }
             titles.push([tnn,text,idtext]);
         }
     }
