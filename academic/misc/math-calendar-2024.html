@@ -782,6 +782,61 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
     So \(x=\pm14\) and of course \(x=14\) is the only possible solution.
 </p>
 
+<h3>Jan 15</h3>
+
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <path d="M 10 90 h 80 M 25 90 L 15 40 L 65 90 L 95 10 L 25 90
+            M 18 55 A 8 8 0 0 0 26 51
+            M 22 78 A 14 14 0 0 1 35 90
+            M 58 83 A 14 14 0 0 1 75 90
+            M 82 25 A 6 6 0 0 0 88 30
+            M 26 82 l 1 -5 m 2 1 l -1 5 m 3 3 l 5 -1 m 1 2 l -5 1
+            M 63 85 v -5 m 6 7 l 4 -4" stroke="black" stroke-width="1" fill="none" />
+    <text transform="translate(70 20)" font-size="0.5em">x&deg;</text>
+    <text transform="translate(20 30)" font-size="0.5em">30&deg;</text>
+    <text transform="translate(40 50)" font-size="0.5em">48&deg;</text>
+    <path d="M 25 32 L 20 50 M 46 52 L 29 88 M 77 20 L 87 25" stroke="black" stroke-width="1" fill="none" />
+</svg>
+
+<p>
+    This is a problem using properties of angles. Let's first label unknown
+    angles so the equations are not confusing.
+</p>
+
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <path d="M 10 90 h 80 M 25 90 L 15 40 L 65 90 L 95 10 L 25 90
+            M 18 55 A 8 8 0 0 0 26 51
+            M 22 78 A 14 14 0 0 1 35 90
+            M 58 83 A 14 14 0 0 1 75 90
+            M 82 25 A 6 6 0 0 0 88 30
+            M 26 82 l 1 -5 m 2 1 l -1 5 m 3 3 l 5 -1 m 1 2 l -5 1
+            M 63 85 v -5 m 6 7 l 4 -4" stroke="black" stroke-width="1" fill="none" />
+    <text transform="translate(70 20)" font-size="0.5em">x&deg;</text>
+    <text transform="translate(20 30)" font-size="0.5em">30&deg;</text>
+    <text transform="translate(40 50)" font-size="0.5em">48&deg;</text>
+    <path d="M 25 32 L 20 50 M 46 52 L 29 88 M 77 20 L 87 25" stroke="black" stroke-width="1" fill="none" />
+    <!-- angle labels -->
+    <text transform="translate(25 75)" font-size="0.5em" stroke="red" stroke-width="0.5">a</text>
+    <text transform="translate(35 85)" font-size="0.5em" stroke="red" stroke-width="0.5">a</text>
+    <text transform="translate(61 78)" font-size="0.5em" stroke="red" stroke-width="0.5">b</text>
+    <text transform="translate(73 82)" font-size="0.5em" stroke="red" stroke-width="0.5">b</text>
+    <text transform="translate(37 70)" font-size="0.5em" stroke="red" stroke-width="0.5">c</text>
+    <text transform="translate(47 70)" font-size="0.5em" stroke="red" stroke-width="0.5">c</text>
+    <text transform="translate(42 65)" font-size="0.5em" stroke="red" stroke-width="0.5">d</text>
+    <text transform="translate(42 78)" font-size="0.5em" stroke="red" stroke-width="0.5">d</text>
+    <text transform="translate(52 88)" font-size="0.5em" stroke="red" stroke-width="0.5">e</text>
+</svg>
+
+<p>
+    Now we know \(a=48\). Since \(a\degree+30\degree+c\degree=180\degree\) from
+    the left triangle, we get \(c=102\). By supplementary angles,
+    \(c\degree+d\degree=180\degree\) so \(d=78\). Now using the middle triangle,
+    \(a\degree+d\degree+e\degree=180\degree\), so \(e=54\). Using supplementary
+    angles again, wew have \(e\degree+2b\degree=180\degree\) so \(b=63\). And
+    finally from the triangle at the right, we use
+    \(c\degree+b\degree+x\degree=180\degree\) to find \(x=15\).
+</p>
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
 
