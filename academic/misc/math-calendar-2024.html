@@ -859,6 +859,82 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
     using the positions of the ones, it is \(F_6+F_3+F_1=13+3+1=17\).
 </p>
 
+<h3>Jan 18</h3>
+
+<svg width="240" height="280" viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <!--<path d="M 0 0 h 120 v 140 h -120 v -140" stroke="red" stroke-width="2" fill="none" />-->
+    <path d="M 10 30 h 100 v 100 h -100 v -100" fill="none" stroke="black" stroke-width="1" />
+    <path d="M 60 130 l -50 -10 l 20 -100 l 50 10 z" fill="rgba(0,0,255,0.2)" stroke="black" stroke-width="1" />
+    <!-- outer square markings -->
+    <path d="M 10 80 l 3 -3 l -3 3 l -3 -3
+             M 110 80 l 3 3 l -3 -3 l -3 3
+             M 60 30 l 3 -3 l -3 3 l 3 3
+             M 35 130 v 3 v -6
+             M 85 130 v 3 v -6
+             M 110 120 h -10 v 10"
+             fill="none" stroke="black" stroke-wdith="1" />
+    <!-- inner rectangle markings -->
+    <path d="M 10 120 m 2 -10 l 10 2 l -2 10
+             M 24 125.5 l 1 -5 m 2.5 0.5 l -1 5 m 20 -100
+             l 1 -5 m -2.5 -0.5 l -1 5
+             M 17.5 70 l 5 1 m 0.5 -2.5 l -5 -1 m 0.5 -2.5 l 5 1 m 50 10
+             l -5 -1 m -0.5 2.5 l 5 1 m -0.5 2.5 l -5 -1"
+             fill="none" stroke="black" stroke-width="1" />
+    <text transform="translate(40 80)">x</text>
+    <text transform="translate(55 20)">3</text>
+</svg>
+
+<p>
+    Another geometry problem. The only slightly not obvious things to note here
+    are that \(x\) is the area of the shaded region, \(3\) is the side length of
+    the shaded region, and the outer shape is a square. First we shall label 2
+    right triangles and their points.
+</p>
+
+<svg width="240" height="280" viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <!--<path d="M 0 0 h 120 v 140 h -120 v -140" stroke="red" stroke-width="2" fill="none" />-->
+    <path d="M 10 30 h 100 v 100 h -100 v -100" fill="none" stroke="black" stroke-width="1" />
+    <path d="M 60 130 l -50 -10 l 20 -100 l 50 10 z" fill="rgba(0,0,255,0.2)" stroke="black" stroke-width="1" />
+    <!-- outer square markings -->
+    <path d="M 10 80 l 3 -3 l -3 3 l -3 -3
+             M 110 80 l 3 3 l -3 -3 l -3 3
+             M 60 30 l 3 -3 l -3 3 l 3 3
+             M 35 130 v 3 v -6
+             M 85 130 v 3 v -6
+             M 110 120 h -10 v 10"
+             fill="none" stroke="black" stroke-width="1" />
+    <!-- inner rectangle markings -->
+    <path d="M 10 120 m 2 -10 l 10 2 l -2 10
+             M 24 125.5 l 1 -5 m 2.5 0.5 l -1 5 m 20 -100
+             l 1 -5 m -2.5 -0.5 l -1 5
+             M 17.5 70 l 5 1 m 0.5 -2.5 l -5 -1 m 0.5 -2.5 l 5 1 m 50 10
+             l -5 -1 m -0.5 2.5 l 5 1 m -0.5 2.5 l -5 -1"
+             fill="none" stroke="black" stroke-width="1" />
+    <text transform="translate(40 80)">x</text>
+    <text transform="translate(55 20)">3</text>
+    <!-- 2 triangle annotations -->
+    <path d="M 10 130 l 50 0 l -50 -10 L 10 130 m 4 0 v -4 h -4" fill="none" stroke="rgb(0 255 0)" stroke-width="1" />
+    <path d="M 60 130 l 20 -100 v 100 L 60 130 m 15 0 v -5 h 5" fill="none" stroke="rgb(255 0 0)" stroke-width="1" />
+    <!-- points -->
+    <text transform="translate(3 122)" font-size="0.5em">A</text>
+    <text transform="translate(3 132)" font-size="0.5em">B</text>
+    <text transform="translate(75 27)" font-size="0.5em">C</text>
+    <text transform="translate(75 137)" font-size="0.5em">D</text>
+    <text transform="translate(60 137)" font-size="0.5em">E</text>
+</svg>
+
+<p>
+    We would like to show \(\triangle ABE \sim \triangle EDC\) (the 2 triangles
+    are similar). By using complementary angles, we can show that
+    \(\angle BAE = \angle DEC\) and \(\angle BEA = \angle DCE\). Since all 3
+    angles have matching measures, they are similar. Next, we know
+    \(\overline{CD}=2\overline{BE}\) because \(\overline{CD}\) is the same
+    length of a side of the square and \(\overline{BE}\) is half of the side
+    length of the square. Therefore, by triangle similarity,
+    \(\overline{CE}=2\overline{AE}=2\times3=6\). So then we can determine that
+    the area of the shaded rectangle is \(3\times6=18\).
+</p>
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
 
