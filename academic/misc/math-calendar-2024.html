@@ -946,10 +946,10 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
 
 <svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="img_center">
     <style>
-        .t { font-size: 0.5em; }
-        .t1 { fill: green; }
-        .t2 { fill: red; }
-        .t3 { fill: purple; }
+        .jan20_t { font-size: 0.5em; }
+        .jan20_t1 { fill: green; }
+        .jan20_t2 { fill: red; }
+        .jan20_t3 { fill: purple; }
     </style>
     <circle cx="50" cy="50" r="45" fill="none" stroke="black" stroke-width="1" />
     <circle cx="50" cy="50" r="1" fill="none" stroke="black" stroke-width="2" />
@@ -957,10 +957,10 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
     <path d="M 40 70 L 80 84" fill="none" stroke="purple" stroke-width="1" />
     <path d="M 15 78 L 40 70" fill="none" stroke="red" stroke-width="1" />
     <path d="M 40 70 L 95 52" fill="none" stroke="green" stroke="width=1" />
-    <text transform="translate(20 60)" class="t">2x-10</text>
-    <text transform="translate(65 55)" class="t t1">3x</text>
-    <text transform="translate(25 85)" class="t t2">2x-20</text>
-    <text transform="translate(55 85)" class="t t3">2x</text>
+    <text transform="translate(20 60)" class="jan20_t">2x-10</text>
+    <text transform="translate(65 55)" class="jan20_t jan20_t1">3x</text>
+    <text transform="translate(25 85)" class="jan20_t jan20_t2">2x-20</text>
+    <text transform="translate(55 85)" class="jan20_t jan20_t3">2x</text>
 </svg>
 
 <p>
@@ -989,6 +989,122 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
     a number \(n=2^a\cdot3^b\) where \(a=0,1,2,3,4,5,6\) and \(b=0,1,2\). There
     are 7 choices for \(a\) and 3 choices for \(b\) so it has \(21\) factors.
 </p>
+
+<h3>Jan 22</h3>
+
+<svg width="260" height="200" viewBox="0 0 130 100" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <!--<path d="M 0 0 h 130 v 100 h -130 v -100" stroke="orange" fill="none" />-->
+    <style>
+        .jan22_x { fill: #0cf; font-size: 1em; }
+        .jan22_r { fill: #3c3; font-size: 0.7em; }
+        .jan22_e { fill: red; font-size: 1.2em; }
+    </style>
+    <path d="M 9 92 h 112 v -84 l -112 84
+             M 121 92 m 0 -8 h -8 v 8 m 8 -48 h -48 v 48
+             M 121 92 m 0 -24 h 3 h -6
+             M 121 92 m -24 0 v 3 v -6
+             M 121 92 m -48 -24 h 3 h -6
+             M 121 92 m -24 -48 v 3 v -6"
+            stroke="black" stroke-width="1" fill="none" />
+    <circle cx="97" cy="80" r="12" fill="none" stroke="black" stroke-width="1" />
+    <circle cx="97" cy="56" r="12" fill="none" stroke="black" stroke-width="1" />
+    <circle cx="81" cy="68" r="8" fill="none" stroke="black" stroke-width="1" />
+    <circle cx="113" cy="68" r="8" fill="none" stroke="black" stroke-width="1" />
+    <circle cx="109" cy="32" r="12" fill="none" stroke="black" stroke-width="1" />
+    <circle cx="57" cy="76" r="16" fill="none" stroke="black" stroke-width="1" />
+    <path d="M 57 76 l 9.6 -12.8" stroke="#0cf" stroke-width="1" fill="none" />
+    <path d="M 81 68 l -5.66 5.66 M 113 68 l 5.66 5.66" stroke="red" stroke-width="1" fill="none" />
+    <path d="M 97 80 l 11.31 4 M 97 56 l 11.31 -4 M 109 32 l 10.39 -6" stroke="#3c3" stroke-width="1" fill="none" />
+    <text class="jan22_x" transform="translate(50 73)">x</text>
+    <text class="jan22_r" transform="translate(97 78)">r</text>
+    <text class="jan22_r" transform="translate(97 54)">r</text>
+    <text class="jan22_r" transform="translate(109 29)">r</text>
+    <path d="M 78 65 L 65 35 L 110 67" stroke="red" stroke-width="1" fill="none" />
+    <path d="M 78 65 l 0.5 -2 l -2 1.5 z" stroke="red" stroke-width="1" fill="red" />
+    <path d="M 110 67 v -2 l -2 2 z" stroke="red" stroke-width="1" fill="red" />
+    <text class="jan22_e" transform="translate(55 30)">11</text>
+</svg>
+
+<p>
+    This problem is going to involve a few steps, each requiring its own SVG
+    that isn't a copy of the above + annotations (so a lot of tedious work
+    because I've been writing these SVGs manually). First let's focus on the
+    square and solve for \(r\).
+</p>
+
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <style>
+        .jan22_r2 { fill: #3c3; font-size: 0.5em; }
+        .jan22_e2 { fill: red; font-size: 0.5em; }
+        .jan22_t2 { fill: blue; font-size: 0.5em; }
+    </style>
+    <path d="M 94 94 h -88 v -88 h 88 v 88
+             M 6 50 h 3 h -6
+             M 50 6 v 3 v -6
+             M 50 94 v 3 v -6
+             M 94 50 h 3 h -6"
+             stroke="black" stroke-width="1" fill="none" />
+    <circle cx="50" cy="28" r="22" fill="none" stroke="black" stroke-width="1" />
+    <circle cx="50" cy="72" r="22" fill="none" stroke="black" stroke-width="1" />
+    <circle cx="20.6" cy="50" r="14.6" fill="none" stroke="black" stroke-width="1" />
+    <circle cx="79.4" cy="50" r="14.6" fill="none" stroke="black" stroke-width="1" />
+    <path d="M 20.6 50 h -14.6" stroke="red" stroke-width="1" fill="none" />
+    <path d="M 50 28 v -22" stroke="#3c3" stroke-width="1" fill="none" />
+    <path d="M 20.6 50 L 50 28 L 50 50 Z" stroke="blue" stroke-width="1" fill="none" />
+    <text class="jan22_e2" transform="translate(10 47)">11</text>
+    <text class="jan22_r2" transform="translate(44 20)">r</text>
+    <text class="jan22_t2" transform="translate(30 30)">11+r</text>
+    <text class="jan22_t2" transform="translate(53 42)">r</text>
+    <text class="jan22_t2" transform="translate(36 63) rotate(-25)">2r-11</text>
+</svg>
+
+<p>
+    The side length of the square is \(4r\) from the 2 circles of radius \(r\)
+    so the square we have drawn in the top right corner has side length \(2r\).
+    Then by using the radii of the circles, we can find the blue right triangle.
+    By the Pythagorean theorem, we get (\(r=0\) is impossible):
+</p>
+
+\[r^2+(2r-11)^2=(11+r)^2 \Rightarrow 2r(2r-33)=0 \Rightarrow r=\frac{33}{2}\]
+
+<p>
+    Next we focus on the right triangle on the top.
+</p>
+
+<svg width="200" height="140" viewBox="0 0 100 70" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <path d="M 90 65 h -80 l 80 -60 Z" stroke="black" stroke-width="1" fill="none" />
+    <circle cx="70" cy="45" r="20" stroke="black" stroke-width="1" fill="none" />
+    <style>
+        .jan22_r3 { fill: #3c3; font-size: 0.5em; }
+        .jan22_e3 { fill: red; font-size: 0.5em; }
+        .jan22_t3 { fill: blue; font-size: 0.5em; }
+    </style>
+    <path d="M 70 45 h 20 h -20 v 20 v -20 l -12 -16" stroke="#3c3" stroke-width="1" fill="none" />
+    <path d="M 58 29 L 90 5 v 40 v -40" stroke="red" stroke-width="1" fill="none" />
+    <path d="M 58 29 L 10 65 h 60" stroke="blue" stroke-width="1" fill="none" />
+    <text class="jan22_e3" transform="translate(70 15)">s</text>
+    <text class="jan22_e3" transform="translate(92 25)">s</text>
+    <text class="jan22_t3" transform="translate(25 45)">3r</text>
+    <text class="jan22_t3" transform="translate(30 62)">3r</text>
+    <text class="jan22_r3" transform="translate(75 42)">r</text>
+</svg>
+
+<p>
+    To solve for \(s\), we use the Pythagorean theorem.
+</p>
+
+\[(4r)^2+(r+s)^2=(3r+s)^2 \Rightarrow 8r^2=4rs \Rightarrow s=2r\]
+
+<p>
+    Now we know this right triangle has side lengths \(3r,4r,5r\). By triangle
+    similarity, we can find the ratio of the bottom left triangle to this
+    triangle (using the sides on the right) and use that ratio to solve for
+    \(x\). These right triangles are similar because the angles are all the
+    same, because of the theorem about a line intersecting 2 parallel lines.
+</p>
+
+\[\frac{4r}{3r}=\frac{4}{3} \Rightarrow \frac{x}{r}=\frac{4}{3}
+\Rightarrow x=22\]
 
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
