@@ -1124,6 +1124,104 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
     answer is \(x^2=23\).
 </p>
 
+<h3>Jan 24</h3>
+
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <style>
+        .jan24_a { font-size: 0.5em; }
+    </style>
+    <path d="M 12 72 L 40 16 L 92 92 Z" stroke="black" stroke-width="1" fill="none" />
+    <path d="M 12 72 L 66 54 L 26 44" stroke="black" stroke-width="1" fill="none" />
+    <path d="M 40 16 L 52 82" stroke="black" stroke-width="1" fill="none" />
+    <path d="M 66 54 L 46 49 L 48 60 Z" stroke="black" stroke-width="1" fill="rgba(127,127,127,0.5)" />
+    <path d="M 33 24 l 5 3 m -1.5 2.5 l -5 -3 m -1.5 2.5 l 5 3
+             M 18 55 l 5 3 m -1.5 2.5 l -5 -3 m -1.5 2.5 l 5 3
+             M 25 78 l 2 -5 m 2.5 1 l -2 5
+             M 70 89 l 2 -5 m 2.5 1 l -2 5
+             M 50 35 l 4 -4
+             M 74 70 l 4 -4
+            " stroke="black" stroke-width="1" fill="none" />
+    <text class="jan24_a" transform="translate(6 72)">A</text>
+    <text class="jan24_a" transform="translate(40 16)">B</text>
+    <text class="jan24_a" transform="translate(92 92)">C</text>
+    <text class="jan24_a" transform="translate(39 47)">P</text>
+    <text class="jan24_a" transform="translate(65 53)">Q</text>
+    <text class="jan24_a" transform="translate(42 60)">R</text>
+</svg>
+
+<p>
+    Find \(x=\frac{\text{area}(ABC)}{\text{area}(PQR)}\)
+</p>
+
+<p>
+    This is doable with triangle median theorems. Each median divides the
+    triangle into 2 equal halfs and all 3 medians divide the triangle into 6
+    equal areas. First let's label the areas so we can work with them.
+</p>
+
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <style>
+        .jan24_a { font-size: 0.5em; }
+        .jan24_b { font-size: 0.5em; fill: red; }
+    </style>
+    <path d="M 12 72 L 40 16 L 92 92 Z" stroke="black" stroke-width="1" fill="none" />
+    <path d="M 12 72 L 66 54 L 26 44" stroke="black" stroke-width="1" fill="none" />
+    <path d="M 40 16 L 52 82" stroke="black" stroke-width="1" fill="none" />
+    <path d="M 66 54 L 46 49 L 48 60 Z" stroke="black" stroke-width="1" fill="rgba(127,127,127,0.5)" />
+    <path d="M 33 24 l 5 3 m -1.5 2.5 l -5 -3 m -1.5 2.5 l 5 3
+             M 18 55 l 5 3 m -1.5 2.5 l -5 -3 m -1.5 2.5 l 5 3
+             M 25 78 l 2 -5 m 2.5 1 l -2 5
+             M 70 89 l 2 -5 m 2.5 1 l -2 5
+             M 50 35 l 4 -4
+             M 74 70 l 4 -4
+            " stroke="black" stroke-width="1" fill="none" />
+    <text class="jan24_a" transform="translate(6 72)">A</text>
+    <text class="jan24_a" transform="translate(40 16)">B</text>
+    <text class="jan24_a" transform="translate(92 92)">C</text>
+    <text class="jan24_a" transform="translate(39 47)">P</text>
+    <text class="jan24_a" transform="translate(65 53)">Q</text>
+    <text class="jan24_a" transform="translate(42 60)">R</text>
+    <!-- area labels -->
+    <text class="jan24_b" transform="translate(35 40)">D</text>
+    <text class="jan24_b" transform="translate(50 45)">E</text>
+    <text class="jan24_b" transform="translate(30 55)">F</text>
+    <text class="jan24_b" transform="translate(50 57)">G</text>
+    <text class="jan24_b" transform="translate(40 75)">H</text>
+    <text class="jan24_b" transform="translate(60 75)">J</text>
+</svg>
+
+<p>
+    Using the median with point \(B\), we have
+</p>
+
+\[D+F+H=E+G+J\]
+
+<p>
+    Since \(PQ||AC\), we have similar triangles and can find \(D=E\) so we can
+    simplify the above to
+</p>
+
+\[F+H=G+J\]
+
+<p>
+    Now by similar triangles, \(D+F+H=4D\) so we can substitute \(F+H=3D\)
+</p>
+
+\[3D=G+J\]
+
+<p>
+    Now let \(X\) be the area of \(\triangle ABC\). We have \(D+F+H=X/2\) so
+    \(D=E=X/8\). From the equal areas theorem, \(J=X/3\) since it contains 2 of
+    the 6 areas created by the medians. Now we plug those in
+</p>
+
+\[3X/8=G+X/3 \Rightarrow G=X/24\]
+
+<p>
+    So we find that if \(\text{area}(ABC)=X\) then \(\text{area}(PQR)=G=X/24\).
+    Therefore, \(x=24\).
+</p>
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
 
