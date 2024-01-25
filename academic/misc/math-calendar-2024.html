@@ -1222,6 +1222,116 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
     Therefore, \(x=24\).
 </p>
 
+<h3>Jan 25</h3>
+
+\[49^{49^{49^{49^{49}}}}\mod47\]
+
+<p>
+    Anoher way we can write this is \(49\uparrow\uparrow5\mod47\) using Knuth's
+    up arrow notation. 2 up arrows is for power towers. Repeated multiplication
+    creates a cycle in modular arithmeic, so we will have to look at these
+    power cycles to solve this problem.
+</p>
+
+<p>
+    First we look at powers of \(49\) modulo \(47\). Since \(49\equiv2\mod47\),
+    we can look at powers of \(2\) modulo \(47\). Since \(\gcd(2,47)=1\), we can
+    find some power \(p\) so \(2^{p}\equiv1\mod47\). From number theory,
+    \(p|\phi(47)\) so since \(\phi(47)=46\), \(p\) is one of \(1,2,23,46\).
+    We could use \(p=46\) since that will work, but the math gets a little
+    easier if we can use something smaller. It turns out that \(2\) is not a
+    primitive root modulo \(47\) and that the smallest such \(p\) that works is
+    \(23\). So we have
+    \(49\uparrow\uparrow5\equiv2^{49\uparrow\uparrow4}\mod47\). If we can
+    express \(49\uparrow\uparrow4=23u+v\), then we would know the answer is
+    \(2^v\mod47\). This has reduced the power tower size by 1 and the modulus
+    we are working with from 47 to 23. We have to repeat this a few times so the
+    work is summarized in the table below.
+</p>
+
+<table>
+    <tr>
+        <th>step</th>
+        <th>compute this</th>
+        <th>base reduction</th>
+        <th>power cycle</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>\(49\uparrow\uparrow5\mod47\)</td>
+        <td>\(2^{49\uparrow\uparrow4}\mod47\)</td>
+        <td>\(2^{23}\equiv1\mod47\)</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>\(49\uparrow\uparrow4\mod23\)</td>
+        <td>\(3^{49\uparrow\uparrow3}\mod23\)</td>
+        <td>\(3^{11}\equiv1\mod23\)</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>\(49\uparrow\uparrow3\mod11\)</td>
+        <td>\(5^{49\uparrow\uparrow2}\mod11\)</td>
+        <td>\(5^5\equiv1\mod11\)</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>\(49^{49}\mod5\)</td>
+        <td>\(4^{49}\mod5\)</td>
+        <td>\(4^2\equiv1\mod5\)</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>\(49\mod2\)</td>
+        <td>\(1\)</td>
+        <td></td>
+    </tr>
+</table>
+
+<p>
+    Next, we have to work backwards. We know that \(49\equiv1\mod2\). Using
+    this, we have \(49^{49}\equiv4^{49}\equiv4^1\equiv4\mod5\). Next,
+    \(49\uparrow\uparrow3\equiv5^{49^{49}}\equiv5^4\equiv9\mod11\). We repeat
+    this and the work is summarized in the following table.
+</p>
+
+<table>
+    <tr>
+        <th>step</th>
+        <th>compute this</th>
+        <th>work</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>\(49\mod2\)</td>
+        <td>\(1\)</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>\(49^{49}\mod5\)</td>
+        <td>\(\equiv4^{49}\equiv4^{2\cdot24+1}\equiv4^1\equiv4\mod5\)</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>\(49\uparrow\uparrow3\mod11\)</td>
+        <td>\(\equiv5^{49\uparrow\uparrow2}\equiv5^4\equiv9\mod11\)</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>\(49\uparrow\uparrow4\mod23\)</td>
+        <td>\(\equiv3^{49\uparrow\uparrow3}\equiv3^9=18\mod23\)</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>\(49\uparrow\uparrow5\mod47\)</td>
+        <td>\(\equiv2^{49\uparrow\uparrow4}\equiv2^{18}\equiv25\mod47\)</td>
+    </tr>
+</table>
+
+<p>
+    Therefore, the answer is 25.
+</p>
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
 
