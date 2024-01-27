@@ -1349,6 +1349,57 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
 
 \[(-1+2)+(-3+4)+\ldots+(-51+52)=1+1+\ldots+1=26\]
 
+<h3>Jan 27</h3>
+
+\[\begin{align}&3r+6s+t=21\\&5r+11s+t=33\\&x=3r+3s+3t\end{align}\]
+
+<p>
+    There can only be a possible value for \(x\) if \(3r+3s+3t\) is linearly
+    dependent on the first 2 equations so let's see if we can find constants
+    \(a,b\) to add multiples of them to get \(3r+3s+3t\).
+</p>
+
+\[a(3r+6s+t)+b(5r+11+t)=3r+3s+3t \Rightarrow 3a+5b=3,6a+11b=3,a+b=3\]
+
+<p>
+    We have 2 variables and 3 equations. By solving the first 2, we find
+    \(a=6,b=-3\) and this also satisfies the 3rd. So this means
+    \(x=21a+33b=6\cdot21-3\cdot33=126-99=27\).
+</p>
+
+<p>
+    Alternatively, we can write this as a matrix and do row elimination.
+</p>
+
+\[\begin{align}
+&\begin{bmatrix}
+3&6&1&\big|&21\\
+5&11&1&\big|&33\\
+3&3&3&\big|&x\\
+\end{bmatrix}\sim
+\begin{bmatrix}
+1&1&1&\big|&x/3\\
+3&6&1&\big|&21\\
+5&11&1&\big|&33\\
+\end{bmatrix}\sim
+\begin{bmatrix}
+1&1&1&\big|&x/3\\
+0&3&-2&\big|&21-x\\
+0&6&-4&\big|&33-5x/3\\
+\end{bmatrix}\\
+\sim&
+\begin{bmatrix}
+1&1&1&\big|&x/3\\
+0&3&-2&\big|&21-x\\
+0&0&0&\big|&(33-5x/3)-2(21-x)\\
+\end{bmatrix}
+\end{align}\]
+
+<p>
+    For this matrix to have a solution, we must have
+    \(0=(33-5x/3)-2(21-x)=x/3-9\Rightarrow x=27\).
+</p>
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
 
