@@ -1449,6 +1449,50 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
 +4^{\frac{4}{4}+\frac{4}{4}}
 =(4+1)(4-1)+4^{1+1}=5\cdot3+4^2=15+16=31\]
 
+<h2>February</h2>
+
+<h3>Feb 01</h3>
+
+<p>
+    Every known perfect number except \(6\) leaves remainder \(x\) when divided
+    by \(9\).
+</p>
+
+<p>
+    All known perfect numbers are in the form of \(2^{p-1}(2^p-1)\) where
+    \(2^p-1\) is a Mersenne prime. The divisors of such numbers are
+    \(1,2,4,\ldots,2^{p-1}\) and each of these multiplied by \(2^p-1\), so they
+    all sum to \((2^p-1)(1+2^p-1)=2^p(2^p-1)\), which means the number is
+    perfect. It is known that all even perfect numbers are of this form, but
+    that is much harder to prove. It is unknown whether any odd perfect numbers
+    exist.
+</p>
+
+<p>
+    This form is \(6\) when \(p=2\). All other cases are for some odd
+    \(p\geq3\). Let \(p=2k+1\) for some \(k&gt;0\). Then
+</p>
+
+\[2^{p-1}(2^p-1)=2^{2k}(2^{2k+1}-1)=2^{4k+1}-2^{2k}\]
+
+<p>
+    To find its congruence modulo \(9\), let's examine \(2^0,2^1,2^2,\ldots\)
+    modulo \(9\).
+</p>
+
+\[1,2,4,8,7,5,1,2,4,8,7,5,\ldots\]
+
+<p>
+    So the powers of \(2\) modulo \(9\) repeat in a cycle of length \(6\).
+    Next we have to consider a few cases of \(k\). If \(k\equiv0\pmod{3}\) then
+    \(4k+1\equiv1\pmod{6}\) and \(2k\equiv0\pmod{6}\) so
+    \(2^{4k+1}-2^{2k}\equiv2^1-2^0\equiv1\pmod{9}\). If \(k\equiv1\pmod{3}\)
+    then \(4k+1\equiv5\pmod{6}\) and \(2k\equiv2\pmod{6}\) so
+    \(2^{4k+1}-2^{2k}\equiv2^5-2^2\equiv1\pmod{9}\). Finally if
+    \(k\equiv2\pmod{3}\) then \(4k+1\equiv3\pmod{6}\) and \(2k\equiv4\pmod{6}\)
+    so \(2^{4k+1}-2^{2k}\equiv2^3-2^4\equiv1\pmod{9}\). Therefore, \(x=1\).
+</p>
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
 
