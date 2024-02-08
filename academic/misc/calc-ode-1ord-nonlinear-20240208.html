@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>20240208</title>
+    <link rel="stylesheet" type="text/css" href="/mathstyles.css" />
+    <script type="text/javascript">
+        window.MathJax = { tex: { macros: {
+            t: ['\\theta']
+        }}};
+    </script>
+    <script type="text/javascript" src="/mathscripts.js"></script>
+</head>
+<body>
+<div id="root">
+
+<h1>A 1st Order Nonlinear ODE</h1>
+
+<div id="toc"></div>
+
+\[y'+2y=y^3x^2\]
+
+<p>
+    This is 1st order and nonlinear. But it can be turned into a first order
+    linear differential equation which can be solved with an integrating factor.
+    First divide each side by \(y^3\).
+</p>
+
+\[y^{-3}y'+2y^{-2}=x^2\]
+
+<p>
+    Now we can see that we have \(y^{-2}\) and its derivative is proportional to
+    \(y^{-3}y'\) which we also see. So to turn this into first order, we can
+    make the substitution \(u=y^{-2},u'=-2y^{-3}y'\) after multiplying each side
+    by \(-2\).
+</p>
+
+\[-2y^{-3}y'-4y^{-2}=-2x^2\]
+\[u'-4u=-2x^2\]
+
+<p>
+    The integrating factor would be \(e^{\int-4dx}=e^{-4x}\). Multiply each side
+    by this.
+</p>
+
+\[e^{-4x}u'-4e^{-4x}u=-2x^2e^{-4x}\]
+
+<p>
+    Now we can see that the left side is in the form of the product rule, which
+    we can reverse.
+</p>
+
+\[(e^{-4x}u)'=-2x^2e^{-4x}\]
+
+<p>
+    Next, we integrate both sides so we need to use integration by parts.
+</p>
+
+\[e^{-4x}u=-\int2x^2e^{-4x}dx=\int\left(\frac{-1}{4}e^{-4x}\cdot4x\right)dx
+-(2x^2)\left(\frac{-1}{4}e^{-4x}\right)\]
+\[=-\int xe^{-4x}dx+\frac{1}{2}x^2e^{-4x}
+=\int\left(\frac{-1}{4}e^{-4x}\right)dx-x\left(\frac{-1}{4}e^{-4x}\right)
++\frac{1}{2}x^2e^{-4x}\]
+\[=\frac{1}{16}e^{-4x}+\frac{x}{4}e^{-4x}+\frac{1}{2}x^2e^{-4x}+C
+=\frac{e^{-4x}}{16}\left(1+4x+8x^2\right)+C\]
+
+<p>
+    Now multiply each side by \(e^{4x}\) and substitute \(u=y^{-2}\) so we have.
+</p>
+
+\[y^{-2}=\frac{1+4x+8x^2+16Ce^{4x}}{16}\]
+
+<p>
+    Then we flip this, take the square root, and replace \(16C\) with some
+    constant \(c_1\) so the solution is.
+</p>
+
+\[y=\frac{\pm4}{\sqrt{1+4x+8x^2+c_1e^{4x}}}\]
+
+</div>
+</body>
+</html>

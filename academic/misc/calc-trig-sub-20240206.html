@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>20240206</title>
+    <link rel="stylesheet" type="text/css" href="/mathstyles.css" />
+    <script type="text/javascript">
+        window.MathJax = { tex: { macros: {
+            t: ['\\theta']
+        }}};
+    </script>
+    <script type="text/javascript" src="/mathscripts.js"></script>
+</head>
+<body>
+<div id="root">
+
+<h1>A Calculus Trigonometric Substitution Problem</h1>
+
+<div id="toc"></div>
+
+<p>
+    This is a problem I once encountered with a student while working as an
+    online tutor.
+</p>
+
+\[\int\frac{x^2dx}{(3+4x-4x^2)^{3/2}}\]
+
+<p>
+    The first step is to complete the square on the bottom because then we can
+    use some nice trigonometric identities like \(1-\sin^2x=\cos^2x\).
+</p>
+
+\[3+4x-4x^2=-(4x^2-4x)+3=-(4x^2-4x+1)+4=4-(2x-1)^2\]
+
+<p>
+    Now we would like to have \(2x-1=2\sin\t\) so that we can apply a nice
+    trigonometric identity on the bottom. So we use this for the substitution,
+    which is also written as \(x=\frac{1}{2}(2\sin\t+1)\).
+</p>
+
+\[\int\frac{x^2dx}{(4-(2x-1)^2)^{3/2}}
+=\int\frac{\left(\frac{1}{2}(2\sin\t+1)\right)^2d(\frac{1}{2}(2\sin\t+1))}
+{(4-4\sin^2\t)^{3/2}}\]
+
+<p>
+    Take out each \(\frac{1}{2}\) on the numerator to simplify it a little.
+</p>
+
+\[\frac{1}{4}\int\frac{(2\sin\t+1)^2\cos\t d\t}{(4-4\sin^2\t)^{3/2}}\]
+
+<p>
+    Now on the bottom, \(4-4\sin^2\t=4\cos^2\t\) and the \(3/2\) exponent turns
+    this into \(8\cos^3\t\).
+</p>
+
+\[\frac{1}{4}\int\frac{(2\sin\t+1)^2\cos\t d\t}{8\cos^3\t}
+=\frac{1}{32}\int\frac{(2\sin\t+1)^2d\t}{\cos^2\t}
+=\frac{1}{32}\int\frac{(4\sin^2\t+4\sin\t+1)d\t}{\cos^2\t}\]
+
+<p>
+    Now we will use \(\sin^2\t=1-\cos^2\t\) so part of this integral becomes
+    integrating a constant.
+</p>
+
+\[\begin{align}&\frac{1}{32}\int\frac{(4-4\cos^2\t+4\sin\t+1)d\t}{\cos^2\t}
+=\frac{1}{32}\int\frac{(-4\cos^2\t+4\sin\t+5)d\t}{\cos^2\t}\\
+&=\frac{1}{32}\int\left(-4+\frac{4\sin\t}{\cos^2\t}+5\sec^2\t\right)d\t
+=\frac{1}{32}\left(-4\t+\int\frac{4\sin\t d\t}{\cos^2\t}+5\tan\t\right)\\
+&=\frac{1}{32}\left(-4\t-\int\frac{4d(\cos\t)}{\cos^2\t}+5\tan\t\right)
+=\frac{1}{32}\left(-4\t+\frac{4}{\cos\t}+5\tan\t\right)+C\end{align}\]
+
+<p>
+    Next, we need to find how to replace all the \(\t\) stuff with \(x\). Our
+    substitution gives us \(\sin\t=\frac{1}{2}(2x-1)\) so we can draw a right
+    triangle with this angle and 2 side lengths, solving for the remaining side
+    length with the Pythagorean theorem.
+</p>
+
+<svg width="250" height="250" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <style>.a{font-size:0.5em;}</style>
+    <path d="M 20 80 L 80 80 L 80 20 Z" fill="none" stroke="black" stroke-width="1" />
+    <text transform="translate(30 78)" class="a">&theta;</text>
+    <text transform="translate(45 45)" class="a">2</text>
+    <text transform="translate(82 50)" class="a">2x-1</text>
+    <text transform="translate(30 90)" class="a">sqrt(3+4x-4x^2)</text>
+</svg>
+
+<p>
+    From this, we have \(\cos\t=\frac{\sqrt{3-4x-4x^2}}{2}\) and
+    \(\tan\t=\frac{2x-1}{\sqrt{3+4x-4x^2}}\). Also using the property that
+    \(\arcsin\) is odd.
+</p>
+
+\[\begin{align}&
+\frac{1}{32}\left(-4\arcsin\left(x-\frac{1}{2}\right)+\frac{8}{\sqrt{3+4x-4x^2}}
++\frac{5(2x-1)}{\sqrt{3+4x-4x^2}}\right)+C\\
+&=\frac{4\arcsin\left(\frac{1}{2}-x\right)\sqrt{3+4x-4x^2}+10x+3}
+{32\sqrt{3+4x-4x^2}}+C
+\end{align}\]
+
+</div>
+</body>
+</html>
