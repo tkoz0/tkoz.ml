@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="/mathstyles.css" />
     <script type="text/javascript">
         window.MathJax = { tex: { macros: {
+            iddots: ['\\unicode{x22F0}']
         }}};
     </script>
     <script type="text/javascript" src="/mathscripts.js"></script>
@@ -1584,6 +1585,24 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
 <p>
     This is Chinese for "one plus two plus three plus four" so we have
     \(1+2+3+4=10\).
+</p>
+
+<h3>Feb 11</h3>
+
+\[\begin{align}&x=y^{11}\\&y^{y^x}=11\end{align}\]
+
+<p>
+    Assuming \(x\) and \(y\) are both positive real numbers, substitute the
+    first equation into the second to get \(y^{y^{y^{11}}}=11\). Then from here,
+    we can form arbitrarily long power towers like this:
+    \(y^{y^{\iddots^{y^{11}}}}=11\). Then by taking log of both sides, we would
+    find \(11=\log_y11 \Rightarrow y^{11}=11\) so \(x=11\).
+</p>
+
+<p>
+    This might not quite be the most satisfying/rigorous solution. Another way
+    to see this is that \(y^{y^x}\) is monotonic so finding \(y=\sqrt[11]{11}\)
+    as a solution means it is the only one so we can conclude \(x=11\).
 </p>
 
 <!-- allow scroll past end a bit -->
