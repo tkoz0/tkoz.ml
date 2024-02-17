@@ -1695,6 +1695,48 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
 &x^2=75+75-150(-1/2)=225 \Rightarrow x=15\\
 \end{align}\]
 
+<h3>Feb 16</h3>
+
+<p>
+    Find the area of the square.
+</p>
+
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <rect x="10" y="10" width="80" height="80" stroke="black" stroke-width="1" fill="none" />
+    <line x1="10" y1="30" x2="90" y2="10" stroke="black" stroke-width="1" />
+    <line x1="10" y1="10" x2="15" y2="28" stroke="black" stroke-width="1" />
+    <line x1="10" y1="10" x2="10" y2="30" stroke="red" stroke-width="1" />
+    <text transform="translate(0 25)" style="fill:red;">1</text>
+    <line x1="15" y1="28.5" x2="90" y2="10" stroke="blue" stroke-wdith="1" />
+    <text transform="translate(25 40)" style="fill:blue;">16/&Sqrt;(17)</text>
+    <path d="M 13 20 l 8 -2 l 2 8" stroke="black" stroke-width="1" fill="none" />
+</svg>
+
+<p>
+    Let \(s\) be the side length of the square and \(t\) be the length of the
+    altitude drawn from the top left corner. Then by similar right triangles,
+    we have (ratio of hypotenuse to longer leg)
+</p>
+
+\[\frac{s}{16/\sqrt{17}}=\frac{1}{t} \Rightarrow st=16/\sqrt{17}\]
+
+<p>
+    Next, with the right triangle with the explicitly labeled right angle, we
+    can use the Pythagorean theorem and replace \(t\) with \(s\) using the
+    above equation
+</p>
+
+\[\left(\frac{16}{\sqrt{17}}\right)^2+t^2=s^2 \Rightarrow
+\frac{256}{17}+\left(\frac{16}{s\sqrt{17}}\right)^2=s^2 \Rightarrow
+256s^2+256=17s^4\]
+
+<p>
+    Then we substitute \(u=s^2\) and by solving for \(u\), we find the area of
+    the square. The quadratic equation is factorable as
+    \(17u^2-256u-256=(17u+16)(u-16)\) so we have \(u=16\) or \(u=-16/17\). Only
+    the positive answer makes sense here so the area of the square is 16.
+</p>
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
 
