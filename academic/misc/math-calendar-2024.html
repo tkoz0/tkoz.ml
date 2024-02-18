@@ -1749,6 +1749,74 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
     This is a simple dot product. The answer is \(1\cdot3+2\cdot-1+4\cdot4=17\).
 </p>
 
+<h3>Feb 18</h3>
+
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <path d="M 5 85 L 35 45 L 55 60 L 5 85 L 85 85" stroke="black" stroke-width="1" fill="none" />
+    <path d="M 85 85 L 55 60" stroke="lightgray" stroke-width="1" fill="none" />
+    <text transform="translate(70 70)" style="fill:gray;">x</text>
+    <text transform="translate(40 100)">36</text>
+    <text transform="translate(5 60)">24</text>
+    <text transform="translate(30 45)">A</text>
+    <text transform="translate(85 90)">B</text>
+    <text transform="translate(40 25)">AB=30</text>
+    <line x1="40" y1="12" x2="62" y2="12" stroke="black" stroke-width="1" />
+    <path d="M 20 85 A 15 15 0 0 0 14 72 M 17 82 l 5 -1 M 15 77 l 5 -3" stroke="black" stroke-width="1" fill="none" />
+</svg>
+
+<p>
+    First let's label 2 additional points.
+</p>
+
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <path d="M 5 85 L 35 45 L 55 60 L 5 85 L 85 85" stroke="black" stroke-width="1" fill="none" />
+    <path d="M 85 85 L 55 60" stroke="lightgray" stroke-width="1" fill="none" />
+    <text transform="translate(70 70)" style="fill:gray;">x</text>
+    <text transform="translate(40 100)">36</text>
+    <text transform="translate(5 60)">24</text>
+    <text transform="translate(30 45)">A</text>
+    <text transform="translate(85 90)">B</text>
+    <text transform="translate(40 25)">AB=30</text>
+    <line x1="40" y1="12" x2="62" y2="12" stroke="black" stroke-width="1" />
+    <path d="M 20 85 A 15 15 0 0 0 14 72 M 17 82 l 5 -1 M 15 77 l 5 -3" stroke="black" stroke-width="1" fill="none" />
+    <text transform="translate(5 100)" style="fill:red;">C</text>
+    <text transform="translate(55 60)" style="fill:red;">D</text>
+    <text transform="translate(45 50)">y</text>
+    <text transform="translate(40 75)">z</text>
+</svg>
+
+<p>
+    Let \(c=m\angle ACD=m\angle DCB,a=m\angle A,b=m\angle B,y=\overline{AD}\).
+    Using \(\triangle ABC\), we have:
+</p>
+
+\[\frac{\sin(a)}{36}=\frac{\sin(b)}{24}
+\Rightarrow \frac{\sin(a)}{\sin(b)}=\frac{3}{2}\]
+
+<p>
+    Using \(\triangle ACD\), we have
+</p>
+
+\[\frac{\sin(c)}{y}=\frac{\sin(a)}{z}\]
+
+<p>
+    Using \(\triangle BCD\), we have
+</p>
+
+\[\frac{\sin(c)}{x}=\frac{\sin(b)}{z}\]
+
+<p>
+    Using these 2 equalities, we can find
+</p>
+
+\[z=\frac{x\sin(b)}{\sin(c)}=\frac{y\sin(a)}{\sin(c)}
+\Rightarrow \frac{x}{y}=\frac{\sin(a)}{\sin(b)}=\frac{3}{2}\]
+
+<p>
+    So now, knowing \(x+y=30\), we can substitute \(y=2x/3\) and find that
+    \(x=18\).
+</p>
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
 
