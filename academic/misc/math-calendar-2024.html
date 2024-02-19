@@ -1817,6 +1817,79 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
     \(x=18\).
 </p>
 
+<h3>Feb 19</h3>
+
+<p>
+    How many times do \(y=\sin(x)\) and \(y=\frac{x}{10\pi}\) intersect?
+</p>
+
+<p>
+    Both functions are odd so we can restrict our search to \(x\geq0\) and do
+    some counting. On this interval, we need \(\frac{x}{10\pi}\in[0,1]\) which
+    restricts our search to \([0,10\pi]\). Intervals where \(\sin(x)\geq0\) are
+    \([0,\pi],[2\pi,3\pi],[4\pi,5\pi],[6\pi,7\pi],[8\pi,9\pi]\).
+</p>
+
+<p>
+    Next, we will solve the problem on one interval in a way that applies to all
+    5 intervals. Let \(0\leq u&lt;v&lt;1\) and define \(f(x)\) as the line such
+    that \(f(0)=u,f(\pi)=v\). We will now prove that \(f(x)=\sin(x)\) has
+    exactly 2 solutions on \([0,\pi]\). Note: the line is
+    \(f(x)=\frac{v-u}{\pi}x+u\).
+</p>
+
+<p>
+    Now let's consider the function \(d(x)=\sin(x)-f(x)\). The derivative is
+    \(d'(x)=\cos(x)-\frac{v-u}{\pi}\) and the 2nd derivative is
+    \(d''(x)=-\sin(x)\).
+</p>
+
+<p>
+    Now where is \(d'(x)=0\)? That is when \(\cos(x)=\frac{v-u}{\pi}\) which
+    happens exactly once since \(\cos(x)\) is strictly decreasing on \([0,\pi]\)
+    from \(1\) to \(-1\) and \(\frac{v-u}{\pi}\) is in \((-1,1)\).
+    Let \(c\) be the unique point on \((0,\pi)\) where \(d'(x)=0\). So now since
+    \(d(x)\) is concave down on \([0,\pi]\) by the 2nd derivative test, we can
+    see that it must be strictly increasing on \([0,c]\) and strictly decreasing
+    on \([c,\pi]\).
+</p>
+
+<p>
+    Next, we can find that \(d(0)\leq0,d(\pi/2)&gt;0,d(\pi)&lt;0\) from the way
+    we defined it and chose \(u,v\). By the intermediate value theorem, we must
+    have points \(c_1\in[0,\pi/2),c_2\in(\pi/2,\pi)\) such that
+    \(d(c_1)=d(c_2)=0\). This means that by the mean value theorem, there exists
+    a point in \((c_1,c_2)\) where \(d'(x)=0\). This point must be the \(c\) we
+    identified earlier and it must be such that \(d(c)&gt;0\).
+</p>
+
+<p>
+    So now we have that on \([0,c]\), \(d(x)\) is strictly increasing and
+    and changes from negative to positive (or 0 to positive when \(u=0\)).
+    Then on \([c,\pi]\), \(d(x)\) is
+    strictly decreasing and changes from positive to negative. Therefore, on
+    \([0,\pi]\), \(d(x)=0\) at exactly 2 points, thus \(\sin(x)=f(x)\) has 2
+    solutions.
+</p>
+
+<p>
+    Now we apply this to the 5 interval identified earlier. On each interval,
+    \(\sin(x)\) is exactly the same as it is on \([0,\pi]\) and the segment of
+    \(y=\frac{x}{10\pi}\) on that interval corresponds to some choice of
+    \(u,v\) in our subproof. Therefore, we have 5 intervals and 2 intersections
+    per interval so 10 intersections. Then we go back to our reasoning about odd
+    functions and realize this must be doubled, but then we subtract 1 for the
+    intersection \((0,0)\) which would be counted twice. Therefore, there are
+    exactly 19 intersections.
+</p>
+
+<p>
+    Note: the reasoning's precise meaning depends a little on the specifiecs
+    about whether to use closed or open intervals in theorems like the mean
+    value theorem. I tried to handle them to work with the possibility of
+    \(u=0\) in the subproof but it may need to be adjusted in a few places.
+</p>
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
 
