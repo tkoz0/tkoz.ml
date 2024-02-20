@@ -1890,6 +1890,32 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
     \(u=0\) in the subproof but it may need to be adjusted in a few places.
 </p>
 
+<h3>Feb 20</h3>
+
+\[\text{Round}\left(\lim_{x\to1}x^{\frac{3x}{\sin(x-1)}}\right)\]
+
+<p>
+    To evaluate this limit, first replace the exponent base with
+    \(x=e^{\ln(x)}\). Then the limit is
+</p>
+
+\[\lim_{x\to1}x^{\frac{3x}{\sin(x-1)}}
+=\lim_{x\to1}e^{\frac{3x\ln(x)}{\sin(x-1)}}
+=e^{\lim_{x\to1}\frac{3x\ln(x)}{\sin(x-1)}}\]
+
+<p>
+    So now we have a new limit to evaluate which is in the indeterminate form
+    \(\frac{0}{0}\) so we can use LHopital's rule.
+</p>
+
+\[\lim_{x\to1}\frac{3x\ln(x)}{\sin(x-1)}
+=\lim_{x\to1}\frac{3\ln(x)+3}{\cos(x-1)}
+=\frac{3\cdot0+3}{\cos(1-1)}=3\]
+
+<p>
+    So now the answer is \(\text{Round}(e^3)\) which is 20.
+</p>
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
 
