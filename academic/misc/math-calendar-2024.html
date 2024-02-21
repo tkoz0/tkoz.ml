@@ -1916,6 +1916,32 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
     So now the answer is \(\text{Round}(e^3)\) which is 20.
 </p>
 
+<h3>Feb 21</h3>
+
+<p>
+    For a continuous real function \(f\), \(\forall x:f(2x)=11f(x)\) and
+    \(\int_0^1f(x)dx=1\). Find \(\int_1^2f(x)dx\).
+</p>
+
+<p>
+    Let's first integrate both sides of \(f(2x)=11f(x)\) on \([0,1]\) with the
+    substitution \(u=2x\).
+</p>
+
+\[\int_0^1f(2x)dx=\int_0^111f(x)dx \Rightarrow
+\frac{1}{2}\int_0^2f(u)du=11\int_0^1f(x)dx\]
+
+<p>
+    Now multiply both sides by 2 and split up the integral on \([0,2]\).
+</p>
+
+\[\int_0^1f(u)du+\int_1^2f(u)du=22\int_0^1f(x)dx \Rightarrow
+\int_1^2f(u)du=21\int_0^1f(x)dx\]
+
+<p>
+    Since that integral on the right is 1, the answer is 21.
+</p>
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
 
