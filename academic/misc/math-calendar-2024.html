@@ -1972,6 +1972,21 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
     \(y=0\) so \(3-\frac{1}{6}(x-5)=0\Rightarrow x=23\).
 </p>
 
+<h3>Feb 24</h3>
+
+<p>
+    Find the number of trailing zeroes in \(100!\).
+</p>
+
+<p>
+    This is the same as how many times we can divide \(10\), which reduces to
+    counting multiplicity of factors \(2,5\). For 2, we have it counted once for
+    each even number (50 times), then again for each multiple of 4 (25 times),
+    and so on. The total is \(50+25+12+6+3+1=97\). For 5, similarly we get
+    \(20+4=24\). So 10 is a factor with multiplicity 24 since we are limited by
+    the multiplicity of 5. Therefore, \(100!\) has 24 trailing zeroes.
+</p>
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
 
