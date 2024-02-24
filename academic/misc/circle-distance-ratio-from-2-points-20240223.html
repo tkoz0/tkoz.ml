@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>20240223</title>
+    <link rel="stylesheet" type="text/css" href="/mathstyles.css" />
+    <script type="text/javascript">
+        window.MathJax = { tex: { macros: {
+            t: ['\\theta']
+        }}};
+    </script>
+    <script type="text/javascript" src="/mathscripts.js"></script>
+</head>
+<body>
+<div id="root">
+
+<h1>Circle of Points Satisfying a Certain Distance Ratio</h1>
+
+<p>
+    This problem is generalized from problems 85 and 86 in section P.1 of
+    "Calculus of a Single Variable" 8th edition by
+    Larson, Hostetler, and Edwards.
+</p>
+
+<p>
+    We will find an equation describing all points \((x,y)\) such that
+    (where \(d\) is the (Euclidean) distance function)
+</p>
+
+\[d((x,y),(x_1,y_1))=k\cdot d((x,y),(x_2,y_2))\]
+
+<p>
+    for given points \((x_1,y_1)\),\((x_2,y_2)\) and some positive constant
+    \(k\). This describes all points whose distance from \((x_1,y_1)\) is \(k\)
+    times its distance from \((x_2,y_2)\). This will turn out to be a line when
+    \(k=1\) and a circle otherwise.
+</p>
+
+<p>
+    First we use the (Euclidean) distance formula and square each side.
+</p>
+
+\[(x-x_1)^2+(y-y_1)^2=k^2((x-x_2)^2+(y-y_2)^2)\]
+
+<p>
+    Next, expand everything and combine similar terms, using \(h=k^2\) to make
+    the writing a little simpler.
+</p>
+
+\[x_1^2-hx_2^2+y_1^2-hy_2^2=(h-1)x^2+2(x_1-hx_2)x+(h-1)y^2+2(y_1-hy_2)y\]
+
+<h2>If \(k=1\)</h2>
+
+<p>
+    Then \(h=1\) so things simplify quite a bit. The \(x^2\) and \(y^2\) go away
+    so what is left is a linear equation.
+</p>
+
+\[x_1^2-x_2^2+y_1^2-y_2^2=2(x_1-x_2)x+2(y_1-y_2)y\]
+
+<p>
+    Then we can factor.
+</p>
+
+\[2(x_1-x_2)x+2(y_1-y_2)y=(x_1+x_2)(x_1-x_2)+(y_1+y_2)(y_1-y_2)\]
+
+<p>
+    Notice that if \(x_1=x_2\) or \(y_1=y_2\), the equation simplifies to a
+    single variable (the other) one equal to the average of the other
+    coordinate. If both given points are the same, then we get \(0=0\) meaning
+    every point satisfies the distance equation we started with. If both
+    \(x_1\neq x_2\) and \(y_1\neq y_2\) then we can write it as
+</p>
+
+\[\frac{2x}{y_1-y_2}+\frac{2y}{x_1-x_2}
+=\frac{x_1+x_2}{y_1-y_2}+\frac{y_1+y_2}{x_1-x_2}\]
+
+<h2>If \(k\neq1\)</h2>
+
+<p>
+    This is where we divide by \(h-1\), which will make stuff messier.
+</p>
+
+\[\frac{1}{h-1}\left(x_1^2-hx_2^2+y_1^2-hy_2^2\right)
+=x^2+2\left(\frac{x_1-hx_2}{h-1}\right)x
++y^2+2\left(\frac{y_1-hy_2}{h-1}\right)y\]
+
+<p>
+    On the right side, complete the square, and move the constant terms onto the
+    left side.
+</p>
+
+\[\frac{1}{h-1}\left(x_1^2-hx_2^2+y_1^2-hy_2^2\right)
++\left(\frac{x_1-hx_2}{h-1}\right)^2+\left(\frac{y_1-hy_2}{h-1}\right)^2
+=\left(x+\frac{x_1-hx_2}{h-1}\right)^2+\left(y+\frac{y_1-hy_2}{h-1}\right)^2\]
+
+<p>
+    Everything on the left side is now a constant and the right side tells us
+    that this is the equation of a circle. By using some more algebra, we can
+    simplify the constant on the left and write the right side a little closer
+    to how the standard circle equation looks.
+</p>
+
+\[\left(x-\frac{hx_2-x_1}{h-1}\right)^2+\left(y-\frac{hy_2-y_1}{h-1}\right)^2
+=\frac{h}{(h-1)^2}\left[(x_2-x_1)^2+(y_2-y_1)^2\right]\]
+
+<p>
+    This shows that the radius depends on \(k\) and the distance between the 2
+    given points, which makes sense (if the points were moved but the distance
+    apart stayed the same, intuitively it would make sense for the circle to
+    just move without changing size). Lastly, put \(k^2\) back in.
+</p>
+
+\[\left(x-\frac{k^2x_2-x_1}{k^2-1}\right)^2
++\left(y-\frac{k^2y_2-y_1}{k^2-1}\right)^2
+=\frac{k^2}{(k^2-1)^2}\left[(x_2-x_1)^2+(y_2-y_1)^2\right]\]
+
+</div>
+</body>
+</html>
