@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>20240301</title>
+    <link rel="stylesheet" type="text/css" href="/mathstyles.css" />
+    <script type="text/javascript">
+        window.MathJax = { tex: { macros: {
+        }}};
+    </script>
+    <script type="text/javascript" src="/mathscripts.js"></script>
+</head>
+<body>
+<div id="root">
+
+<h1>Some Product Rule Stuff</h1>
+
+<h2>Product Rule Extended to More Functions</h2>
+
+<p>
+    Let \(f_1,f_2,\ldots,f_n\) be differentiable functions. Then
+    \((f_1f_2\ldots f_n)'=\sum_{i=1}^nf_1^{(\delta_{i1})}f_2^{(\delta_{i2})}
+    \ldots f_n^{(\delta_{in})}\) where \(f_j^{(\delta_{ij})}\) is either \(f_j\)
+    or \(f_j'\) depending on the value of \(\delta_{ij}\), the Kronecker delta,
+    \(\delta_{ij}=\begin{cases}0&i\neq j\\1&i=j\\\end{cases}\).
+</p>
+
+<p>
+    The base case for \(n=1\), this can be verified. Now assume the theorem is
+    true for \(n\) functions. We will show it is true for \(n+1\) functions.
+    First apply the usual product rule on the \(n+1\) functions:
+</p>
+
+\[\begin{align}&(f_1f_2\ldots f_nf_{n+1})'
+=(f_1f_2\ldots f_n)'f_{n+1}+(f_1f_2\ldots f_n)f_{n+1}'\\
+&=\left(\sum_{i=1}^nf_1^{(\delta_{i1})}f_2^{(\delta_{i2})}\ldots f_n^{(\delta_{in})}\right)f_{n+1}
++(f_1f_2\ldots f_n)f_{n+1}'\\
+\end{align}\]
+
+<p>
+    Now \(i\neq n+1\) in the summation. Also, we can combine the other part with
+    the summation since it fits for index \(n+1\). This gives us the desired
+    result:
+</p>
+
+\[(f_1f_2\ldots f_nf_{n+1})'
+=\sum_{i=1}^{n+1}f_1^{(\delta_{i1})}f_2^{(\delta_{i2})}\ldots
+f_n^{(\delta_{in})}f_{n+1}^{(\delta_{i,n+1})}\]
+
+<h2>Product Rule Extended to Higher Derivatives</h2>
+
+<p>
+    Let \(fg\) be a product of 2 \(n\)-times differentiable functions. Then
+    \((fg)^{(n)}=\sum_{i=0}^n{n\choose i}f^{(i)}g^{(n-i)}\).
+</p>
+
+<p>
+    The base case \(n=0\) can be shown. Now assume the theorem is true for
+    \(n\) and we will show it for \(n+1\).
+</p>
+
+\[\begin{align}&(fg)^{(n+1)}
+=\left(\sum_{i=0}^n{n\choose i}f^{(i)}g^{(n-i)}\right)'
+=\sum_{i=0}^n{n\choose i}\left(f^{(i+1)}g^{(n-i)}+f^{(i)}g^{(n+1-i)}\right)\\
+&=\sum_{i=0}^n{n\choose i}f^{(i+1)}g^{(n-i)}
++\sum_{i=0}^n{n\choose i}f^{(i)}g^{(n+1-i)}\\
+\end{align}\]
+
+<p>
+    Now shift the indexing of the left summation from \(0,1,\ldots,n\) to
+    \(1,2,\ldots,n\).
+</p>
+
+\[\begin{align}&=\sum_{i=1}^{n+1}{n\choose i-1}f^{(i)}g^{(n+1-i)}
++\sum_{i=0}^n{n\choose i}f^{(i)}g^{(n+1-i)}\\
+&=fg^{(n+1)}+\sum_{i=1}^n\left({n\choose i-1}+{n\choose i}\right)
+    f^{(i)}g^{(n+1-i)}+f^{(n+1)}g
+\\\end{align}\]
+
+<p>
+    Now since \({n\choose i-1}+{n\choose i}={n+1\choose i}\) and we can combine
+    the 2 extra terms to form a summation from \(0\) to \(n+1\) and complete
+    the proof.
+</p>
+
+\[(fg)^{(n+1)}=\sum_{i=0}^{n+1}{n+1\choose i}f^{(i)}g^{(n+1-i)}\]
+
+<p>
+    For a little extra work, here is proof that
+    \({n\choose i-1}+{n\choose i}={n+1\choose i}\).
+</p>
+
+\[\begin{align}&\frac{n!}{(i-1)!(n+1-i)!}+\frac{n!}{i!(n-i)!}
+=\frac{n!\cdot i}{i!(n+1-i)!}+\frac{n!\cdot(n+1-i)}{i!(n+1-i)!}\\
+&=\frac{n!(i+n+1-i)}{i!(n+1-i)!}=\frac{n!(n+1)}{i!(n+1-i)!}
+=\frac{(n+1)!}{i!(n+1-i)!}={n+1\choose i}
+\end{align}\]
+
+</div>
+</body>
+</html>

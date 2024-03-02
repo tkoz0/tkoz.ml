@@ -1,6 +1,6 @@
 /*
 CSS for math pages
-Last updated: 2023-12-24
+Last updated: 2024-02-29
 */
 
 body {
@@ -15,6 +15,7 @@ body {
     min-height: 100vh;
     max-width: 100vw;
     padding: 10px;
+    box-sizing: border-box;
 }
 
 table {

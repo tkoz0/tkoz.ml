@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>20240301</title>
+    <link rel="stylesheet" type="text/css" href="/mathstyles.css" />
+    <script type="text/javascript">
+        window.MathJax = { tex: { macros: {
+        }}};
+    </script>
+    <script type="text/javascript" src="/mathscripts.js"></script>
+</head>
+<body>
+<div id="root">
+
+<h1>BBP Formula for Pi Proof</h1>
+
+\[\pi=\sum_{k=0}^\infty\frac{1}{16^k}
+\left(
+    \frac{4}{8k+1}
+    -\frac{2}{8k+4}
+    -\frac{1}{8k+5}
+    -\frac{1}{8k+6}
+\right)\]
+
+<p>
+    The BBP formula was found using an integer relation algorithm. Proofs were
+    found afterward and do not give insight into how the formula was found.
+</p>
+
+<p>
+    First consider the integral \(\int_0^{1/\sqrt{2}}\frac{x^{r-1}dx}{1-x^8}\)
+    for some positive integer \(r\). Then we can evaluate the integral:
+</p>
+
+\[\begin{align}
+&\int_0^{1/\sqrt{2}}\frac{x^{r-1}dx}{1-x^8}
+=\int_0^{1/\sqrt{2}}x^{r-1}\frac{1}{1-x^8}dx
+=\int_0^{1/\sqrt{2}}x^{r-1}\left(1+x^8+x^{16}+x^{24}+\ldots\right)dx\\
+&=\int_0^{1/\sqrt{2}}\left(\sum_{k=0}^\infty x^{8k+r-1}\right)dx
+=\left[\sum_{k=0}^\infty\frac{x^{8k+r}}{8k+r}\right]_0^{2^{-1/2}}
+=\sum_{k=0}^\infty\frac{2^{(-1/2)(8k+r)}}{8k+r}
+=2^{-r/2}\sum_{k=0}^\infty\frac{2^{-4k}}{8k+r}
+=2^{-r/2}\sum_{k=0}^\infty\frac{16^{-k}}{8k+r}\\
+\end{align}\]
+
+<p>
+    Now let \(S(r)=2^{-r/2}\sum_{k=0}^\infty\frac{16^{-k}}{8k+r}
+    =\int_0^{1/\sqrt{2}}\frac{x^{r-1}dx}{1-x^8}\). We can
+    rewrite the BBP summation and turn it into an integral.
+</p>
+
+\[\begin{align}&\sum_{k=0}^\infty\frac{1}{16^k}
+\left(
+    \frac{4}{8k+1}
+    -\frac{2}{8k+4}
+    -\frac{1}{8k+5}
+    -\frac{1}{8k+6}
+\right)
+=4\sum_{k=0}^\infty\frac{16^{-k}}{8k+1}
+-2\sum_{k=0}^\infty\frac{16^{-k}}{8k+4}
+-\sum_{k=0}^\infty\frac{16^{-k}}{8k+5}
+-\sum_{k=0}^\infty\frac{16^{-k}}{8k+6}\\
+&=4\cdot2^{1/2}S(1)-2\cdot2^{4/2}S(4)-2^{5/2}S(5)-2^{6/2}S(6)
+=4\sqrt{2}S(1)+8S(4)-4\sqrt{2}S(5)-8S(6)\\
+&=\int_0^{1/\sqrt{2}}\frac{4\sqrt{2}-8x^3-4\sqrt{2}x^4-8x^5}{1-x^8}dx
+\end{align}\]
+
+<p>
+    Next, make the substitution \(y=\sqrt{2}x\). This changes the integration
+    bounds to \([0,1]\).
+</p>
+
+\[\begin{align}
+&\int_0^{1/\sqrt{2}}\frac{4\sqrt{2}-8x^3-4\sqrt{2}x^4-8x^5}{1-x^8}dx
+=\int_0^1\frac{4\sqrt{2}-2\sqrt{2}y^3-\sqrt{2}y^4
+-\sqrt{2}y^5}{1-y^8/16}\frac{dy}{\sqrt{2}}\\
+&=\int_0^1\frac{4-2y^3-y^4-y^5}{1-y^8/16}dy
+=16\int_0^1\frac{4-2y^3-y^4-y^5}{16-y^8}dy
+=16\int_0^1\frac{y^5+y^4+2y^3-4}{y^8-16}dy\\
+\end{align}\]
+
+<p>
+    Now for some factoring, we can do the following for the denominator. The
+    factoring of \(y^4+4\) is not the easiest to do.
+</p>
+
+\[\begin{align}&y^8-16=(y^4+4)(y^4-4)=(y^4+4)(y^2+2)(y^2-2)\\
+&=(y^2+2y+2)(y^2-2y+2)(y^2+2)(y^2-2)\end{align}\]
+
+<p>
+    Then for the numerator, first we can find the factor \(y-1\) with the
+    rational root theorem. The other part of factoring is not quite easy.
+</p>
+
+\[y^5+y^4+2y^3-4=(y-1)(y^4+2y^3+4y^2+4y+4)=(y-1)(y^2+2)(y^2+2y+2)\]
+
+<p>
+    Now the integral can be simplified.
+</p>
+
+\[\begin{align}&
+16\int_0^1\frac{(y-1)(y^2+2)(y^2+2y+2)}{(y^2+2y+2)(y^2-2y+2)(y^2+2)(y^2-2)}dy
+=16\int_0^1\frac{y-1}{(y^2-2y+2)(y^2-2)}dy
+\end{align}\]
+
+<p>
+    The next step is to use partial fraction decomposition. We need constants
+    \(A,B,C,D\) such that
+</p>
+
+\[\begin{align}&
+\frac{Ay+B}{y^2-2y+2}+\frac{Cy+D}{y^2-2}=\frac{y-1}{(y^2-2y+2)(y^2-2)}\\
+&(Ay+B)(y^2-2)+(Cy+D)(y^2-2y+2)=y-1\\
+&Ay^3+By^2-2Ay-2B+Cy^3+Dy^2-2Cy^2-2Dy+2Cy+2D=y-1\\
+&(A+C)y^3+(B-2C+D)y^2+(-2A+2C-2D)y+(-2B+2D)=y-1\\
+\end{align}\]
+
+<p>
+    This gives us the following linear system.
+</p>
+
+\[\begin{bmatrix}1&0&1&0\\0&1&-2&1\\-2&0&2&-2\\0&-2&0&2\\\end{bmatrix}
+\begin{bmatrix}A\\B\\C\\D\\\end{bmatrix}
+=\begin{bmatrix}0\\0\\1\\-1\\\end{bmatrix}\]
+
+<p>
+    After solving it, the constants are \((A,B,C,D)=(-1/4,1/2,1/4,0)\). The
+    integral can be simplified further.
+</p>
+
+\[\begin{align}
+&16\int_0^1\left(\frac{Ay+B}{y^2-2y+2}+\frac{Cy+D}{y^2-2}\right)dy
+=\int_0^1\frac{-4y+8}{y^2-2y+2}dy+\int_0^1\frac{4y}{y^2-2}dy\\
+&=\int_0^1\frac{4}{y^2-2y+2}dy+\int_0^1\frac{-4y+4}{y^2-2y+2}dy
++\int_0^1\frac{4y}{y^2-2}dy\\
+&=\int_0^1\frac{4}{y^2-2y+2}dy-2\int_0^1\frac{d(y^2-2y+2)}{y^2-2y+2}
++2\int_0^1\frac{d(y^2-2)}{y^2-2}\\
+&=\int_0^1\frac{4}{y^2-2y+2}dy-2\left[\ln|y^2-2y+2|\right]_0^1
++2\left[\ln|y^2-2|\right]_0^1\\
+&=\int_0^1\frac{4}{y^2-2y+2}dy-2\left(\ln(1)-\ln(2)\right)
++2\left(\ln(1)-\ln(2)\right)=\int_0^1\frac{4}{y^2-2y+2}dy\\
+\end{align}\]
+
+<p>
+    Now we have one last integral to evaluate.
+</p>
+
+\[\begin{align}&
+4\int_0^1\frac{dy}{y^2-2y+2}=4\int_0^1\frac{dy}{(y-1)^2+1}
+=4\int_0^1\frac{d(y-1)}{(y-1)^2+1^2}\\
+&=4\arctan(y-1)\big|_0^1=4(\arctan(0)-\arctan(-1))=4(0+\pi/4)=\pi\\
+\end{align}\]
+
+<p>
+    This completes the proof. The BBP formula proof does not require any very
+    advanced techniques. It is accessible to those who understand material in
+    typical college calculus. The main difficulties are rewriting the summation
+    as an integral using the \(S(r)\) function at the beginning and factoring
+    the high degree polynomials after the change of variables to \(y\).
+</p>
+
+</div>
+</body>
+</html>
