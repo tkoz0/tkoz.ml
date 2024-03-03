@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>20240302</title>
+    <link rel="stylesheet" type="text/css" href="/mathstyles.css" />
+    <script type="text/javascript">
+        window.MathJax = { tex: { macros: {
+        }}};
+    </script>
+    <script type="text/javascript" src="/mathscripts.js"></script>
+</head>
+<body>
+<div id="root">
+
+<h1>Generating Power Sum Formulas</h1>
+
+<p>
+    A power sum is a summmation \(\sum_{k=1}^nk^p\) for some nonnegative integer
+    \(p\). Each one is equal to a polynomial of degree \(p+1\) and asymptotic to
+    \(n^{p+1}/(p+1)\). The following are a few well known power sum formulas.
+</p>
+
+\[\begin{align}
+&\sum_{k=1}^n1=n&\sum_{k=1}^nk=\frac{n(n+1)}{2}\\
+&\sum_{k=1}^nk^2=\frac{n(n+1)(2n+1)}{6}&\sum_{k=1}^nk^3=\frac{n^2(n+1)^2}{4}\\
+\end{align}\]
+
+<p>
+    The following are a few more which can be proved.
+</p>
+
+\[\begin{align}
+&\sum_{k=1}^nk^4=\frac{n(n+1)(2n+1)(3n^2+3n-1)}{30}\\
+&\sum_{k=1}^nk^5=\frac{n^2(n+1)^2(2n^2+2n-1)}{12}\\
+&\sum_{k=1}^nk^6=\frac{n(n+1)(2n+1)(3n^4+6n^3-3n+1)}{42}\\
+&\sum_{k=1}^nk^7=\frac{n^2(n+1)^2(3n^4+6n^3-n^2-4n+2)}{24}\\
+&\sum_{k=1}^nk^8=\frac{n(n+1)(2n+1)(5n^6+15n^5+5n^4-15n^3-n^2+9n-3)}{90}\\
+&\sum_{k=1}^nk^9=\frac{n^2(n+1)^2(n^2+n-1)(2n^4+4n^3-n^2-3n+3)}{20}\\
+&\sum_{k=1}^nk^{10}=\frac{n(n+1)(2n+1)(n^2+n-1)
+    (3n^6+9n^5+2n^4-11n^3+3n^2+10n-5)}{66}\\
+\end{align}\]
+
+<h2>Double Summation Method</h2>
+
+<p>
+    There are several methods for generating these formulas. The first method
+    is one I have not found anywhere on the internet, but it is something that
+    others certainly have discovered.
+</p>
+
+<p>
+    One way is to rewrite the summation of \(p\)th powers as a double summation
+    of \(p-1\) powers. To see how we can do this, consider a table like below.
+</p>
+
+<table>
+    <tr><td>\(1^{p-1}\)</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>\(2^{p-1}\)</td><td>\(2^{p-1}\)</td><td></td><td></td><td></td></tr>
+    <tr><td>\(3^{p-1}\)</td><td>\(3^{p-1}\)</td><td>\(3^{p-1}\)</td><td></td><td></td></tr>
+    <tr><td>\(\vdots\)</td><td></td><td></td><td>\(\ddots\)</td><td></td></tr>
+    <tr><td>\(n^{p-1}\)</td><td></td><td>\(\ldots\)</td><td></td><td>\(n^{p-1}\)</td></tr>
+</table>
+
+<p>
+    This represents rewriting the summation as follows, where each row
+    represents the inner summation.
+</p>
+
+\[\sum_{i=1}^ni^p=\sum_{i=1}^ni\cdot i^{p-1}=\sum_{i=1}^n\sum_{j=1}^ii^{p-1}\]
+
+<p>
+    But now let's change the summation order so the inner summation goes over
+    columns instead of rows. Then we will have the following.
+</p>
+
+\[\begin{align}&\sum_{i=1}^n\sum_{j=i}^nj^{p-1}
+=\sum_{i=1}^n\left(\sum_{j=1}^nj^{p-1}-\sum_{j=1}^ij^{p-1}+i^{p-1}\right)
+=n\sum_{j=1}^nj^{p-1}+\sum_{i=1}^ni^{p-1}-\sum_{i=1}^n\sum_{j=1}^ij^{p-1}\\
+&=(n+1)\sum_{i=1}^ni^{p-1}-\sum_{i=1}^n\sum_{j=1}^ij^{p-1}\\
+\end{align}\]
+
+<p>
+    Now, we can use the formula for summmation of \(p-1\) powers in both
+    summations here. We have to do it a second time for the double summation.
+    What will happen is the leading term is \(i^p/p\) and every other term will
+    be powers of \(i\) from \(1,2,\ldots,p-1\) so we can use formulas for lower
+    powers. We can move that leading term to the other side so we end up with
+    \(\frac{p+1}{p}\sum_{i=1}^ni^p\) and what remains is entirely algebra that
+    can be evaluated using formulas of lower power sums. This is probably easier
+    to understand with an example so here is a derivation of the sum for
+    \(p=2\).
+</p>
+
+\[\begin{align}
+&\sum_{i=1}^ni^2=(n+1)\sum_{i=1}^ni-\sum_{i=1}^n\sum_{j=1}^ij
+=(n+1)\frac{n(n+1)}{2}-\sum_{i=1}^n\frac{i(i+1)}{2}\\
+&=\frac{n(n+1)^2}{2}-\frac{1}{2}\sum_{i=1}^ni^2-\frac{1}{2}\sum_{i=1}^ni
+=\frac{n(n+1)^2}{2}-\frac{1}{2}\frac{n(n+1)}{2}-\frac{1}{2}\sum_{i=1}^ni^2\\
+\end{align}\]
+
+<p>
+    Now move that summation of \(i^2\) to the other side and we have this.
+</p>
+
+\[\begin{align}
+&\frac{3}{2}\sum_{i=1}^ni^2=\frac{n(n+1)^2}{2}-\frac{n(n+1)}{4}
+=n(n+1)\left(\frac{n+1}{2}-\frac{1}{4}\right)\\
+&=n(n+1)\left(\frac{2n+2}{4}-\frac{1}{4}\right)=\frac{n(n+1)(2n+1)}{4}\\
+\end{align}\]
+
+<p>
+    Then we just multiply each side by \(2/3\) and the result is the well known
+    formula for sum of squares.
+</p>
+
+\[\sum_{i=1}^ni^2=\frac{n(n+1)(2n+1)}{6}\]
+
+<p>
+    Here is another example for \(p=3\).
+</p>
+
+\[\begin{align}&
+\sum_{i=1}^ni^3=(n+1)\sum_{i=1}^ni^2-\sum_{i=1}^n\sum_{j=1}^ij^2
+=(n+1)\frac{n(n+1)(2n+1)}{6}-\sum_{i=1}^n\frac{i(i+1)(2i+1)}{6}\\&
+=\frac{n(n+1)^2(2n+1)}{6}-\frac{1}{6}\sum_{i=1}^n(2i^3+3i^2+i) \Rightarrow\\&
+\frac{4}{3}\sum_{i=1}^ni^3=\frac{n(n+1)^2(2n+1)}{6}
+-\frac{1}{2}\sum_{i=1}^ni^2-\frac{1}{6}\sum_{i=1}^ni\\&
+=\frac{n(n+1)^2(2n+1)}{6}-\frac{n(n+1)(2n+1)}{12}-\frac{n(n+1)}{12}\\&
+=\frac{n(n+1)}{12}\left(2(n+1)(2n+1)-(2n+1)-1\right)\\&
+=\frac{n(n+1)}{12}\left(4n^2+6n+2-2n-2\right)=\frac{n(n+1)}{12}(4n(n+1))
+=\frac{n^2(n+1)^2}{3} \Rightarrow\\&
+\sum_{i=1}^ni^3=\frac{n^2(n+1)^2}{4}
+=\left(\frac{n(n+1)}{2}\right)^2=\left(\sum_{i=1}^ni\right)^2
+\end{align}\]
+
+<p>
+    That last part showing that the sum of cubes is the square of the sum of
+    consecutive integers is also known as Nicomachus's theorem. There is a nice
+    visual proof of it on
+    <a href="https://en.wikipedia.org/wiki/Squared_triangular_number" target="_blank">Wikipedia</a>.
+</p>
+
+<h2>Polynomial Fitting Methods</h2>
+
+<p>
+    Since the formula for the sum of \(p\)th powers is a \(p+1\) degree
+    polynomial, we could also find the sum \(\sum_{i=1}^ni^p\) for
+    \(n=1,2,\ldots,p+2\) and fit a \(p+1\) degree polynomial to these points.
+    For example, for \(p=2\), we would be looking for a cubic polynomial
+    \(P(n)=an^3+bn^2+cn+d\) that satisfies the following.
+</p>
+
+\[P(1)=1^2=1,P(2)=1^2+2^2=5,P(3)=1^2+2^2+3^2=14,P(4)=1^2+2^2+3^2+4^2=30\]
+
+<p>
+    This would give us the following linear system.
+</p>
+
+\[\begin{bmatrix}1&1&1&1\\8&4&2&1\\27&9&3&1\\64&16&4&1\\\end{bmatrix}
+\begin{bmatrix}a\\b\\c\\d\\\end{bmatrix}
+=\begin{bmatrix}1\\5\\14\\30\end{bmatrix}
+\]
+
+<p>
+    The solution is \((a,b,c,d)=(1/3,1/2,1/6,0)\) which tells us
+    \(\sum_{i=1}^ni^2=\frac{1}{3}n^3+\frac{1}{2}n^2+\frac{1}{6}n\) which is
+    equivalent to the formula already shown. We could also find the linear
+    system another way, which is described on
+    <a href="https://www.mathpages.com/home/kmath279/kmath279.htm" target="_blank">this page</a>.
+    For example, with \(p=3\), we would want the following.
+</p>
+
+\[\sum_{i=1}^ni^3+(n+1)^3=\sum_{i=1}^{n+1}i^3\]
+
+<p>
+    For some polynomial \(P(n)=an^4+bn^3+cn^2+dn\). There is no constant term
+    because we would want \(P(0)=0\). If we substitute this in, we have this.
+</p>
+
+\[\begin{align}&
+P(n)+(n+1)^3=P(n+1) \Rightarrow \\&
+an^4+bn^3+cn^2+dn+(n+1)^3=a(n+1)^4+b(n+1)^3+c(n+1)^2+d(n+1)\\&
+n^4(a)+n^3(b+1)+n^2(c+3)+n(d+3)\\&
+\qquad=n^4(a)+n^3(4a+b)+n^2(6a+3b+c)+n(4a+3b+2c+d)+(a+b+c+d)\\&
+n^3(4a)+n^2(6a+3b)+n(4a+3b+2c)+(a+b+c+d)=n^3+3n^2+3n+1
+\end{align}\]
+
+<p>
+    By matching the polynomial coefficients, this gives us a linear system in
+    4 variables.
+</p>
+
+\[\begin{bmatrix}4&0&0&0\\6&3&0&0\\4&3&2&0\\1&1&1&1\\\end{bmatrix}
+\begin{bmatrix}a\\b\\c\\d\\\end{bmatrix}
+=\begin{bmatrix}1\\3\\3\\1\end{bmatrix}
+\]
+
+<p>
+    We have a lower triangle matrix so it can be solved with forward
+    substitution and the solution is \((a,b,c,d)=(1/4,1/2,1/4,0)\). This tells
+    us that \(\sum_{i=1}^ni^3=\frac{1}{4}n^4+\frac{1}{2}n^3+\frac{1}{4}n^2\)
+    which is equivalent to the previously shown formula.
+</p>
+
+<p>
+    This matrix has the pattern of Pascal's triangle in it. This comes from the
+    way we formed the linear equations. Using this method, we can quickly
+    generate a lower triangle matrix and solve for the polynomial coefficients
+    with forward substitution. This is faster than the simple polynomial
+    interpolation which requires more work to solve a full system with a
+    Vandermonde matrix. In terms of computational complexity, this would be
+    \(O(p^2)\) operations. The first polynomial interpolation and the rewriting
+    as a double summation both require \(O(p^3)\) operations.
+</p>
+
+<p>
+    To derive this formally, we start with a polynomial and equation. The goal
+    is to find coefficients of the \(p+1\) degree polynomial equivalent to
+    \(\sum_{i=1}^ni^p\).
+</p>
+
+\[P(n)=\sum_{i=0}^{p+1}c_in^i=c_{p+1}n^{p+1}+c_pn^p+\ldots+c_1n+c_0\]
+
+\[(n+1)^p=P(n+1)-P(n)\]
+
+<p>
+    Since we will have \(c_0=0\), we could start the summation for the
+    polynomial terms at \(i=1\). Any choice of \(c_0\) will satisfy this
+    equation since they cancel in the subtraction, but \(c_0=0\) is the one
+    that makes sense.
+</p>
+
+\[\begin{align}&
+(n+1)^p=\sum_{i=1}^{p+1}c_i(n+1)^i-\sum_{i=1}^{p+1}c_in^i\\&
+\sum_{i=0}^p{p\choose i}n^i=\sum_{i=1}^{p+1}c_i\sum_{j=0}^i{i\choose j}n^j
+    -\sum_{i=1}^{p+1}c_in^i
+\end{align}\]
+
+<p>
+    On the left are the binomial coefficients for each power of \(n\). To match
+    stuff on the right for forming a linear system, we need to group them by
+    powers of \(n\). Below is a table for the double summation where each \(i\)
+    corresponds to a row and each \(j\) corresponds to a column.
+</p>
+
+<table>
+    <tr><td>\(c_1{1\choose0}\)</td><th>\(c_1{1\choose1}n\)</th>
+        <td></td><td></td><td></td><td></td></tr>
+    <tr><td>\(c_2{2\choose0}\)</td><td>\(c_2{2\choose1}n\)</td>
+        <th>\(c_2{2\choose2}n^2\)</th><td></td><td></td><td></td></tr>
+    <tr><td>\(c_3{3\choose0}\)</td><td>\(c_3{3\choose1}n\)</td>
+        <td>\(c_3{3\choose2}n^2\)</td><th>\(c_3{3\choose3}n^3\)</th><td></td><td></td></tr>
+    <tr><td>\(\vdots\)</td><td>\(\vdots\)</td><td></td><td>\(\ddots\)</td><th>\(\ddots\)</th><td></td></tr>
+    <tr><td>\(c_{p+1}{p+1\choose0}\)</td><td>\(c_{p+1}{p+1\choose1}n\)</td>
+        <td>\(\ldots\)</td><td>\(\ldots\)</td><td>\(c_{p+1}{p+1\choose p}n^p\)</td>
+        <th>\(c_{p+1}{p+1\choose p+1}n^{p+1}\)</th></tr>
+</table>
+
+<p>
+    Notice how the summation for \(P(n)\) cancels the highlighted diagonal of
+    terms shown in the table. So we can rewrite the right side by changing the
+    summation order so the outer summation index corresponds to a column, which
+    groups the powers of \(n\) together.
+</p>
+
+\[\sum_{i=0}^p{p\choose i}n^i=\sum_{i=0}^pn^i\sum_{j=i+1}^{p+1}c_j{j\choose i}\]
+
+<p>
+    Each \(i=0,1,\ldots,p\) corresponds to a linear equation for the coefficient
+    of \(n^i\). We can form a linear system \(Ax=b\) in \(p+1\) variables. Here,
+    \(x\) is the vector of the variables \(c_1,c_2,\ldots,c_{p+1}\), \(b\) is
+    the vector of \({p\choose0},{p\choose1},\ldots,{p\choose p}\), and \(A\)
+    is the \((p+1)\times(p+1)\) matrix with the following entries
+    (\(1\leq i,j\leq p+1\)).
+</p>
+
+\[A_{ij}=\begin{cases}
+{j\choose i-1}&j\geq i\\
+0&j&lt;i\\
+\end{cases}\]
+
+<p>
+    This gives us an upper triangle system shown below which can be solved with
+    backward substitution. In the example, we ordered the variables differently
+    so the system was lower triangular.
+</p>
+
+\[
+\begin{bmatrix}
+{1\choose0}&{2\choose0}&{3\choose0}&\ldots&{p+1\choose0}\\
+0&{2\choose1}&{3\choose1}&\ldots&{p+1\choose1}\\
+0&0&{3\choose2}&\ldots&{p+1\choose2}\\
+\vdots&\vdots&\ddots&\ddots&\vdots\\
+0&0&\ldots&0&{p+1\choose p}\\
+\end{bmatrix}
+\begin{bmatrix}c_1\\c_2\\\vdots\\c_{p+1}\\\end{bmatrix}
+=
+\begin{bmatrix}{p\choose0}\\{p\choose1}\\\vdots\\{p\choose p}\\\end{bmatrix}
+\]
+
+<p>
+    This system is guaranteed to have a solution since it is triangular with a
+    main diagonal of nonzero entries. With the solution, the following formula
+    is determined.
+</p>
+
+\[\sum_{i=1}^ni^p=\sum_{i=1}^{p+1}c_in^i
+=c_1n+c_2n^2+\ldots+c_pn^p+c_{p+1}n^{p+1}\]
+
+<h3>Method Using Integrals</h3>
+
+</div>
+</body>
+</html>
