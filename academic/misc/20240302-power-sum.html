@@ -30,14 +30,14 @@
 </p>
 
 \[\begin{align}
-&\sum_{k=1}^nk^4=\frac{n(n+1)(2n+1)(3n^2+3n-1)}{30}\\
-&\sum_{k=1}^nk^5=\frac{n^2(n+1)^2(2n^2+2n-1)}{12}\\
-&\sum_{k=1}^nk^6=\frac{n(n+1)(2n+1)(3n^4+6n^3-3n+1)}{42}\\
-&\sum_{k=1}^nk^7=\frac{n^2(n+1)^2(3n^4+6n^3-n^2-4n+2)}{24}\\
-&\sum_{k=1}^nk^8=\frac{n(n+1)(2n+1)(5n^6+15n^5+5n^4-15n^3-n^2+9n-3)}{90}\\
-&\sum_{k=1}^nk^9=\frac{n^2(n+1)^2(n^2+n-1)(2n^4+4n^3-n^2-3n+3)}{20}\\
-&\sum_{k=1}^nk^{10}=\frac{n(n+1)(2n+1)(n^2+n-1)
-    (3n^6+9n^5+2n^4-11n^3+3n^2+10n-5)}{66}\\
+&\sum_{k=1}^nk^4={1\over30}n(n+1)(2n+1)(3n^2+3n-1)
+={1\over30}(6n^5+15n^4+10n^3-n)\\
+&\sum_{k=1}^nk^5={1\over12}n^2(n+1)^2(2n^2+2n-1)
+={1\over12}(2n^6+6n^5+5n^4-n^2)\\
+&\sum_{k=1}^nk^6={1\over42}n(n+1)(2n+1)(3n^4+6n^3-3n+1)
+={1\over42}(6n^7+21n^6+21n^5-7n^3+n)\\
+&\sum_{k=1}^nk^7={1\over24}n^2(n+1)^2(3n^4+6n^3-n^2-4n+2)
+={1\over24}(3n^8+12n^7+14n^6-7n^4+2n^2)\\
 \end{align}\]
 
 <h2>Double Summation Method</h2>
@@ -140,7 +140,7 @@
     <a href="https://en.wikipedia.org/wiki/Squared_triangular_number" target="_blank">Wikipedia</a>.
 </p>
 
-<h2>Polynomial Fitting Methods</h2>
+<h2>Matrix Methods</h2>
 
 <p>
     Since the formula for the sum of \(p\)th powers is a \(p+1\) degree
@@ -243,7 +243,7 @@ n^3(4a)+n^2(6a+3b)+n(4a+3b+2c)+(a+b+c+d)=n^3+3n^2+3n+1
     corresponds to a row and each \(j\) corresponds to a column.
 </p>
 
-<table>
+<table style="text-align:center;">
     <tr><td>\(c_1{1\choose0}\)</td><th>\(c_1{1\choose1}n\)</th>
         <td></td><td></td><td></td><td></td></tr>
     <tr><td>\(c_2{2\choose0}\)</td><td>\(c_2{2\choose1}n\)</td>
@@ -307,7 +307,164 @@ n^3(4a)+n^2(6a+3b)+n(4a+3b+2c)+(a+b+c+d)=n^3+3n^2+3n+1
 \[\sum_{i=1}^ni^p=\sum_{i=1}^{p+1}c_in^i
 =c_1n+c_2n^2+\ldots+c_pn^p+c_{p+1}n^{p+1}\]
 
-<h3>Method Using Integrals</h3>
+<h2>Another Matrix System from an Integral</h2>
+
+<p>
+    Using integrals, we can create a system that can be solved for all the
+    formulas for powers \(0,1,\ldots,p\). It still requires \(O(p^3)\)
+    operations to find all the formulas like the previous methods would with
+    triangular systems. Start with this integral, using the substitutions
+    \(u_i=x+i\) and expanding with the binomial theorem. This method is shown
+    on <a href="https://www.mathpages.com/home/kmath279/kmath279.htm" target="_blank">this page</a>
+    and below is the work shown to derive it in more detail.
+</p>
+
+\[\begin{align}
+&\int_0^nx^rdx=\int_0^1x^rdx+\int_1^2x^rdx+\ldots+\int_{n-1}^nx^rdx=
+\sum_{i=0}^{n-1}\int_i^{i+1}x^rdx\\&
+=\sum_{i=0}^{n-1}\int_0^1u_i^rdu_i=\int_0^1(x+0)^rdx+\int_0^1(x+1)^rdx
++\ldots+\int_{n-1}^n(x+n-1)^rdx\\&
+=\int_0^1\left[\sum_{i=0}^{n-1}(x+i)^r\right]dx
+=\int_0^1\left[\sum_{i=0}^{n-1}\sum_{j=0}^r{r\choose j}x^ji^{r-j}\right]dx
+\end{align}\]
+
+<p>
+    Now, swap the summation order (fine since it sums over the rectangle
+    \([0,\ldots,n-1]\times[0,\ldots,r]\)), evaluate the integration, and reverse
+    the order of the terms in the final summation, letting
+    \(S_r=\sum_{i=0}^{n-1}i^r\).
+</p>
+
+\[\begin{align}&
+\int_0^1\left[\sum_{j=0}^r\left[{r\choose j}x^j\sum_{i=0}^{n-1}i^{r-j}
+    \right]\right]dx
+=\int_0^1\left[\sum_{j=0}^r{r\choose j}x^jS_{r-j}\right]dx
+=\left[\sum_{j=0}^r{r\choose j}{x^{j+1}\over j+1}S_{r-j}\right]_0^1\\&
+=\sum_{j=0}^r{r\choose j}{S_{r-j}\over j+1}
+=\sum_{i=0}^r{r\choose i}{S_i\over r+1-i}
+\end{align}\]
+
+<p>
+    Finally, this whole thing is equal to the integral we started with, so we
+    have the following equality.
+</p>
+
+\[\sum_{i=0}^r{r\choose i}{S_i\over r+1-i}=\int_0^nx^rdx={n^{r+1}\over r+1}\]
+
+<p>
+    For each choice of \(r=0,1,\ldots,p\), we can form a linear equation in the
+    variables \(S_0,S_1,\ldots,S_p\). This gives us a linear system \(Ax=b\)
+    where \(x=(S_0,S_1,\ldots,S_p)^T\),
+    \(b=({n^1\over1},{n^2\over2},\ldots,{n^{p+1}\over p+1})^T\) and \(A\) is
+    defined by
+</p>
+
+\[A_{ij}=\begin{cases}
+{{i-1\choose j-1}\over i+1-j} & j\leq i \\
+0 & j&gt;i \\
+\end{cases}\]
+
+<p>
+    The linear system looks like this, and is a triangular system. Although it
+    is triangular, each operation for subtracting a multiple of \(S_i\) takes
+    \(O(p)\) operations since each \(S_i\) will be represented as a polynomial
+    so the overall work is still \(O(p^3)\) operations.
+</p>
+
+\[\begin{bmatrix}
+{{0\choose0}\over1}&0&\ldots&\ldots&0\\
+{{1\choose0}\over2}&{{1\choose1}\over1}&0&&\vdots\\
+{{2\choose0}\over3}&{{2\choose1}\over2}&{{2\choose2}\over1}&\ddots&\vdots\\
+\vdots&&&\ddots&0\\
+{{p\choose0}\over p+1}&{{p\choose1}\over p}&{{p\choose2}\over p-1}&\ldots
+    &{{p\choose p}\over1}\\
+\end{bmatrix}
+\begin{bmatrix}S_0\\S_1\\\vdots\\S_p\\\end{bmatrix}
+=\begin{bmatrix}{n^1\over1}\\{n^2\over2}\\\vdots\\
+    {n^{p+1}\over p+1}\\\end{bmatrix}
+\]
+
+<p>
+    Note that solving this gives the formulas for the summations from \(i=0\) to
+    \(i=n-1\). To adjust for summing to \(i=n\), simply add the appropriate
+    power of \(n\) to the formulas obtained.
+</p>
+
+<h2>Another Matrix System from Telescoping Sums</h2>
+
+<p>
+    This method gives an invertible matrix which, upon inversion,
+    directly gives the coefficients for the polynomial. Since it requires
+    inverting a matrix, it is still \(O(p^3)\) time. Consider the following sum
+    when \(r\) and \(n\) are positive integers.
+</p>
+
+\[\begin{align}&(1^r-0^r)+(2^r-1^r)+(3^r-2^r)+\ldots+(n^r-(n-1)^r)=n^r-0^r\\&
+\sum_{i=0}^{n-1}((i+1)^r-i^r)=n^r
+=\sum_{i=0}^{n-1}\sum_{j=0}^{r-1}{r\choose j}i^j
+\end{align}\]
+
+<p>
+    The difference of \(r\)th powers has been replaced by the appropriate part
+    of the sum of the binomial series, which is every term other than \(i^r\).
+    Next, the summation order can be swapped since the inner summation bounds
+    do not depend on the outer summation index. This allows us to isolate power
+    summations which we will substitute with \(S_r=\sum_{i=0}^{n-1}i^r\).
+</p>
+
+\[\begin{align}&
+\sum_{j=0}^{r-1}\sum_{i=0}^{n-1}{r\choose j}i^j
+=\sum_{j=0}^{r-1}{r\choose j}\sum_{i=0}^{n-1}i^j
+=\sum_{j=0}^{r-1}{r\choose j}S_j
+\end{align}\]
+
+<p>
+    Now, for each \(r=1,2,\ldots,p+1\), we can create a linear equation in terms
+    of each \(S_r\) as variables. By collecting them together, we have a
+    \((p+1)\times(p+1)\) matrix system \(Ax=b\) with
+    \(x=(S_0,S_1,\ldots,S_p)^T\), \(b=(n^1,n^2,\ldots,n^{p+1})^T\), and \(A\)
+    defined below.
+</p>
+
+\[A_{ij}=\begin{cases}{i\choose j-1}&j\leq i\\0&j&gt;i\\\end{cases}\]
+
+<p>
+    The system looks like what is shown below.
+</p>
+
+\[\begin{bmatrix}
+{1\choose0}&0&\ldots&\ldots&0\\
+{2\choose0}&{2\choose1}&0&&\vdots\\
+{3\choose0}&{3\choose1}&{3\choose2}&\ddots&\vdots\\
+\vdots&&&\ddots&0\\
+{p+1\choose0}&{p+1\choose1}&{p+1\choose2}&\ldots&{p+1\choose p}\\
+\end{bmatrix}
+\begin{bmatrix}S_0\\S_1\\\vdots\\S_p\\\end{bmatrix}
+=\begin{bmatrix}n^1\\n^2\\\vdots\\n^{p+1}\\\end{bmatrix}
+\]
+
+<p>
+    Just like the matrix system resulting from the integral, this is for sums
+    up to \(n-1\) so they can be adjusted the same way. That could be avoided
+    by starting with a slightly different summation and working out a similar
+    linear system, this time substituting \(S'_r=\sum_{i=1}^ni^r\).
+</p>
+
+\[\begin{align}&\sum_{i=1}^n(i^r-(i-1)^r)=n^r
+=-\sum_{i=1}^n((i-1)^r-i^r)
+=-\sum_{i=1}^n\sum_{j=0}^{r-1}{r\choose j}i^{j}(-1)^{r-j}\\&
+=-\sum_{j=0}^{r-1}{r\choose j}(-1)^{r-j}\sum_{i=1}^ni^j
+=-\sum_{j=0}^{r-1}{r\choose j}(-1)^{r-j}S'_j
+\end{align}\]
+
+<p>
+    This defines a similar matrix system, but with the signs of the numbers in
+    Pascal's triangle alternating. The \(x\) and \(b\) vectors are the same as
+    above and the matrix \(A\) is defined below.
+</p>
+
+\[A_{ij}=\begin{cases}(-1)^{i+j}{i\choose j-1}&j\leq i\\
+0&j&gt;i\end{cases}\]
 
 </div>
 </body>
