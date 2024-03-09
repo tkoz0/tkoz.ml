@@ -165,7 +165,7 @@
         <td><a href="#mar06">06</a></td>
         <td><a href="#mar07">07</a></td>
         <td><a href="#mar08">08</a></td>
-        <td>09</td>
+        <td><a href="#mar09">09</a></td>
         <td>10</td>
     </tr>
     <tr>
@@ -2971,6 +2971,27 @@ abc=3abc+a^2b+a^2c+ab^2+b^2c+ac^2+bc^2\]
 \[\begin{align}&{1\over{1\over2}(1-\cos(\pi/4))\cdot{1\over2}(1-\cos(3\pi/4))}
 ={4\over(1-\sqrt{2}/2)\cdot(1+\sqrt{2}/2)}\\&
 ={4\over1^2-(\sqrt{2}/2)^2}={4\over1-1/2}={4\over1/2}=8\end{align}\]
+
+<h3 id="mar09">Mar 09</h3>
+
+<p>
+    Find the area bounded by the \(x\)-axis and \(f(x)=4+2x-2x^2\).
+</p>
+
+<p>
+    This is a quadratic function with a negative leading coefficient and a
+    maximum of 4 so the area we are looking for can be found by integrating
+    between its zeroes. To find them, factor.
+</p>
+
+\[4+2x-2x^2=-2(x^2-x-2)=-2(x+1)(x-2)\]
+
+<p>
+    The zeroes are \(-1\) and \(2\). Next, the integral.
+</p>
+
+\[\int_{-1}^2(4+2x-2x^2)dx=\left[4x+x^2-{2\over3}x^3\right]_{-1}^2
+=4(2-(-1))+(2^2-(-1)^2)-{2\over3}(2^3-(-1)^3)=9\]
 
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
