@@ -169,7 +169,7 @@
         <td><a href="#mar10">10</a></td>
     </tr>
     <tr>
-        <td>11</td>
+        <td><a href="#mar11">11</a></td>
         <td>12</td>
         <td>13</td>
         <td>14</td>
@@ -3013,6 +3013,46 @@ abc=3abc+a^2b+a^2c+ab^2+b^2c+ac^2+bc^2\]
 
 <p>
     The problem asks for 32 times this value which is 10.
+</p>
+
+<h3 id="mar11">Mar 11</h3>
+
+\[x&gt;y,x&gt;0,y&gt;0,x^2+y^2=122,x+y+xy=23\]
+
+<p>
+    This turns out to be the intersection of a hyperbola and circle. The
+    "big brain" reasoning with observing that \(122=11^2+1^2\) leads to noticing
+    that the numbers work out nicely. But in general, it's not too easy to find
+    solutions for intersections of general quadratic curves. We normally have to
+    do some form of substituting one variable in place of the other. First,
+    rewrite one of the equations.
+</p>
+
+\[x+y+xy=23\Rightarrow y(1+x)=23-y\Rightarrow y={23-x\over1+x}\]
+
+<p>
+    Now substitute this into the circle equation. Prepare for some algebra mess.
+</p>
+
+\[\begin{align}&
+x^2+\left({23-x\over1+x}\right)^2=122\\&
+x^2(1+x)^2+(23-x)^2=122(1+x)^2\\&
+x^4+2x^3+x^2+529-46x+x^2=122=244x+122x^2\\&
+x^4+2x^3-120x^2-290x+407=0
+\end{align}\]
+
+<p>
+    This is difficult to factor. The rational root theorem helps us find
+    \(x=1\) and \(x=11\), so we factor it to this.
+</p>
+
+\[(x-1)(x-11)(x^2+14x+37)=0\]
+
+<p>
+    The quadratic part is positive when \(x\) is positive so it will not give
+    any solutions we care about. The only solutions in positive \(x\) are
+    \(x=1\) and \(x=11\) which correspond to \(y=11\) and \(y=1\) respectively.
+    Finally, we take the solution where \(x&gt;y\) so \(x=11\).
 </p>
 
 <!-- allow scroll past end a bit -->
