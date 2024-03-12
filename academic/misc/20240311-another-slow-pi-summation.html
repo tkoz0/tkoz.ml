@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>20230311</title>
+    <link rel="stylesheet" type="text/css" href="/mathstyles.css" />
+    <script type="text/javascript">
+        window.MathJax = { tex: { macros: {
+        }}};
+    </script>
+    <script type="text/javascript" src="/mathscripts.js"></script>
+</head>
+<body>
+<div id="root">
+
+<h1>Slowly Converging Pi Formula</h1>
+
+<p>
+    The following is a well known \(\pi\) formula that comes from the arctangent
+    series.
+</p>
+
+\[\pi=4\sum_{k=0}^\infty{(-1)^k\over2k+1}
+={1\over1}-{1\over3}+{1\over5}-{1\over7}+{1\over9}-\ldots\]
+
+<p>
+    It converges so slowly and we can see that to approximate \(\pi\) to \(n\)
+    digits of precision requires about \(O(10^n)\) terms. One idea to make it
+    faster was to combine adjacent terms, but this does nothing significant to
+    improve computation of \(\pi\). The idea is to do the following.
+</p>
+
+\[4\sum_{k=0}^\infty{(-1)^k\over2k+1}=4\sum_{k=0}^\infty{1\over4k+1}
+-4\sum_{k=0}^\infty{1\over4k+3}\]
+
+<p>
+    This splits the summation into 2 summations for the even and odd indexed
+    terms. Then the 2 summations can be combined. All this does is just give
+    the same exact approximation of \(\pi\) in half as many terms.
+</p>
+
+\[\begin{align}&4\sum_{k=0}^\infty\left({1\over4k+1}-{1\over4k+3}\right)
+=4\sum_{k=0}^\infty{(4k+3)-(4k+1)\over(4k+1)(4k+3)}\\&
+=4\sum_{k=0}^\infty{2\over(4k+1)(4k+3)}
+=8\sum_{k=0}^\infty{1\over16k^2+16k+3}\end{align}\]
+
+<p>
+    One way to prove this formula is to consider the following integral. This is
+    the more significant idea that came from exploring this \(\pi\) formula a
+    bit. It provides a way to evaluate similar summations by using integrals.
+</p>
+
+\[\begin{align}&
+\int_0^1{x^{p-1}\over1-x^4}dx=\int_0^1x^{p-1}(1+x^4+x^8+x^{12}+\ldots)dx\\&
+=\int_0^1\left(\sum_{k=0}^\infty x^{4k+p-1}\right)dx
+=\left[\sum_{k=0}^\infty{x^{4k+p}\over4k+p}\right]_0^1
+=\sum_{k=0}^\infty{1\over4k+p}
+\end{align}\]
+
+<p>
+    So the formula written out utilizes this integral with values \(p=1\) and
+    \(p=3\).
+</p>
+
+\[\begin{align}&
+4\int_0^1{dx\over1-x^4}-4\int_0^1{x^2dx\over1-x^4}
+=4\int_0^1{(1-x^2)dx\over1-x^4}\\&
+=4\int_0^1{(1-x^2)dx\over(1+x^2)(1-x^2)}
+=4\int_0^1{dx\over1+x^2}\\&
+=4\arctan(x)\Big|_0^1=4\arctan(1)=4{\pi\over4}=\pi
+\end{align}\]
+
+</div>
+</body>
+</html>
