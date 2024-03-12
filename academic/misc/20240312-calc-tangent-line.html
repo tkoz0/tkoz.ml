@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>20240312</title>
+    <link rel="stylesheet" type="text/css" href="/mathstyles.css" />
+    <script type="text/javascript">
+        window.MathJax = { tex: { macros: {
+            rx: '\\sqrt{x}',
+            ry: '\\sqrt{y}',
+            rc: '\\sqrt{c}',
+            rxp: '\\sqrt{x\'}',
+            ryp: '\\sqrt{y\'}',
+            rcxp: '\\sqrt{cx\'}'
+        }}};
+    </script>
+    <script type="text/javascript" src="/mathscripts.js"></script>
+</head>
+<body>
+<div id="root">
+
+<h1>A Tangent Line Problem</h1>
+
+<p>
+    Let \(\sqrt{x}+\sqrt{y}=\sqrt{c}\) describe a curve for some \(c&gt;0\).
+    Prove that for any tangent line, the sum of \(x\) and \(y\) intercepts is
+    \(c\). This is problem 74 in section 2.5 of Calculus of a Single Variable
+    8th Edition by Larson, Hostetler, and Edwards.
+</p>
+
+<p>
+    First, find the derivative (implicitly) and write it in terms of \(x\) only.
+</p>
+
+\[\begin{align}&\rx+\ry=\rc\\&{1\over2\rx}+{y'\over2\ry}=0\\&
+y'={-\ry\over\rx}={\rx-\rc\over\rx}\end{align}\]
+
+<p>
+    Now let \(x=x'\) and we will solve for \(y\), which gives us the point
+    \((x',y')\) on the curve.
+</p>
+
+\[\ryp=\rc-\rxp\Rightarrow y'=c+x'-2\rcxp\]
+
+<p>
+    Then form the equation for the tangent line using point slope form.
+</p>
+
+\[\begin{align}&
+y-(c+x'-2\rcxp)={\rxp-\rc\over\rxp}(x-x')
+\end{align}\]
+
+<p>
+    After simplifying, the equation for the line is this.
+</p>
+
+\[y={\rxp-\rc\over\rxp}x+c-\rcxp\]
+
+<p>
+    The \(y\) intercept is \(c-\rcxp\). The \(x\) intercept is.
+</p>
+
+\[\begin{align}&{-(c-\rcxp)\over(\rxp-\rc)/\rxp}
+={-(c-\rcxp)\rxp\over\rxp-\rc}={x'\rc-c\rxp\over\rxp-\rc}
+\cdot{\rxp+\rc\over\rxp+\rc}\\&
+={x'\rcxp-cx'+cx'-c\rcxp\over x'-c}
+={\rcxp(x'-c)\over x'-c}=\rcxp
+\end{align}\]
+
+<p>
+    So when both intercepts are added, we get \(c\).
+</p>
+
+</div>
+</body>
+</html>
