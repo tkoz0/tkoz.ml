@@ -170,9 +170,9 @@
     </tr>
     <tr>
         <td><a href="#mar11">11</a></td>
-        <td>12</td>
-        <td>13</td>
-        <td>14</td>
+        <td><a href="#mar12">12</a></td>
+        <td><a href="#mar13">13</a></td>
+        <td><a href="#mar14">14</a></td>
         <td>15</td>
         <td>16</td>
         <td>17</td>
@@ -3055,8 +3055,90 @@ x^4+2x^3-120x^2-290x+407=0
     Finally, we take the solution where \(x&gt;y\) so \(x=11\).
 </p>
 
+<h3 id="mar12">Mar 12</h3>
+
+<p>
+    How many non-congruent triangles?
+</p>
+
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="img_center">
+    <path d="M 5 90 l 45 -77.94 l 45 77.94 Z" stroke="black" stroke-width="1" fill="none" />
+    <path d="M 20 64.02 h 60 l -15 25.98 l -30 -51.96 h 30 l -30 51.96 l -15 -25.98" stroke="black" stroke-width="1" fill="none" />
+    <path d="M 50 64.02
+        m 14.87 -1.96 a 15 15 0 0 1 0.00 3.92 m -14.87 -1.96
+        m 9.13 11.90 a 15 15 0 0 1 -3.39 1.96 m -5.74 -13.86
+        m -5.74 13.86 a 15 15 0 0 1 -3.39 -1.96 m 9.13 -11.90
+        m -14.87 1.96 a 15 15 0 0 1 -0.00 -3.92 m 14.87 1.96
+        m -9.13 -11.90 a 15 15 0 0 1 3.39 -1.96 m 5.74 13.86
+        m 5.74 -13.86 a 15 15 0 0 1 3.39 1.96 m -9.13 11.90
+        " stroke="black" stroke-width="1" fill="none" />
+    <path d="M 50 64.02
+        m 20.77 11.99 l 3.46 2.00 m -24.23 -13.99
+        m 0.00 23.98 l 0.00 4.00 m -0.00 -27.98
+        m -20.77 11.99 l -3.46 2.00 m 24.23 -13.99
+        m -20.77 -11.99 l -3.46 -2.00 m 24.23 13.99
+        m -0.00 -23.98 l -0.00 -4.00 m 0.00 27.98
+        m 20.77 -11.99 l 3.46 -2.00 m -24.23 13.99
+        " stroke="black" stroke-width="1" fill="none" />
+    <path d="M 20 81.34
+        m 0.00 6.66 l 0.00 4.00 m -0.00 -10.66
+        m -5.77 -3.33 l -3.46 -2.00 m 9.23 5.33
+        M 80 81.34
+        m 0.00 6.66 l 0.00 4.00 m -0.00 -10.66
+        m 5.77 -3.33 l 3.46 -2.00 m -9.23 5.33
+        M 50 29.38
+        m -5.77 -3.33 l -3.46 -2.00 m 9.23 5.33
+        m 5.77 -3.33 l 3.46 -2.00 m -9.23 5.33
+    " stroke="black" stroke-width="1" fill="none" />
+</svg>
+
+<p>
+    This problem is confusing as worded and solving it is still a mystery. The
+    least weird explanation I have seen is that it should actually be how many
+    triangles are congruent to at least one other, so the big triangle is
+    excluded since there is only 1 and the others are counted so \(3+9=12\).
+</p>
+
+<h3 id="mar13">Mar 13</h3>
+
+<p>
+    Find the smallest postage value that cannot be placed on an envelope using
+    at most three stamps worth 1, 2, or 5 cents.
+</p>
+
+<p>
+    We can solve this by brute force. With one stamp, we have \(1,2,5\) as
+    possibilities. Then for 2 stamps, add 1, 2, or 5 to any of these values.
+    The list of possibilities for 2 stamps is 2,3,4,6,7,10. Then we repeat
+    for the list of possibilities for 3 stamps which is
+    3,4,5,6,7,8,9,11,12,15. Now we combine these numbers into a new list so the
+    possible postage values are 1,2,3,4,5,6,7,8,9,10,11,12,15. The smallest that
+    does not appear in this list is 13.
+</p>
+
+<h3 id="mar14">Mar 14</h3>
+
+\[\gcd(882,336,980)\]
+
+<p>
+    Unfortunately the \(\pi\) day problem does not involve \(\pi\). We can solve
+    this problem by looking at the prime factorizations of these 3 numbers.
+</p>
+
+\[\begin{align}&882=2\cdot3^2\cdot7^2\\&336=2^4\cdot3\cdot7\\&
+980=2^2\cdot5\cdot7^2\end{align}\]
+
+<p>
+    Then by taking the highest prime powers common to all of them, the greatest
+    common divisor is \(2\cdot7=14\).
+</p>
+
 <!-- allow scroll past end a bit -->
 <div style="height:50vh;"></div>
+
+<!-- SVG opening
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="img_center">
+-->
 
 </div>
 </body>
