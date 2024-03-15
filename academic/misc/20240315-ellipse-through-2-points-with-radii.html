@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>20240315</title>
+    <link rel="stylesheet" type="text/css" href="/mathstyles.css" />
+    <script type="text/javascript">
+        window.MathJax = { tex: { macros: {
+        }}};
+    </script>
+    <script type="text/javascript" src="/mathscripts.js"></script>
+</head>
+<body>
+<div id="root">
+
+<h1>Ellipses Through 2 Points With Given Radii</h1>
+
+<p>
+    Let \((x_1,y_1)\) and \((x_2,y_2)\) be 2 points in the plane. Suppose we
+    would like to find ellipses through both points that have radius \(a&gt;0\)
+    on the \(x\) axis and radius \(b&gt;0\) on the \(y\) axis. We are looking
+    for points \((h,k)\) that satisfy the following:
+</p>
+
+\[\begin{align}&
+{(x_1-h)^2\over a^2}+{(y_1-k)^2\over b^2}=1\\&
+{(x_2-h)^2\over a^2}+{(y_2-k)^2\over b^2}=1
+\end{align}\]
+
+<p>
+    This is simplified considerably when either \(x_1=x_2\) or \(y_1=y_2\). The
+    general case involves a lot of gross algebra. For now, suppose both
+    \(x_1=x_2\) and \(y_1=y_2\). Then both of the above equations are identical
+    and we only need to solve one. By choosing \(h\) or \(k\), one of the terms
+    becomes a constant and the other variable is found by solving a quadratic
+    equation. There are infinitely many such ellipses with centers \((h,k)\)
+    that are on the ellipse with radii \(a\) in the \(x\) axis and \(b\) in the
+    \(y\) axis with center \((x_1,y_1)\).
+</p>
+
+<p>
+    Now if just one of \(x_1=x_2\) or \(y_1=y_2\), then the 2 points are along
+    an axis. One of the terms is identical in both equations so it can be
+    canceled and makes the algebra a lot easier. First, suppose \(x_1=x_2\).
+    Then we have \((y_1-k)^2=(y_2-k)^2\) which implies \(k=(y_1+y_2)/2\). By
+    substituting this in, we find
+    \(h=x_1\pm{a\over b}\sqrt{b^2-(y_1-y_2)^2/4}\).
+    Similarly, for \(y_1=y_2\), we find \(h=(x_1+x_2)/2\) and
+    \(k=y_1\pm{b\over a}\sqrt{a^2-(x_1-x_2)^2/4}\).
+</p>
+
+<p>
+    Things are considerably more complicated when \(x_1\neq x_2\) and
+    \(y_1\neq y_2\). By subtracting the 2 eqquations, expanding the squares,
+    and simplifying, we get:
+</p>
+
+\[b^2(x_1^2-x_2)^2+a^2(y_1^2-y_2^2)=2hb^2(x_1-x_2)+2ka^2(y_1-y_2)\]
+
+<p>
+    Let this be written as \(c=c_1h+c_2k\) with the constants
+    \(c=b^2(x_1^2-x_2^2)+a^2(y_1^2-y_2^2)\),
+    \(c_1=2b^2(x_1-x_2)\), \(c_2=2a^2(y_1-y_2)\). Writing the solution in terms
+    of the given values gets really disgusting. I got lazy and did not feel like
+    finishing the algebra right now. From here, we can use the linear
+    relationship \(c=c_1h+c_2k\) to turn one of the equations into a single
+    variable quadratic equation. After solving that, use this linear
+    relationship to find the value of the other variable.
+</p>
+
+</div>
+</body>
+</html>
