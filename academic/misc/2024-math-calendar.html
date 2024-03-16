@@ -173,8 +173,8 @@
         <td><a href="#mar12">12</a></td>
         <td><a href="#mar13">13</a></td>
         <td><a href="#mar14">14</a></td>
-        <td>15</td>
-        <td>16</td>
+        <td><a href="#mar15">15</a></td>
+        <td><a href="#mar16">16</a></td>
         <td>17</td>
     </tr>
     <tr>
@@ -3131,6 +3131,57 @@ x^4+2x^3-120x^2-290x+407=0
 <p>
     Then by taking the highest prime powers common to all of them, the greatest
     common divisor is \(2\cdot7=14\).
+</p>
+
+<h3 id="mar15">Mar 15</h3>
+
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -6 6 7" width="210" height="245" class="img_center">
+    <polygon points="0 0 0 -3 2 -4.5 4 -3 4 0" stroke="black" stroke-width="0.05" fill="lightblue" />
+    <circle cx="0" cy="0" r="0.15" fill="black" />
+    <circle cx="0" cy="-3" r="0.15" fill="black" />
+    <circle cx="2" cy="-4.5" r="0.15" fill="black" />
+    <circle cx="4" cy="-3" r="0.15" fill="black" />
+    <circle cx="4" cy="0" r="0.15" fill="black" />
+    <path d="M -0.5 0 L 4.5 0 l -0.177 0.177 l 0.177 -0.177 l -0.177 -0.177 M 0 0.5 L 0 -5.5 l 0.177 0.177 l -0.177 -0.177 l -0.177 0.177 M 1 0.1 v -0.2 M 2 0.1 v -0.2 M 3 0.1 v -0.2 M 4 0.1 v -0.2 M 0.1 -1 h -0.2 M 0.1 -2 h -0.2 M 0.1 -3 h -0.2 M 0.1 -4 h -0.2 M 0.1 -5 h -0.2" stroke="black" stroke-width="0.05" fill="none" />
+    <g font-size="0.03em">
+        <text x="-0.5" y="0.5">0</text>
+        <text x="0.85" y="0.5">1</text>
+        <text x="1.85" y="0.5">2</text>
+        <text x="2.85" y="0.5">3</text>
+        <text x="3.85" y="0.5">4</text>
+        <text x="-0.5" y="-0.85">1</text>
+        <text x="-0.5" y="-1.85">2</text>
+        <text x="-0.5" y="-2.85">3</text>
+        <text x="-0.5" y="-3.85">4</text>
+        <text x="-0.5" y="-4.85">5</text>
+    </g>
+    <text x="1.5" y="-1.5" font-size="0.12em">x</text>
+    <text x="1" y="-5" font-size="0.05em">(2,4.5)</text>
+</svg>
+
+<p>
+    First, the area of the rectangular part at the bottom is \(3\cdot4=12\).
+    Then the top part is a triangle with a base of 4 and height of 1.5 so its
+    area is \({1\over2}\cdot4\cdot1.5=3\). The area is \(12+3=15\).
+</p>
+
+<h3 id="mar16">Mar 16</h3>
+
+<p>
+    \(S=\{1,2,3,4,5\}\). Find the number of \(U\subset S\) for which
+    \(\exists\:a&lt;b&lt;c\) where \(a,c\in U\) and \(b\notin U\).
+</p>
+
+<p>
+    Consider the opposite of the condition. For every \(a&lt;b&lt;c\) with
+    \(a,c\in U\), we have \(b\in U\). This says there are no gaps in the
+    ordering of the elements. So we need to subtract this amount from the number
+    of nonempty subsets which is \(2^5-1=31\). When 1 is the first, there
+    are 5 subsets with no gaps, adding the next integer each time. Starting with
+    2, there are 4 subsets. Continuing this reasoning, we have 5+4+3+2+1=15
+    contiguous subsets. The answer is \(31-15=16\). In general, if
+    \(S=\{1,2,\ldots,n\}\), then the number of such subsets is
+    \(2^n-1-n(n+1)/2\).
 </p>
 
 <!-- allow scroll past end a bit -->
