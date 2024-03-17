@@ -1479,13 +1479,19 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
 
 <h3 id="jan14">Jan 14</h3>
 
-<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="img_center">
-    <path d="M 25 25 L 95 15 L 5 95 Z" stroke-width="1" fill="none" stroke="black" />
-    <path d="M 25 25 L 45 60 M 67 35 l 5 5 M 25 72 l 5 5" stroke-width="1" fill="none" stroke="black" />
-    <text transform="translate(5 60)">9</text>
-    <text transform="translate(50 15)">7</text>
-    <text transform="translate(25 55)">4</text>
-    <text transform="translate(50 70)">x</text>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="250" height="250" class="img_center">
+    <polygon points="4 3 10.687 0.931 1.762 11.717" stroke="black" stroke-width="0.1" fill="none" />
+    <line x1="4" x2="6.225" y1="3" y2="6.324" stroke="black" stroke-width="0.1" fill="none" />
+    <!-- tick marks for side bisection -->
+    <line x1="4.147" x2="3.839" y1="9.148" y2="8.893" stroke="black" stroke-width="0.1" fill="none" />
+    <line x1="8.61" x2="8.302" y1="3.755" y2="3.5" stroke="black" stroke-width="0.1" fill="none" />
+    <!-- labels -->
+    <g font-size="0.1em" font-family="sans-serif">
+        <text x="7" y="7.5">x</text>
+        <text x="4.25" y="6.25">4</text>
+        <text x="6" y="2">7</text>
+        <text x="2" y="7">9</text>
+    </g>
 </svg>
 
 <p>
@@ -1593,18 +1599,23 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
 
 <h3 id="jan15">Jan 15</h3>
 
-<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="img_center">
-    <path d="M 10 90 h 80 M 25 90 L 15 40 L 65 90 L 95 10 L 25 90
-            M 18 55 A 8 8 0 0 0 26 51
-            M 22 78 A 14 14 0 0 1 35 90
-            M 58 83 A 14 14 0 0 1 75 90
-            M 82 25 A 6 6 0 0 0 88 30
-            M 26 82 l 1 -5 m 2 1 l -1 5 m 3 3 l 5 -1 m 1 2 l -5 1
-            M 63 85 v -5 m 6 7 l 4 -4" stroke="black" stroke-width="1" fill="none" />
-    <text transform="translate(70 20)" font-size="0.5em">x&deg;</text>
-    <text transform="translate(20 30)" font-size="0.5em">30&deg;</text>
-    <text transform="translate(40 50)" font-size="0.5em">48&deg;</text>
-    <path d="M 25 32 L 20 50 M 46 52 L 29 88 M 77 20 L 87 25" stroke="black" stroke-width="1" fill="none" />
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" width="250" height="250" class="img_center">
+    <line x1="1" x2="24" y1="24" y2="24" stroke="black" stroke-width="0.15" fill="none" />
+    <!-- the 2 triangles -->
+    <path d="M 3 24 l 20.732 -23.025 l -11.732 23.025 l -10.522 -14.483 l 1.522 14.483" stroke="black" stroke-width="0.15" fill="none" />
+    <!-- angle arcs -->
+    <path d="M 5 24 A 2 2 0 0 0 2.791 22.011 M 3 24 m 1.442 -0.413 l 0.961 -0.276 m -2.403 0.689 m 1.272 -0.795 l 0.848 -0.53 m -2.12 1.325 m 0.658 -1.348 l 0.438 -0.899 m -1.096 2.247 m 0.26 -1.477 l 0.174 -0.985 m -0.434 2.462 M 14 24 A 2 2 0 0 0 10.824 22.382 M 12 24 m 1.279 -0.784 l 0.853 -0.522 m -2.132 1.306 m -0.118 -1.495 l -0.078 -0.997 m 0.196 2.492 M 21.008 6.321 A 6 6 0 0 1 19.717 5.434 M 3.829 12.754 A 4 4 0 0 1 1.896 13.496" stroke="black" stroke-width="0.15" fill="none" />
+    <!-- angle labels -->
+    <g stroke="black" stroke-width="0.15" fill="none">
+        <line x1="18" x2="21" y1="3" y2="5" />
+        <line x1="5" x2="2.5" y1="8" y2="12" />
+        <line x1="7" x2="4" y1="12" y2="23.5" />
+    </g>
+    <g font-size="0.1em" font-family="sans-serif">
+        <text x="17" y="3">x&deg;</text>
+        <text x="5" y="8">30&deg;</text>
+        <text x="7" y="12">48&deg;</text>
+    </g>
 </svg>
 
 <p>
@@ -1612,28 +1623,34 @@ Oh boy it's time for more SVGs. This is what the problem gives us.
     angles so the equations are not confusing.
 </p>
 
-<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="img_center">
-    <path d="M 10 90 h 80 M 25 90 L 15 40 L 65 90 L 95 10 L 25 90
-            M 18 55 A 8 8 0 0 0 26 51
-            M 22 78 A 14 14 0 0 1 35 90
-            M 58 83 A 14 14 0 0 1 75 90
-            M 82 25 A 6 6 0 0 0 88 30
-            M 26 82 l 1 -5 m 2 1 l -1 5 m 3 3 l 5 -1 m 1 2 l -5 1
-            M 63 85 v -5 m 6 7 l 4 -4" stroke="black" stroke-width="1" fill="none" />
-    <text transform="translate(70 20)" font-size="0.5em">x&deg;</text>
-    <text transform="translate(20 30)" font-size="0.5em">30&deg;</text>
-    <text transform="translate(40 50)" font-size="0.5em">48&deg;</text>
-    <path d="M 25 32 L 20 50 M 46 52 L 29 88 M 77 20 L 87 25" stroke="black" stroke-width="1" fill="none" />
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" width="250" height="250" class="img_center">
+    <line x1="1" x2="24" y1="24" y2="24" stroke="black" stroke-width="0.15" fill="none" />
+    <!-- the 2 triangles -->
+    <path d="M 3 24 l 20.732 -23.025 l -11.732 23.025 l -10.522 -14.483 l 1.522 14.483" stroke="black" stroke-width="0.15" fill="none" />
+    <!-- angle arcs -->
+    <path d="M 5 24 A 2 2 0 0 0 2.791 22.011 M 3 24 m 1.442 -0.413 l 0.961 -0.276 m -2.403 0.689 m 1.272 -0.795 l 0.848 -0.53 m -2.12 1.325 m 0.658 -1.348 l 0.438 -0.899 m -1.096 2.247 m 0.26 -1.477 l 0.174 -0.985 m -0.434 2.462 M 14 24 A 2 2 0 0 0 10.824 22.382 M 12 24 m 1.279 -0.784 l 0.853 -0.522 m -2.132 1.306 m -0.118 -1.495 l -0.078 -0.997 m 0.196 2.492 M 21.008 6.321 A 6 6 0 0 1 19.717 5.434 M 3.829 12.754 A 4 4 0 0 1 1.896 13.496" stroke="black" stroke-width="0.15" fill="none" />
     <!-- angle labels -->
-    <text transform="translate(25 75)" font-size="0.5em" stroke="red" stroke-width="0.5">a</text>
-    <text transform="translate(35 85)" font-size="0.5em" stroke="red" stroke-width="0.5">a</text>
-    <text transform="translate(61 78)" font-size="0.5em" stroke="red" stroke-width="0.5">b</text>
-    <text transform="translate(73 82)" font-size="0.5em" stroke="red" stroke-width="0.5">b</text>
-    <text transform="translate(37 70)" font-size="0.5em" stroke="red" stroke-width="0.5">c</text>
-    <text transform="translate(47 70)" font-size="0.5em" stroke="red" stroke-width="0.5">c</text>
-    <text transform="translate(42 65)" font-size="0.5em" stroke="red" stroke-width="0.5">d</text>
-    <text transform="translate(42 78)" font-size="0.5em" stroke="red" stroke-width="0.5">d</text>
-    <text transform="translate(52 88)" font-size="0.5em" stroke="red" stroke-width="0.5">e</text>
+    <g stroke="black" stroke-width="0.15" fill="none">
+        <line x1="18" x2="21" y1="3" y2="5" />
+        <line x1="5" x2="2.5" y1="8" y2="12" />
+        <line x1="7" x2="4" y1="12" y2="23.5" />
+    </g>
+    <g font-size="0.1em" font-family="sans-serif">
+        <text x="17" y="3">x&deg;</text>
+        <text x="5" y="8">30&deg;</text>
+        <text x="7" y="12">48&deg;</text>
+    </g>
+    <g fill="red" font-size="0.1em" font-family="sans-serif">
+        <text x="3" y="21">a</text>
+        <text x="5.5" y="23">a</text>
+        <text x="14.5" y="23">b</text>
+        <text x="11" y="21.5">b</text>
+        <text x="10" y="23.5">e</text>
+        <text x="6.5" y="19">c</text>
+        <text x="8.5" y="19">c</text>
+        <text x="7.5" y="17.5">d</text>
+        <text x="7.5" y="20.5">d</text>
+    </g>
 </svg>
 
 <p>
