@@ -1,0 +1,8 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <circle r="10" cx="12" cy="12" stroke="black" fill="yellow" stroke-width="2" />
+    <text x="30" y="35" font-size="0.75em" font-family="sans-serif">SVG+Python</text>
+    <text x="30" y="20" font-size="1em" font-family="sans-serif">&lt;svgpp /&gt;</text>
+    <path d="M 0 50 Q 10 40 20 50 T 40 50 T 60 50 T 80 50 T 100 50" stroke="blue" fill="none" stroke-width="2" />
+    <rect x="5" y="65" width="20" height="30" stroke="red" stroke-width="2" fill="green" />
+    <ellipse rx="30" ry="15" cx="65" cy="80" stroke="black" stroke-width="2" fill="gray" />
+</svg>
